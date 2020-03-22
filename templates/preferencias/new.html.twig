@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Preferencias{% endblock %}
+
+{% block body %}
+    <h1>Create new Preferencias</h1>
+
+    {{ include('preferencias/_form.html.twig') }}
+
+    <a href="{{ path('preferencias_index') }}">back to list</a>
+{% endblock %}

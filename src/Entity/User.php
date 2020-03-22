@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,35 +49,20 @@ class User
     private $fechaNac;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $fumador;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $mascotas;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $nmaxcomp;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $vidacomun;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $descripcion;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Ciudad")
      * @ORM\JoinColumn(nullable=false)
      */
     private $ciudad;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Preferencias")
+     */
+    private $preferencias;
+
+    public function __construct()
+    {
+        $this->preferencias = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -154,66 +141,6 @@ class User
         return $this;
     }
 
-    public function getFumador(): ?bool
-    {
-        return $this->fumador;
-    }
-
-    public function setFumador(?bool $fumador): self
-    {
-        $this->fumador = $fumador;
-
-        return $this;
-    }
-
-    public function getMascotas(): ?bool
-    {
-        return $this->mascotas;
-    }
-
-    public function setMascotas(?bool $mascotas): self
-    {
-        $this->mascotas = $mascotas;
-
-        return $this;
-    }
-
-    public function getNmaxcomp(): ?int
-    {
-        return $this->nmaxcomp;
-    }
-
-    public function setNmaxcomp(?int $nmaxcomp): self
-    {
-        $this->nmaxcomp = $nmaxcomp;
-
-        return $this;
-    }
-
-    public function getVidacomun(): ?bool
-    {
-        return $this->vidacomun;
-    }
-
-    public function setVidacomun(?bool $vidacomun): self
-    {
-        $this->vidacomun = $vidacomun;
-
-        return $this;
-    }
-
-    public function getDescripcion(): ?string
-    {
-        return $this->descripcion;
-    }
-
-    public function setDescripcion(?string $descripcion): self
-    {
-        $this->descripcion = $descripcion;
-
-        return $this;
-    }
-
     public function getCiudad(): ?Ciudad
     {
         return $this->ciudad;
@@ -222,6 +149,32 @@ class User
     public function setCiudad(?Ciudad $ciudad): self
     {
         $this->ciudad = $ciudad;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Preferencias[]
+     */
+    public function getPreferencias(): Collection
+    {
+        return $this->preferencias;
+    }
+
+    public function addPreferencia(Preferencias $preferencia): self
+    {
+        if (!$this->preferencias->contains($preferencia)) {
+            $this->preferencias[] = $preferencia;
+        }
+
+        return $this;
+    }
+
+    public function removePreferencia(Preferencias $preferencia): self
+    {
+        if ($this->preferencias->contains($preferencia)) {
+            $this->preferencias->removeElement($preferencia);
+        }
 
         return $this;
     }

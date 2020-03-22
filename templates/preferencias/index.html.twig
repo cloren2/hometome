@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Preferencias index{% endblock %}
+
+{% block body %}
+    <h1>Preferencias index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fumador</th>
+                <th>Mascotas</th>
+                <th>Vidacomun</th>
+                <th>Descripcion</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for preferencia in preferencias %}
+            <tr>
+                <td>{{ preferencia.id }}</td>
+                <td>{{ preferencia.fumador ? 'Yes' : 'No' }}</td>
+                <td>{{ preferencia.mascotas ? 'Yes' : 'No' }}</td>
+                <td>{{ preferencia.vidacomun ? 'Yes' : 'No' }}</td>
+                <td>{{ preferencia.descripcion }}</td>
+                <td>
+                    <a href="{{ path('preferencias_show', {'id': preferencia.id}) }}">show</a>
+                    <a href="{{ path('preferencias_edit', {'id': preferencia.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('preferencias_new') }}">Create new</a>
+{% endblock %}

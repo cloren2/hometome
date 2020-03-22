@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Preferencias{% endblock %}
+
+{% block body %}
+    <h1>Edit Preferencias</h1>
+
+    {{ include('preferencias/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('preferencias_index') }}">back to list</a>
+
+    {{ include('preferencias/_delete_form.html.twig') }}
+{% endblock %}

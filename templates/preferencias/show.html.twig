@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Preferencias{% endblock %}
+
+{% block body %}
+    <h1>Preferencias</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ preferencia.id }}</td>
+            </tr>
+            <tr>
+                <th>Fumador</th>
+                <td>{{ preferencia.fumador ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Mascotas</th>
+                <td>{{ preferencia.mascotas ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Vidacomun</th>
+                <td>{{ preferencia.vidacomun ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ preferencia.descripcion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('preferencias_index') }}">back to list</a>
+
+    <a href="{{ path('preferencias_edit', {'id': preferencia.id}) }}">edit</a>
+
+    {{ include('preferencias/_delete_form.html.twig') }}
+{% endblock %}
