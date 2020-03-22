@@ -47,11 +47,6 @@ class User
     private $fechaNac;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $ciudad;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $fumador;
@@ -75,6 +70,12 @@ class User
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $descripcion;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Ciudad")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $ciudad;
 
     public function getId(): ?int
     {
@@ -153,18 +154,6 @@ class User
         return $this;
     }
 
-    public function getCiudad(): ?string
-    {
-        return $this->ciudad;
-    }
-
-    public function setCiudad(?string $ciudad): self
-    {
-        $this->ciudad = $ciudad;
-
-        return $this;
-    }
-
     public function getFumador(): ?bool
     {
         return $this->fumador;
@@ -221,6 +210,18 @@ class User
     public function setDescripcion(?string $descripcion): self
     {
         $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    public function getCiudad(): ?Ciudad
+    {
+        return $this->ciudad;
+    }
+
+    public function setCiudad(?Ciudad $ciudad): self
+    {
+        $this->ciudad = $ciudad;
 
         return $this;
     }
