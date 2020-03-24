@@ -12,10 +12,7 @@ class PreferenciasType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fumador')
-            ->add('mascotas')
-            ->add('vidacomun')
-            ->add('descripcion')
+            ->add('nombre')
         ;
     }
 

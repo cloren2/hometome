@@ -9,12 +9,10 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Username</th>
                 <th>Nombre</th>
                 <th>Apellidos</th>
-                <th>Telefono</th>
-                <th>Pass</th>
                 <th>Foto</th>
-                <th>FechaNac</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,12 +20,10 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
                 <td>{{ user.nombre }}</td>
-                <td>{{ user.apellidos }}</td>
-                <td>{{ user.telefono }}</td>
-                <td>{{ user.pass }}</td>
+                <td>{{ user.Apellidos }}</td>
                 <td>{{ user.foto }}</td>
-                <td>{{ user.fechaNac ? user.fechaNac|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
@@ -41,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('user_new') }}">Create new</a>
+    <a href="{{ path('app_register') }}">Create new</a>
 {% endblock %}

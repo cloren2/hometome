@@ -12,29 +12,27 @@
                 <td>{{ user.id }}</td>
             </tr>
             <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
                 <th>Nombre</th>
                 <td>{{ user.nombre }}</td>
             </tr>
             <tr>
                 <th>Apellidos</th>
-                <td>{{ user.apellidos }}</td>
-            </tr>
-            <tr>
-                <th>Telefono</th>
-                <td>{{ user.telefono }}</td>
-            </tr>
-            <tr>
-                <th>Pass</th>
-                <td>{{ user.pass }}</td>
+                <td>{{ user.Apellidos }}</td>
             </tr>
             <tr>
                 <th>Foto</th>
-                <td>{{ user.foto }}</td>
+                 <td> <img class="w-25" src=" {{ asset ('downloads/'~user.foto) }} "/></td>
             </tr>
             <tr>
-                <th>FechaNac</th>
-                <td>{{ user.fechaNac ? user.fechaNac|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
+                <td>Preferencias </td>
+             {% for pref in preferencias %}
+                  <td>{{pref.nombre}}</td>
+                {% endfor %}
+                </tr>
         </tbody>
     </table>
 

@@ -31,11 +31,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            $foto = $form->get('foto')->getData();
+            $user->setFoto($foto);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
+            self::renamePic($user,$foto);
+          
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
@@ -49,5 +51,14 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+    private function renamePic(User $user, $fotoFile) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $fileName ='img'.$user->getId().'.'.$fotoFile->guessExtension();
+        $fotoFile-> move ('downloads',$fileName);
+
+        $user->setFoto($fileName);
+        $entityManager->flush();
+        return $user;
     }
 }

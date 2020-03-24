@@ -20,10 +20,7 @@
         {% for preferencia in preferencias %}
             <tr>
                 <td>{{ preferencia.id }}</td>
-                <td>{{ preferencia.fumador ? 'Yes' : 'No' }}</td>
-                <td>{{ preferencia.mascotas ? 'Yes' : 'No' }}</td>
-                <td>{{ preferencia.vidacomun ? 'Yes' : 'No' }}</td>
-                <td>{{ preferencia.descripcion }}</td>
+                <td>{{ preferencia.nombre }}</td>
                 <td>
                     <a href="{{ path('preferencias_show', {'id': preferencia.id}) }}">show</a>
                     <a href="{{ path('preferencias_edit', {'id': preferencia.id}) }}">edit</a>

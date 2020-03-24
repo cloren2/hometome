@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,35 +26,14 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('user_index');
-        }
-
-        return $this->render('user/new.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="user_show", methods={"GET"})
      */
     public function show(User $user): Response
     {
+        $preferencias=$user->getPreferencias();
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'preferencias' =>$preferencias
         ]);
     }
 
@@ -63,11 +42,16 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $fotoFile =  $form->get('foto')->getData();
+            if ($fotoFile != null){
+                self::renamePic($user,$fotoFile);
+            } else {
+             $this->getDoctrine()->getManager()->flush();
+            }
 
             return $this->redirectToRoute('user_index');
         }
@@ -90,5 +74,14 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index');
+    }
+    private function renamePic(User $user, $fotoFile) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $fileName ='img'.$user->getId().'.'.$fotoFile->guessExtension();
+        $fotoFile-> move ('downloads',$fileName);
+
+        $user->setFoto($fileName);
+        $entityManager->flush();
+        return $user;
     }
 }
