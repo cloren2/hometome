@@ -48,7 +48,7 @@ class User implements UserInterface
     private $Apellidos;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30,nullable=true)
      */
     private $foto;
 
