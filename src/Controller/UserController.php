@@ -31,9 +31,12 @@ class UserController extends AbstractController
     public function show(User $user): Response
     {
         $preferencias=$user->getPreferencias();
+        $fotos=$user->getFoto();
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'preferencias' =>$preferencias
+            'preferencias' =>$preferencias,
+            'fotos' => $fotos
+
         ]);
     }
 
@@ -77,8 +80,9 @@ class UserController extends AbstractController
     }
     private function renamePic(User $user, $fotoFile) {
         $entityManager = $this->getDoctrine()->getManager();
-        $fileName ='img'.$user->getId().'.'.$fotoFile->guessExtension();
-        $fotoFile-> move ('downloads',$fileName);
+        $idFoto = $fotoFile->getId();
+        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
+        $fotoFile-> move ('users/'.$user->getId(),$fileName);
 
         $user->setFoto($fileName);
         $entityManager->flush();

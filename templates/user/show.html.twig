@@ -25,11 +25,13 @@
                 <td>{{ user.Apellidos }}</td>
             </tr>
             <tr>
-                <th>Foto</th>
-                 <td> <img class="w-25" src=" {{ asset ('downloads/'~user.foto) }} "/></td>
-            </tr>
+                <th>Foto </th>
+             {% for foto in fotos %}
+                  <td><img src="{{asset('users/user'~user.id~'/'~foto.nombre)}}"></td>
+                {% endfor %}
+                </tr>
             <tr>
-                <td>Preferencias </td>
+                <th>Preferencias </th>
              {% for pref in preferencias %}
                   <td>{{pref.nombre}}</td>
                 {% endfor %}
