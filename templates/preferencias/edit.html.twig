@@ -3,6 +3,7 @@
 {% block title %}Edit Preferencias{% endblock %}
 
 {% block body %}
+{% include 'navAdmin.html.twig' %}
     <h1>Edit Preferencias</h1>
 
     {{ include('preferencias/_form.html.twig', {'button_label': 'Update'}) }}

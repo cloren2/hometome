@@ -38,3 +38,4 @@ security:
          - { path: ^/preferencias, roles: ROLE_ADMIN }
          - { path: ^/ciudad, roles: ROLE_ADMIN }
          - { path: ^/registerAdmin, roles: ROLE_ADMIN }
+         - { path: ^/user, roles: ROLE_ADMIN }       

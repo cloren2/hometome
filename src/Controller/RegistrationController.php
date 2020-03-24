@@ -88,7 +88,7 @@ class RegistrationController extends AbstractController
     private function renamePic(User $user, $fotoFile) {
         $entityManager = $this->getDoctrine()->getManager();
         $fileName ='img'.$user->getId().'.'.$fotoFile->guessExtension();
-        $fotoFile-> move ('downloads',$fileName);
+        $fotoFile-> move ('users/'.$user->getId(),$fileName);
 
         $user->setFoto($fileName);
         $entityManager->flush();
