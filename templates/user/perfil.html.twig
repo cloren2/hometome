@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Perfil{% endblock %}
+
+{% block body %}
+{% include 'navAdmin.html.twig' %}
+    <h1>Editar Perfil</h1>
+
+    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="/home">Volver atrás</a>
+
+    {{ include('user/_delete_form.html.twig') }}
+{% endblock %}

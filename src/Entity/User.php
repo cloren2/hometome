@@ -48,11 +48,6 @@ class User implements UserInterface
     private $Apellidos;
 
     /**
-     * @ORM\Column(type="string", length=30,nullable=true)
-     */
-    private $foto;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Preferencias")
      */
     private $preferencias;
@@ -68,9 +63,15 @@ class User implements UserInterface
      */
     private $fechaNac;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Foto")
+     */
+    private $foto;
+
     public function __construct()
     {
         $this->preferencias = new ArrayCollection();
+        $this->foto = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -228,6 +229,24 @@ class User implements UserInterface
     public function setFechaNac(\DateTimeInterface $fechaNac): self
     {
         $this->fechaNac = $fechaNac;
+
+        return $this;
+    }
+
+    public function addFoto(Foto $foto): self
+    {
+        if (!$this->foto->contains($foto)) {
+            $this->foto[] = $foto;
+        }
+
+        return $this;
+    }
+
+    public function removeFoto(Foto $foto): self
+    {
+        if ($this->foto->contains($foto)) {
+            $this->foto->removeElement($foto);
+        }
 
         return $this;
     }
