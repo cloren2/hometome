@@ -171,17 +171,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getFoto(): ?string
+   /**
+     * @return Collection|Foto[]
+     */
+    public function getFoto(): Collection
     {
         return $this->foto;
     }
 
-    public function setFoto(string $foto): self
-    {
-        $this->foto = $foto;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Preferencias[]
