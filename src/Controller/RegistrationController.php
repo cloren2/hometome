@@ -98,9 +98,9 @@ class RegistrationController extends AbstractController
         $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
 
         $filesystem = new Filesystem();
-        $filesystem->mkdir('users/'.$user->getId());
+        $filesystem->mkdir('users/user'.$user->getId());
 
-        $fotoFile->move('users/'.$user->getId(),$fileName);
+        $fotoFile->move('users/user'.$user->getId(),$fileName);
         $foto->setNombre($fileName);
         $entityManager->flush();
 

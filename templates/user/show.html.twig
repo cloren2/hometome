@@ -28,6 +28,7 @@
                 <th>Foto </th>
              {% for foto in fotos %}
                   <td><img src="{{asset('users/user'~user.id~'/'~foto.nombre)}}"></td>
+                     <td> {{ include('user/delete_picture.html.twig') }}</td>
                 {% endfor %}
                 </tr>
             <tr>

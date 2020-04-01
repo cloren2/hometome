@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use App\Entity\Foto;
+use Symfony\Component\Filesystem\Filesystem;
 class HomeController extends AbstractController
 {
     /**
@@ -43,8 +44,7 @@ class HomeController extends AbstractController
             $fotoFile =  $form->get('foto')->getData();
             if ($fotoFile != null){
                 $this->getDoctrine()->getManager()->flush();
-                //$user->addFoto($f);
-           // $foto=    $user->getFoto();
+
                 self::renamePic($user,$fotoFile);
             } else {
              $this->getDoctrine()->getManager()->flush();
@@ -59,21 +59,26 @@ class HomeController extends AbstractController
         ]);
     }
     private function renamePic(User $user, $fotoFile) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
         $foto = new Foto();
         $foto->setNombre($fotoFile->getClientOriginalName());
-        $user->addFoto($foto);
-        $entityManager = $this->getDoctrine()->getManager();
-        foreach($foto as $f){
-              $idFoto = $f->getId();
-            
-        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$f->guessExtension();
-        $f-> move ('users/'.$user->getId(),$fileName);
-        $user->addFoto($f);
-
-        }
-      
-        //$user->setFoto($fileName);
+        $entityManager->persist($foto);
         $entityManager->flush();
-        return $user;
+
+        $idFoto = $foto->getId();
+        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
+
+        $filesystem = new Filesystem();
+        $filesystem->mkdir('users/user'.$user->getId());
+
+        $fotoFile->move('users/user'.$user->getId(),$fileName);
+        $foto->setNombre($fileName);
+        $entityManager->flush();
+
+        $user->addFoto($foto);
+        $entityManager->flush();
     }
 }

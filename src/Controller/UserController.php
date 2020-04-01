@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Foto;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -78,14 +79,36 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
+    /**
+     * @Route("/foto/{id}", name="pic_delete", methods={"DELETE"})
+     */
+    public function deletePicture(Request $request, Foto $foto): Response
+    {
+        $userId= $_POST['idUsuario'];
+        if ($this->isCsrfTokenValid('delete'.$foto->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($foto);
+            $entityManager->flush();
+        }
+        //{{ path('user_show', {'id': user.id}) }}"
+        return $this->redirectToRoute('user_index');
+    }
     private function renamePic(User $user, $fotoFile) {
         $entityManager = $this->getDoctrine()->getManager();
-        $idFoto = $fotoFile->getId();
-        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
-        $fotoFile-> move ('users/'.$user->getId(),$fileName);
-
-        $user->setFoto($fileName);
+    
+        $foto = new Foto();
+        $foto->setNombre($fotoFile->getClientOriginalName());
+        $entityManager->persist($foto);
         $entityManager->flush();
-        return $user;
+
+        $idFoto = $foto->getId();
+        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
+
+        $fotoFile->move('users/user'.$user->getId(),$fileName);
+        $foto->setNombre($fileName);
+        $entityManager->flush();
+
+        $user->addFoto($foto);
+        $entityManager->flush();
     }
 }
