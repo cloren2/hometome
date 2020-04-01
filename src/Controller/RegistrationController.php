@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Foto;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\UserAuthenticator;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\Filesystem\Filesystem;
 
 class RegistrationController extends AbstractController
 {
@@ -31,13 +33,10 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
             $foto = $form->get('foto')->getData();
-            $user->setFoto($foto);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
             self::renamePic($user,$foto);
-          
+   
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
@@ -87,12 +86,25 @@ class RegistrationController extends AbstractController
     }
     private function renamePic(User $user, $fotoFile) {
         $entityManager = $this->getDoctrine()->getManager();
-        $idFoto = $fotoFile->getId();
-        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
-        $fotoFile-> move ('users/'.$user->getId(),$fileName);
-
-        $user->setFoto($fileName);
+        $entityManager->persist($user);
         $entityManager->flush();
-        return $user;
+
+        $foto = new Foto();
+        $foto->setNombre($fotoFile->getClientOriginalName());
+        $entityManager->persist($foto);
+        $entityManager->flush();
+
+        $idFoto = $foto->getId();
+        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
+
+        $filesystem = new Filesystem();
+        $filesystem->mkdir('users/'.$user->getId());
+
+        $fotoFile->move('users/'.$user->getId(),$fileName);
+        $foto->setNombre($fileName);
+        $entityManager->flush();
+
+        $user->addFoto($foto);
+        $entityManager->flush();
     }
 }

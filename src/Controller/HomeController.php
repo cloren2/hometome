@@ -61,6 +61,7 @@ class HomeController extends AbstractController
     private function renamePic(User $user, $fotoFile) {
         $foto = new Foto();
         $foto->setNombre($fotoFile->getClientOriginalName());
+        $user->addFoto($foto);
         $entityManager = $this->getDoctrine()->getManager();
         foreach($foto as $f){
               $idFoto = $f->getId();
