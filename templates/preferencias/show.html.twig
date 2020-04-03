@@ -13,27 +13,15 @@
                 <td>{{ preferencia.id }}</td>
             </tr>
             <tr>
-                <th>Fumador</th>
-                <td>{{ preferencia.fumador ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Mascotas</th>
-                <td>{{ preferencia.mascotas ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Vidacomun</th>
-                <td>{{ preferencia.vidacomun ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Descripcion</th>
-                <td>{{ preferencia.descripcion }}</td>
+                <th>Nombre</th>
+                <td>{{ preferencia.nombre }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('preferencias_index') }}">back to list</a>
+    <a href="{{ path('preferencias_index') }}">Volver al listado</a>
 
-    <a href="{{ path('preferencias_edit', {'id': preferencia.id}) }}">edit</a>
+    <a href="{{ path('preferencias_edit', {'id': preferencia.id}) }}">Editar</a>
 
     {{ include('preferencias/_delete_form.html.twig') }}
 {% endblock %}

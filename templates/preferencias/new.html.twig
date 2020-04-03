@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Preferencias{% endblock %}
+{% block title %}Nueva preferencia{% endblock %}
 
 {% block body %}
 {% include 'navAdmin.html.twig' %}
-    <h1>Create new Preferencias</h1>
+    <h1>Nueva preferencia</h1>
 
     {{ include('preferencias/_form.html.twig') }}
 
-    <a href="{{ path('preferencias_index') }}">back to list</a>
+    <a href="{{ path('preferencias_index') }}">Volver al listado</a>
 {% endblock %}

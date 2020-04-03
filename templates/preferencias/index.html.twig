@@ -1,20 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Preferencias index{% endblock %}
+{% block title %}Preferencias{% endblock %}
 
 {% block body %}
 {% include 'navAdmin.html.twig' %}
-    <h1>Preferencias index</h1>
+    <h1>Preferencias</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Fumador</th>
-                <th>Mascotas</th>
-                <th>Vidacomun</th>
-                <th>Descripcion</th>
-                <th>actions</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -23,17 +20,17 @@
                 <td>{{ preferencia.id }}</td>
                 <td>{{ preferencia.nombre }}</td>
                 <td>
-                    <a href="{{ path('preferencias_show', {'id': preferencia.id}) }}">show</a>
-                    <a href="{{ path('preferencias_edit', {'id': preferencia.id}) }}">edit</a>
+                    <a href="{{ path('preferencias_show', {'id': preferencia.id}) }}">Mostrar</a>
+                    <a href="{{ path('preferencias_edit', {'id': preferencia.id}) }}">Editar</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">No hay registros</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('preferencias_new') }}">Create new</a>
+    <a href="{{ path('preferencias_new') }}">Crear nueva</a>
 {% endblock %}

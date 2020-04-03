@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Ciudad{% endblock %}
+{% block title %}Editar ciudad{% endblock %}
 
 {% block body %}
 {% include 'navAdmin.html.twig' %}
-    <h1>Edit Ciudad</h1>
+    <h1>Editar ciudad</h1>
 
-    {{ include('ciudad/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('ciudad/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
-    <a href="{{ path('ciudad_index') }}">back to list</a>
+    <a href="{{ path('ciudad_index') }}">Volver al listado</a>
 
     {{ include('ciudad/_delete_form.html.twig') }}
 {% endblock %}
