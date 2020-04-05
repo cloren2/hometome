@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Filesystem\Filesystem;
 /**
  * @Route("/user")
  */
@@ -85,13 +85,22 @@ class UserController extends AbstractController
     public function deletePicture(Request $request, Foto $foto): Response
     {
         $userId= $_POST['idUsuario'];
+        $directory = 'users/user'.$userId.'/'.$foto->getNombre();
+        $filesystem = new Filesystem();
         if ($this->isCsrfTokenValid('delete'.$foto->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($foto);
             $entityManager->flush();
+            try{
+                 $filesystem->remove($directory);
+            } catch (IOExceptionInterface $exception){
+                echo "An error occurred while creating your directory at ".$exception->getPath();
+            }
+           
+
         }
-        //{{ path('user_show', {'id': user.id}) }}"
-        return $this->redirectToRoute('user_index');
+    
+        return $this->redirectToRoute('home_user');
     }
     private function renamePic(User $user, $fotoFile) {
         $entityManager = $this->getDoctrine()->getManager();

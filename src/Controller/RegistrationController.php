@@ -98,8 +98,12 @@ class RegistrationController extends AbstractController
         $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
 
         $filesystem = new Filesystem();
-        $filesystem->mkdir('users/user'.$user->getId());
-
+       
+        try{
+         $filesystem->mkdir('users/user'.$user->getId());
+       } catch (IOExceptionInterface $exception){
+           echo "An error occurred while creating your directory at ".$exception->getPath();
+       }
         $fotoFile->move('users/user'.$user->getId(),$fileName);
         $foto->setNombre($fileName);
         $entityManager->flush();
