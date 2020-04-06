@@ -74,6 +74,9 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $foto = $form->get('foto')->getData();
+            self::renamePic($user,$foto);
+
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,

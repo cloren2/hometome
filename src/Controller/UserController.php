@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class UserController extends AbstractController
 {
+
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
@@ -74,6 +75,12 @@ class UserController extends AbstractController
     public function delete(Request $request, User $user): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            try{
+                self::rrmdir('users/user'.$user->getId());
+            }catch(IOExceptionInterface $exception){
+                echo "An error occurred while creating your directory at " . $exception->getPath();
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
@@ -110,18 +117,6 @@ class UserController extends AbstractController
         return $redireccion;
     }
 
-    function is_dir_empty($dir)
-    {
-        if (!is_readable($dir)) return NULL;
-        $handle = opendir($dir);
-        while (false !== ($entry = readdir($handle))) {
-            if ($entry != "." && $entry != "..") {
-                return FALSE;
-            }
-        }
-        return TRUE;
-    }
-
     private function renamePic(User $user, $fotoFile)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -140,5 +135,34 @@ class UserController extends AbstractController
 
         $user->addFoto($foto);
         $entityManager->flush();
+    }
+
+    function is_dir_empty($dir)
+    {
+        if (!is_readable($dir)) return NULL;
+        $handle = opendir($dir);
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
+
+    function rrmdir($src) {
+        $dir = opendir($src);
+        while(false !== ( $file = readdir($dir)) ) {
+            if (( $file != '.' ) && ( $file != '..' )) {
+                $full = $src . '/' . $file;
+                if ( is_dir($full) ) {
+                    rrmdir($full);
+                }
+                else {
+                    unlink($full);
+                }
+            }
+        }
+        closedir($dir);
+        rmdir($src);
     }
 }
