@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * @Route("/user")
@@ -80,6 +81,7 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
+    
     /**
      * @Route("/foto/{id}", name="pic_delete", methods={"DELETE"})
      */
@@ -104,7 +106,8 @@ class UserController extends AbstractController
                 echo "An error occurred while creating your directory at " . $exception->getPath();
             }
         }
-        return $this->redirectToRoute('home_user');
+        $redireccion = new RedirectResponse('/user/'.$userId.'/edit');
+        return $redireccion;
     }
 
     function is_dir_empty($dir)
@@ -118,7 +121,7 @@ class UserController extends AbstractController
         }
         return TRUE;
     }
-    
+
     private function renamePic(User $user, $fotoFile)
     {
         $entityManager = $this->getDoctrine()->getManager();

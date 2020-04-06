@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\RegistrationFormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,14 +52,15 @@ class HomeController extends AbstractController
              $this->getDoctrine()->getManager()->flush();
             }
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('perfil_user');
         }
 
-        return $this->render('user/perfil.html.twig', [
+        return $this->render('home/perfil/perfil.html.twig', [
             'user' => $user,
             'registrationForm' => $form->createView(),
         ]);
     }
+
     private function renamePic(User $user, $fotoFile) {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
@@ -80,5 +83,65 @@ class HomeController extends AbstractController
 
         $user->addFoto($foto);
         $entityManager->flush();
+    }
+
+    /**
+     * @Route("/{id}", name="perfil_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, User $user, TokenStorageInterface $tokenStorage, SessionInterface $session): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            
+            $tokenStorage->setToken(null);
+            $session->invalidate();
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+            
+
+        }
+
+        return $this->redirectToRoute('home_index');
+    }
+
+    /**
+     * @Route("/foto/{id}", name="perfilPic_delete", methods={"DELETE"})
+     */
+    public function deletePicture(Request $request, Foto $foto): Response
+    {
+        $userId = $_POST['idUsuario'];
+
+        $directorio = 'users/user' . $userId;
+        $nombreFoto = $directorio.'/'.$foto->getNombre();
+        $filesystem = new Filesystem();
+
+        if ($this->isCsrfTokenValid('delete' . $foto->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($foto);
+            $entityManager->flush();
+            try {
+                $filesystem->remove($nombreFoto);
+                if (self::is_dir_empty($directorio)) {
+                    rmdir($directorio);
+                }
+            } catch (IOExceptionInterface $exception) {
+                echo "An error occurred while creating your directory at " . $exception->getPath();
+            }
+        }
+        return $this->redirectToRoute('perfil_user');
+    }
+
+    function is_dir_empty($dir)
+    {
+        if (!is_readable($dir)) return NULL;
+        $handle = opendir($dir);
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                return FALSE;
+            }
+        }
+        return TRUE;
     }
 }

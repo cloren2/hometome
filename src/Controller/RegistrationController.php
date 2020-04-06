@@ -37,20 +37,21 @@ class RegistrationController extends AbstractController
             $foto = $form->get('foto')->getData();
             self::renamePic($user,$foto);
    
-            // do anything else you need here, like send an email
-
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
                 $authenticator,
                 'main' // firewall name in security.yaml
             );
+
+            return $this->redirectToRoute('home_user');
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
+    
       /**
      * @Route("/registerAdmin", name="register_admin")
      */
@@ -72,6 +73,7 @@ class RegistrationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,

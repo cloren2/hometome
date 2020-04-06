@@ -69,7 +69,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Username could not be found.');
+            throw new CustomUserMessageAuthenticationException('El usuario no existe.');
         }
 
         return $user;
@@ -88,13 +88,19 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         return $credentials['password'];
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token ,$providerKey)
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-        return new RedirectResponse($this->urlGenerator->generate('user_index'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+
+        if($token->getRoles()=='[ROLE_ADMIN'){
+            return new RedirectResponse($this->urlGenerator->generate('user_index'));
+        }else{
+            return new RedirectResponse($this->urlGenerator->generate('home_user')); 
+        }
+        
+        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl()
