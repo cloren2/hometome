@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * @Route("/user")
  */
@@ -31,11 +32,11 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        $preferencias=$user->getPreferencias();
-        $fotos=$user->getFoto();
+        $preferencias = $user->getPreferencias();
+        $fotos = $user->getFoto();
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'preferencias' =>$preferencias,
+            'preferencias' => $preferencias,
             'fotos' => $fotos
 
         ]);
@@ -51,10 +52,10 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $fotoFile =  $form->get('foto')->getData();
-            if ($fotoFile != null){
-                self::renamePic($user,$fotoFile);
+            if ($fotoFile != null) {
+                self::renamePic($user, $fotoFile);
             } else {
-             $this->getDoctrine()->getManager()->flush();
+                $this->getDoctrine()->getManager()->flush();
             }
 
             return $this->redirectToRoute('user_index');
@@ -71,7 +72,7 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
@@ -84,36 +85,53 @@ class UserController extends AbstractController
      */
     public function deletePicture(Request $request, Foto $foto): Response
     {
-        $userId= $_POST['idUsuario'];
-        $directory = 'users/user'.$userId.'/'.$foto->getNombre();
+        $userId = $_POST['idUsuario'];
+
+        $directorio = 'users/user' . $userId;
+        $nombreFoto = $directorio.'/'.$foto->getNombre();
         $filesystem = new Filesystem();
-        if ($this->isCsrfTokenValid('delete'.$foto->getId(), $request->request->get('_token'))) {
+
+        if ($this->isCsrfTokenValid('delete' . $foto->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($foto);
             $entityManager->flush();
-            try{
-                 $filesystem->remove($directory);
-            } catch (IOExceptionInterface $exception){
-                echo "An error occurred while creating your directory at ".$exception->getPath();
+            try {
+                $filesystem->remove($nombreFoto);
+                if (self::is_dir_empty($directorio)) {
+                    rmdir($directorio);
+                }
+            } catch (IOExceptionInterface $exception) {
+                echo "An error occurred while creating your directory at " . $exception->getPath();
             }
-           
-
         }
-    
         return $this->redirectToRoute('home_user');
     }
-    private function renamePic(User $user, $fotoFile) {
-        $entityManager = $this->getDoctrine()->getManager();
+
+    function is_dir_empty($dir)
+    {
+        if (!is_readable($dir)) return NULL;
+        $handle = opendir($dir);
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != "." && $entry != "..") {
+                return FALSE;
+            }
+        }
+        return TRUE;
+    }
     
+    private function renamePic(User $user, $fotoFile)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
         $foto = new Foto();
         $foto->setNombre($fotoFile->getClientOriginalName());
         $entityManager->persist($foto);
         $entityManager->flush();
 
         $idFoto = $foto->getId();
-        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
+        $fileName = 'img' . $user->getId() . '-' . $idFoto . '.' . $fotoFile->guessExtension();
 
-        $fotoFile->move('users/user'.$user->getId(),$fileName);
+        $fotoFile->move('users/user' . $user->getId(), $fileName);
         $foto->setNombre($fileName);
         $entityManager->flush();
 
