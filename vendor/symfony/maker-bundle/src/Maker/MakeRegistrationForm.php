@@ -203,7 +203,7 @@ final class MakeRegistrationForm extends AbstractMaker
             $controllerClassNameDetails->getFullName(),
             'registration/RegistrationController.tpl.php',
             [
-                'route_path' => '/register',
+                'route_path' => '/registerUser',
                 'route_name' => 'app_register',
                 'form_class_name' => $formClassDetails->getShortName(),
                 'form_full_class_name' => $formClassDetails->getFullName(),

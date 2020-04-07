@@ -84,7 +84,11 @@ class HomeController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             try{
-                self::rrmdir('users/user'.$user->getId());
+                $directory ='users/user'.$user->getId();
+                if (file_exists ($directory)){
+                    self::rrmdir($directory);
+                }
+                
             }catch(IOExceptionInterface $exception){
                 echo "An error occurred while creating your directory at " . $exception->getPath();
             }
@@ -106,7 +110,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/foto/{id}", name="perfilPic_delete", methods={"DELETE"})
+     * @Route("/fotoUser/{id}", name="perfilPic_delete", methods={"DELETE"})
      */
     public function deletePicture(Request $request, Foto $foto): Response
     {
