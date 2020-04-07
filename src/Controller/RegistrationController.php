@@ -21,6 +21,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator): Response
     {
+        $userActivo =  $this->getUser();
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -35,24 +36,29 @@ class RegistrationController extends AbstractController
             );
 
             $foto = $form->get('foto')->getData();
-            self::renamePic($user,$foto);
-   
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
-
-            return $this->redirectToRoute('home_user');
+            self::renamePic($user, $foto);
+            $admin = 'ROLE_ADMIN';
+            if (!is_null($userActivo)) {
+                if (in_array($admin, $userActivo->getRoles())) {
+                    return $this->redirectToRoute('user_index');
+                } 
+            }else {
+                    return $guardHandler->authenticateUserAndHandleSuccess(
+                        $user,
+                        $request,
+                        $authenticator,
+                        'main' // firewall name in security.yaml
+                    );
+                }
+            
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
-    
-      /**
+
+    /**
      * @Route("/registerAdmin", name="register_admin")
      */
     public function registerAdmin(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator): Response
@@ -75,7 +81,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             $foto = $form->get('foto')->getData();
-            self::renamePic($user,$foto);
+            self::renamePic($user, $foto);
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
@@ -89,7 +95,8 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-    private function renamePic(User $user, $fotoFile) {
+    private function renamePic(User $user, $fotoFile)
+    {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
@@ -100,16 +107,16 @@ class RegistrationController extends AbstractController
         $entityManager->flush();
 
         $idFoto = $foto->getId();
-        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
+        $fileName = 'img' . $user->getId() . '-' . $idFoto . '.' . $fotoFile->guessExtension();
 
         $filesystem = new Filesystem();
-       
-        try{
-         $filesystem->mkdir('users/user'.$user->getId());
-       } catch (IOExceptionInterface $exception){
-           echo "An error occurred while creating your directory at ".$exception->getPath();
-       }
-        $fotoFile->move('users/user'.$user->getId(),$fileName);
+
+        try {
+            $filesystem->mkdir('users/user' . $user->getId());
+        } catch (IOExceptionInterface $exception) {
+            echo "An error occurred while creating your directory at " . $exception->getPath();
+        }
+        $fotoFile->move('users/user' . $user->getId(), $fileName);
         $foto->setNombre($fileName);
         $entityManager->flush();
 
