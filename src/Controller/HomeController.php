@@ -34,7 +34,23 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/home/perfil", name="perfil_user")
+     * @Route("/home/perfil", name="perfil_show", methods={"GET"})
+     */
+    public function show(): Response
+    {
+        $user = $this->getUser();
+        $preferencias = $user->getPreferencias();
+        $fotos = $user->getFoto();
+        return $this->render('home/perfil/show.html.twig', [
+            'user' => $user,
+            'preferencias' => $preferencias,
+            'fotos' => $fotos
+
+        ]);
+    }
+
+    /**
+     * @Route("/home/perfil/editar", name="perfil_user")
      */
     public function perfil_user(Request $request): Response
     {
@@ -52,7 +68,7 @@ class HomeController extends AbstractController
              $this->getDoctrine()->getManager()->flush();
             }
 
-            return $this->redirectToRoute('perfil_user');
+            return $this->redirectToRoute('perfil_show');
         }
 
         return $this->render('home/perfil/perfil.html.twig', [
@@ -109,7 +125,7 @@ class HomeController extends AbstractController
                 echo "An error occurred while creating your directory at " . $exception->getPath();
             }
         }
-        return $this->redirectToRoute('perfil_user');
+        return $this->redirectToRoute('perfil_show');
     }
 
     private function renamePic(User $user, $fotoFile) {

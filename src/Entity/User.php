@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
+ * @UniqueEntity(fields={"username"}, message="Ya hay una cuenta con ese usuario")
  */
 class User implements UserInterface
 {
@@ -65,6 +65,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Foto")
+     * @ORM\JoinColumn(name="foto_id", referencedColumnName="foto_id", onDelete="CASCADE")
      */
     private $foto;
 
