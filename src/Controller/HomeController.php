@@ -82,7 +82,7 @@ class HomeController extends AbstractController
 
         }
 
-        return $this->redirectToRoute('home_index');
+        return $this->redirectToRoute('app_logout');
     }
 
     /**
