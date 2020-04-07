@@ -82,6 +82,10 @@ class UserController extends AbstractController
             }
 
             $entityManager = $this->getDoctrine()->getManager();
+            $fotos = $user->getFoto();
+            foreach ($fotos as $foto){
+                $entityManager->remove($foto);
+            }
             $entityManager->remove($user);
             $entityManager->flush();
         }
