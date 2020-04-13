@@ -5,7 +5,9 @@
 {% block body %}
 {% include 'navAdmin.html.twig' %}
     <h1>Editar ciudad</h1>
-
+    {% if error is defined %}
+        {{error}}
+    {% endif %}
     {{ include('ciudad/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
     <a href="{{ path('ciudad_index') }}">Volver al listado</a>

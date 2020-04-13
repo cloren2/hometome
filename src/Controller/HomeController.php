@@ -110,7 +110,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/fotoUser/{id}", name="perfilPic_delete", methods={"DELETE"})
+     * @Route("/picUser/{id}", name="perfilPic_delete", methods={"DELETE"})
      */
     public function deletePicture(Request $request, Foto $foto): Response
     {

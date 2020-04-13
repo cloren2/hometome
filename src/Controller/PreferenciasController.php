@@ -36,9 +36,19 @@ class PreferenciasController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($preferencia);
-            $entityManager->flush();
-
+            $name =  $form->get('nombre')->getData();
+            $nombre = ucfirst(strtolower($name));
+            $preferencia->setNombre($nombre);
+            try {
+                $entityManager->persist($preferencia);
+                $entityManager->flush();
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $errorMessage = "Preferencia duplicada";
+                return $this->render('ciudad/new.html.twig', [
+                    'error' => $errorMessage,
+                    'form' => $form->createView()
+                ]);
+            }
             return $this->redirectToRoute('preferencias_index');
         }
 
@@ -67,8 +77,17 @@ class PreferenciasController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
+          
+            try {
+                $this->getDoctrine()->getManager()->flush();
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $errorMessage = "Preferencia duplicada";
+                return $this->render('preferencias/edit.html.twig', [
+                    'error' => $errorMessage,
+                    'preferencia' => $preferencia,
+                    'form' => $form->createView()
+                ]);
+            }
             return $this->redirectToRoute('preferencias_index');
         }
 

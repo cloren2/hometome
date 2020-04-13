@@ -35,9 +35,20 @@ class CiudadController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $name =  $form->get('nombre')->getData();
+            $nombre = ucfirst(strtolower($name));
+            $ciudad->setNombre($nombre);
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($ciudad);
-            $entityManager->flush();
+            try {
+                $entityManager->persist($ciudad);
+                $entityManager->flush();
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $errorMessage = "Ciudad duplicada";
+                return $this->render('ciudad/new.html.twig', [
+                    'error' => $errorMessage,
+                    'form' => $form->createView()
+                ]);
+            }
 
             return $this->redirectToRoute('ciudad_index');
         }
@@ -67,8 +78,18 @@ class CiudadController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
+
+            try {
+                $this->getDoctrine()->getManager()->flush();
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                $errorMessage = "Ciudad duplicada";
+                return $this->render('ciudad/edit.html.twig', [
+                    'error' => $errorMessage,
+                    'ciudad' => $ciudad,
+                    'form' => $form->createView()
+                ]);
+            }
             return $this->redirectToRoute('ciudad_index');
         }
 
@@ -83,7 +104,7 @@ class CiudadController extends AbstractController
      */
     public function delete(Request $request, Ciudad $ciudad): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ciudad->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ciudad->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($ciudad);
             $entityManager->flush();
