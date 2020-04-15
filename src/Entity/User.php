@@ -69,10 +69,16 @@ class User implements UserInterface
      */
     private $foto;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Mensajes", mappedBy="sender_name")
+     */
+    private $mensajes;
+
     public function __construct()
     {
         $this->preferencias = new ArrayCollection();
         $this->foto = new ArrayCollection();
+        $this->mensajes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -244,6 +250,37 @@ class User implements UserInterface
     {
         if ($this->foto->contains($foto)) {
             $this->foto->removeElement($foto);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mensajes[]
+     */
+    public function getMensajes(): Collection
+    {
+        return $this->mensajes;
+    }
+
+    public function addMensaje(Mensajes $mensaje): self
+    {
+        if (!$this->mensajes->contains($mensaje)) {
+            $this->mensajes[] = $mensaje;
+            $mensaje->setSenderName($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMensaje(Mensajes $mensaje): self
+    {
+        if ($this->mensajes->contains($mensaje)) {
+            $this->mensajes->removeElement($mensaje);
+            // set the owning side to null (unless already changed)
+            if ($mensaje->getSenderName() === $this) {
+                $mensaje->setSenderName(null);
+            }
         }
 
         return $this;
