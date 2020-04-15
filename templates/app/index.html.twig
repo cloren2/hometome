@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AppController!{% endblock %}
+{% block title %}Home de usuario{% endblock %}
 
 {% block body %}
 <style>
@@ -8,13 +8,56 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="col-5" id="perfil">
+    <h2>Bienvenid@!</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/cristina/Escritorio/Proyecto Final/hometome/src/Controller/AppController.php'|file_link(0) }}">src/Controller/AppController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/cristina/Escritorio/Proyecto Final/hometome/templates/app/index.html.twig'|file_link(0) }}">templates/app/index.html.twig</a></code></li>
-    </ul>
+    Aquí estarán las principales funciones de los usuarios de la app.
+    </br>
+    <a href="home/perfil"> Editar tu perfil</a>
+    <a href="/"> Volver</a>
+    <a href="/logout"> Logout</a>
 </div>
+
+<div class="col-7" id="resultados">
+    <h2>Resultados</h2>
+    Aquí saldrán los resultados.
+</div>
+
+<div class="col-5" id="buscador">
+    <h2>Buscador</h2>
+    Aquí estarán los filtros.
+    <label for="cuadro_busqueda">Buscar</label>
+    <input type="text" id="cuadro_busqueda">
+            <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.nombre }}</td>
+                <td>{{ user.Apellidos }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">Mostrar</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">Editar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No hay registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
 {% endblock %}

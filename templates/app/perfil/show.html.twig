@@ -27,7 +27,7 @@
                 <th>Foto/s </th>
              {% for foto in fotos %}
                   <td><img style="height: 250px; weight: 50px" src="{{asset('users/user'~user.id~'/'~foto.nombre)}}">
-                  {{ include('home/perfil/delete_picture.html.twig') }}
+                  {{ include('app/perfil/delete_picture.html.twig') }}
                   </td>
                 {% endfor %}
                 </tr>
@@ -44,5 +44,5 @@
 
     <a href="{{ path('perfil_user') }}">Editar</a>
 
-    {{ include('home/perfil/_delete_form.html.twig') }}
+    {{ include('app/perfil/_delete_form.html.twig') }}
 {% endblock %}
