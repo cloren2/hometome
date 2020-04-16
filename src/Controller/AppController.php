@@ -5,11 +5,13 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UserRepository;
+use App\Repository\MensajesRepository;
 use App\Form\RegistrationFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use App\Entity\Foto;
+use App\Entity\Mensajes;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -128,6 +130,47 @@ class AppController extends AbstractController
             }
         }
         return $this->redirectToRoute('perfil_show');
+    }
+
+        /**
+     * @Route("/home/chat/{id}", name="chat", methods={"GET"})
+     */
+    public function chat(Request $request, User $userChat, MensajesRepository $mensajeRepository): Response
+    {
+        $usuarioActivo= $this->getUser();
+
+       $enviados= $mensajeRepository-> chatSender($usuarioActivo->getId(),$userChat->getId());
+       $recibidos=$mensajeRepository-> chatSender($userChat->getId(),$usuarioActivo->getId());
+        return $this->render('app/index.html.twig', [
+            'enviados' => $enviados,
+            'recibidos' => $recibidos,
+
+        ]);
+    }
+        /**
+     * @Route("/home/message", name="sendMessage", methods={"POST"})
+     */
+    public function sendMessage(Request $request, User $userChat): Response
+    {
+        $usuarioActivo= $this->getUser();
+       $mensajeEnviado= $_POST['messagePost'];
+       $hoy =getdate();
+       $mensaje= new Mensajes();
+       $mensaje->setSenderName($usuarioActivo->getId());
+       $mensaje->setRecieverName($userChat->getId());
+       $mensaje->setMessage($mensajeEnviado);
+       $mensaje->setStatus(true);
+       $mensaje->setDate($hoy);
+
+       $entityManager = $this->getDoctrine()->getManager();
+       $entityManager->persist($mensaje);
+       $entityManager->flush();
+
+        return $this->render('app/index.html.twig', [
+            'enviados' => $enviados,
+            'recibidos' => $recibidos,
+
+        ]);
     }
 
     private function renamePic(User $user, $fotoFile) {

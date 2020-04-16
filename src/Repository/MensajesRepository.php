@@ -19,22 +19,22 @@ class MensajesRepository extends ServiceEntityRepository
         parent::__construct($registry, Mensajes::class);
     }
 
-    // /**
-    //  * @return Mensajes[] Returns an array of Mensajes objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Mensajes[] Returns an array of Mensajes objects
+      */
+    
+    public function chatSender($sender, $reciever)
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('m.sender_name_id = :val')
+            ->setParameter('val', $sender)
+            ->andWhere('m.reciever_name= :val2')
+            ->setParameter('val2', $reciever)
+            ->orderBy('m.date', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Mensajes
