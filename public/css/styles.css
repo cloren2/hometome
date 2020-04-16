@@ -39,3 +39,12 @@
     float: right;
     height: 30em;
 }
+#msn{
+  border: 1px solid black;
+  height: 60%;
+}
+textarea {
+  resize: none;
+  height: 3.5em;
+  width: 80%;
+}
