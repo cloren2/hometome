@@ -29,7 +29,17 @@
 
     {% if recibidos is defined %}
     {% for mensajes in recibidos %}
-    {{ mensajes.message }}
+    <div class="recibidos">
+        {{ mensajes.message }}
+    </div>
+   
+    {% endfor %}
+    {% endif %}
+    {% if enviados is defined %}
+    {% for mensajes in enviados %}
+       <div class="enviados">
+        {{ mensajes.message }}
+    </div>
     {% endfor %}
     {% endif %}
 
@@ -69,7 +79,10 @@
                 <td>{{ user.nombre }}</td>
                 <td>{{ user.Apellidos }}</td>
                 <td>
-                    <a href="{{ path('chat', {'id': user.id}) }}">Chat</a>
+                    <form method="post" action="{{ path('chat') }}">
+                    <input type="hidden" name="idOculto" value="{{ user.id}}">
+                    <button type="submit" >Chat</button>
+                    </form>
                 </td>
             </tr>
         {% else %}

@@ -132,25 +132,28 @@ class AppController extends AbstractController
     }
 
     /**
-     * @Route("/home/chat/{id}", name="chat", methods={"GET"})
+     * @Route("/home/chat", name="chat", methods={"POST"})
      */
-    public function chat(Request $request, User $userChat, MensajesRepository $mensajeRepository, UserRepository $userRepository): Response
+    public function chat(Request $request, MensajesRepository $mensajeRepository, UserRepository $userRepository): Response
     {
+        
         $usuarioActivo = $this->getUser();
-        $idUserPasivo = $userChat->getId();
-        $enviados = $mensajeRepository->chatSender($usuarioActivo->getId(), $userChat->getId());
-        $recibidos = $mensajeRepository->chatSender($userChat->getId(), $usuarioActivo->getId());
+        $idUserPasivo = $_POST['idOculto'];
+        $enviados = $mensajeRepository->chatSender($usuarioActivo->getId(), $idUserPasivo);
+        $recibidos = $mensajeRepository->chatSender($idUserPasivo, $usuarioActivo->getId());
         return $this->render('app/index.html.twig', [
             'enviados' => $enviados,
             'recibidos' => $recibidos,
             'idPasiva' => $idUserPasivo,
             'users' => $userRepository->findAll(),
         ]);
+   
+
     }
     /**
      * @Route("/home/message/{id}", name="sendMessage", methods={"POST"})
      */
-    public function sendMessage(Request $request, User $userChat): Response
+    public function sendMessage(Request $request, User $userChat, UserRepository $userRepository): Response
     {
         $usuarioActivo = $this->getUser();
         $mensajeEnviado = $_POST['messagePost'];
@@ -169,6 +172,7 @@ class AppController extends AbstractController
         $entityManager->flush();
 
         return $this->render('app/index.html.twig', [
+            'users' => $userRepository->findAll()
 
         ]);
     }

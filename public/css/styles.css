@@ -48,3 +48,11 @@ textarea {
   height: 3.5em;
   width: 80%;
 }
+.enviados{
+  border:2px solid blue;
+  background-color: rgb(127, 219, 255);
+}
+.recibidos{
+  border:2px solid blue;
+  background-color: rgb(200, 255, 127);
+}
