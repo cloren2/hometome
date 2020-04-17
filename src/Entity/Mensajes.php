@@ -47,12 +47,12 @@ class Mensajes
         return $this->id;
     }
 
-    public function getSenderName(): ?string
+    public function getSenderName(): ?User
     {
         return $this->sender_name;
     }
 
-    public function setSenderName(string $sender_name): self
+    public function setSenderName(User $sender_name): self
     {
         $this->sender_name = $sender_name;
 

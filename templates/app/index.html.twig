@@ -19,18 +19,30 @@
 </div>
 
 <div class="col-7" id="resultados">
+
+
+
     <h2>Resultados</h2>
     Aquí saldrán los resultados.
     </br>
     <div id="msn">
 
+    {% if recibidos is defined %}
+    {% for mensajes in recibidos %}
+    {{ mensajes.message }}
+    {% endfor %}
+    {% endif %}
+
     </div>
     </br>
-<form method="post" action="{{ path('sendMessage') }}">
+
+    {% if idPasiva is defined %}
+    {% set id = idPasiva %}
+<form method="post" action="{{ path('sendMessage', {'id': id} ) }}">
    <textarea maxlength="250" name="messagePost"></textarea>
     <button type="submit">Enviar</button>
 </form>
-
+    {% endif %}
   
 </div>
 
@@ -57,7 +69,7 @@
                 <td>{{ user.nombre }}</td>
                 <td>{{ user.Apellidos }}</td>
                 <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">Chat</a>
+                    <a href="{{ path('chat', {'id': user.id}) }}">Chat</a>
                 </td>
             </tr>
         {% else %}

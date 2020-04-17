@@ -15,6 +15,7 @@ use App\Entity\Mensajes;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class AppController extends AbstractController
@@ -56,12 +57,12 @@ class AppController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $fotoFile =  $form->get('foto')->getData();
-            if ($fotoFile != null){
+            if ($fotoFile != null) {
                 $this->getDoctrine()->getManager()->flush();
 
-                self::renamePic($user,$fotoFile);
+                self::renamePic($user, $fotoFile);
             } else {
-             $this->getDoctrine()->getManager()->flush();
+                $this->getDoctrine()->getManager()->flush();
             }
 
             return $this->redirectToRoute('perfil_show');
@@ -79,27 +80,25 @@ class AppController extends AbstractController
     public function delete(Request $request, User $user, TokenStorageInterface $tokenStorage, SessionInterface $session): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
-            try{
-                $directory ='users/user'.$user->getId();
-                if (file_exists ($directory)){
+            try {
+                $directory = 'users/user' . $user->getId();
+                if (file_exists($directory)) {
                     self::rrmdir($directory);
                 }
-                
-            }catch(IOExceptionInterface $exception){
+            } catch (IOExceptionInterface $exception) {
                 echo "An error occurred while creating your directory at " . $exception->getPath();
             }
 
             $tokenStorage->setToken(null);
             $session->invalidate();
-            
+
             $entityManager = $this->getDoctrine()->getManager();
             $fotos = $user->getFoto();
-            foreach ($fotos as $foto){
+            foreach ($fotos as $foto) {
                 $entityManager->remove($foto);
             }
             $entityManager->remove($user);
             $entityManager->flush();
-
         }
 
         return $this->redirectToRoute('app_logout');
@@ -113,7 +112,7 @@ class AppController extends AbstractController
         $userId = $_POST['idUsuario'];
 
         $directorio = 'users/user' . $userId;
-        $nombreFoto = $directorio.'/'.$foto->getNombre();
+        $nombreFoto = $directorio . '/' . $foto->getNombre();
         $filesystem = new Filesystem();
 
         if ($this->isCsrfTokenValid('delete' . $foto->getId(), $request->request->get('_token'))) {
@@ -132,48 +131,50 @@ class AppController extends AbstractController
         return $this->redirectToRoute('perfil_show');
     }
 
-        /**
+    /**
      * @Route("/home/chat/{id}", name="chat", methods={"GET"})
      */
-    public function chat(Request $request, User $userChat, MensajesRepository $mensajeRepository): Response
+    public function chat(Request $request, User $userChat, MensajesRepository $mensajeRepository, UserRepository $userRepository): Response
     {
-        $usuarioActivo= $this->getUser();
-
-       $enviados= $mensajeRepository-> chatSender($usuarioActivo->getId(),$userChat->getId());
-       $recibidos=$mensajeRepository-> chatSender($userChat->getId(),$usuarioActivo->getId());
+        $usuarioActivo = $this->getUser();
+        $idUserPasivo = $userChat->getId();
+        $enviados = $mensajeRepository->chatSender($usuarioActivo->getId(), $userChat->getId());
+        $recibidos = $mensajeRepository->chatSender($userChat->getId(), $usuarioActivo->getId());
         return $this->render('app/index.html.twig', [
             'enviados' => $enviados,
             'recibidos' => $recibidos,
-
+            'idPasiva' => $idUserPasivo,
+            'users' => $userRepository->findAll(),
         ]);
     }
-        /**
-     * @Route("/home/message", name="sendMessage", methods={"POST"})
+    /**
+     * @Route("/home/message/{id}", name="sendMessage", methods={"POST"})
      */
     public function sendMessage(Request $request, User $userChat): Response
     {
-        $usuarioActivo= $this->getUser();
-       $mensajeEnviado= $_POST['messagePost'];
-       $hoy =getdate();
-       $mensaje= new Mensajes();
-       $mensaje->setSenderName($usuarioActivo->getId());
-       $mensaje->setRecieverName($userChat->getId());
-       $mensaje->setMessage($mensajeEnviado);
-       $mensaje->setStatus(true);
-       $mensaje->setDate($hoy);
+        $usuarioActivo = $this->getUser();
+        $mensajeEnviado = $_POST['messagePost'];
 
-       $entityManager = $this->getDoctrine()->getManager();
-       $entityManager->persist($mensaje);
-       $entityManager->flush();
+        $hoy = date_create();
+
+        $mensaje = new Mensajes();
+        $mensaje->setSenderName($usuarioActivo);
+        $mensaje->setRecieverName($userChat->getId());
+        $mensaje->setMessage($mensajeEnviado);
+        $mensaje->setStatus(true);
+        $mensaje->setDate($hoy);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($mensaje);
+        $entityManager->flush();
 
         return $this->render('app/index.html.twig', [
-            'enviados' => $enviados,
-            'recibidos' => $recibidos,
 
         ]);
     }
 
-    private function renamePic(User $user, $fotoFile) {
+    private function renamePic(User $user, $fotoFile)
+    {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
@@ -184,12 +185,12 @@ class AppController extends AbstractController
         $entityManager->flush();
 
         $idFoto = $foto->getId();
-        $fileName ='img'.$user->getId().'-'.$idFoto.'.'.$fotoFile->guessExtension();
+        $fileName = 'img' . $user->getId() . '-' . $idFoto . '.' . $fotoFile->guessExtension();
 
         $filesystem = new Filesystem();
-        $filesystem->mkdir('users/user'.$user->getId());
+        $filesystem->mkdir('users/user' . $user->getId());
 
-        $fotoFile->move('users/user'.$user->getId(),$fileName);
+        $fotoFile->move('users/user' . $user->getId(), $fileName);
         $foto->setNombre($fileName);
         $entityManager->flush();
 
@@ -197,7 +198,8 @@ class AppController extends AbstractController
         $entityManager->flush();
     }
 
-    function is_dir_empty($dir){
+    function is_dir_empty($dir)
+    {
         if (!is_readable($dir)) return NULL;
         $handle = opendir($dir);
         while (false !== ($entry = readdir($handle))) {
@@ -208,15 +210,15 @@ class AppController extends AbstractController
         return TRUE;
     }
 
-    function rrmdir($src) {
+    function rrmdir($src)
+    {
         $dir = opendir($src);
-        while(false !== ( $file = readdir($dir)) ) {
-            if (( $file != '.' ) && ( $file != '..' )) {
+        while (false !== ($file = readdir($dir))) {
+            if (($file != '.') && ($file != '..')) {
                 $full = $src . '/' . $file;
-                if ( is_dir($full) ) {
+                if (is_dir($full)) {
                     rrmdir($full);
-                }
-                else {
+                } else {
                     unlink($full);
                 }
             }
