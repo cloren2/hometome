@@ -48,8 +48,7 @@
                 <td>{{ user.nombre }}</td>
                 <td>{{ user.Apellidos }}</td>
                 <td>
-                    <input type="hidden" class="usuarioPasivo" name="idOculto" value="{{ user.id}}">
-                    <button type="button" class="chat" >Chat</button>
+                    <button type="button" class="chat" value="{{ user.id}}">Chat</button>
                 </td>
             </tr>
         {% else %}

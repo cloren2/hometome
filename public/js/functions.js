@@ -1,8 +1,8 @@
-console.log('hola');
-
+//petición al chat
 botones = document.getElementsByClassName('chat');
-
-botones[0].addEventListener('click', createElements);
+for (i=0;i<botones.length;i++){
+    botones[i].addEventListener('click', createElements);
+}
 
 function createElements(event) {
     console.log('crearElementos');
@@ -29,14 +29,13 @@ function createElements(event) {
     textoBoton = document.createTextNode('Enviar');
     enviar.appendChild(textoBoton);
     contenedor.appendChild(enviar);
-
-    peticionMensajes();
+    id= event.target.value;
+    peticionMensajes(id);
 }
 
-function peticionMensajes(event){
-    console.log('enviarPeticion');
-    hidden = document.getElementsByClassName('usuarioPasivo');
-    id = hidden[0].value;
+function peticionMensajes(id){
+    console.log(id);
+  
     ruta = Routing.generate('chat', )
     
     xhr = new XMLHttpRequest();
