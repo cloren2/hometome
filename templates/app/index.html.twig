@@ -18,42 +18,11 @@
     <a href="/logout"> Logout</a>
 </div>
 
-<div class="col-7" id="resultados">
-
-
+<div class="col-7 derecha" id="resultados">
 
     <h2>Resultados</h2>
     Aquí saldrán los resultados.
     </br>
-    <div id="msn">
-
-    {% if recibidos is defined %}
-    {% for mensajes in recibidos %}
-    <div class="recibidos">
-        {{ mensajes.message }}
-    </div>
-   
-    {% endfor %}
-    {% endif %}
-    {% if enviados is defined %}
-    {% for mensajes in enviados %}
-       <div class="enviados">
-        {{ mensajes.message }}
-    </div>
-    {% endfor %}
-    {% endif %}
-
-    </div>
-    </br>
-
-    {% if idPasiva is defined %}
-    {% set id = idPasiva %}
-<form method="post" action="{{ path('sendMessage', {'id': id} ) }}">
-   <textarea maxlength="250" name="messagePost"></textarea>
-    <button type="submit">Enviar</button>
-</form>
-    {% endif %}
-  
 </div>
 
 <div class="col-5" id="buscador">
@@ -79,10 +48,8 @@
                 <td>{{ user.nombre }}</td>
                 <td>{{ user.Apellidos }}</td>
                 <td>
-                    <form method="post" action="{{ path('chat') }}">
-                    <input type="hidden" name="idOculto" value="{{ user.id}}">
-                    <button type="submit" >Chat</button>
-                    </form>
+                    <input type="hidden" class="usuarioPasivo" name="idOculto" value="{{ user.id}}">
+                    <button type="button" class="chat" >Chat</button>
                 </td>
             </tr>
         {% else %}

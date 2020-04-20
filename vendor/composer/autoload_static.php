@@ -119,6 +119,10 @@ class ComposerStaticInit30b5285269952338efc9bc347dc27b62
         array (
             'Monolog\\' => 8,
         ),
+        'F' => 
+        array (
+            'FOS\\JsRoutingBundle\\' => 20,
+        ),
         'E' => 
         array (
             'Egulias\\EmailValidator\\' => 23,
@@ -466,6 +470,10 @@ class ComposerStaticInit30b5285269952338efc9bc347dc27b62
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'FOS\\JsRoutingBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/friendsofsymfony/jsrouting-bundle',
+        ),
         'Egulias\\EmailValidator\\' => 
         array (
             0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
@@ -545,6 +553,13 @@ class ComposerStaticInit30b5285269952338efc9bc347dc27b62
             'ProxyManager\\' => 
             array (
                 0 => __DIR__ . '/..' . '/ocramius/proxy-manager/src',
+            ),
+        ),
+        'J' => 
+        array (
+            'JsonpCallbackValidator' => 
+            array (
+                0 => __DIR__ . '/..' . '/willdurand/jsonp-callback-validator/src',
             ),
         ),
     );

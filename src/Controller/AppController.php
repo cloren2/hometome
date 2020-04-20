@@ -16,7 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AppController extends AbstractController
 {
@@ -131,24 +131,22 @@ class AppController extends AbstractController
         return $this->redirectToRoute('perfil_show');
     }
 
+    
     /**
-     * @Route("/home/chat", name="chat", methods={"POST"})
+     * @Route("/home/chat", name="chat", options={"expose"=true})
      */
     public function chat(Request $request, MensajesRepository $mensajeRepository, UserRepository $userRepository): Response
     {
-        
+
+        $busqueda = $request->get('value');
+
         $usuarioActivo = $this->getUser();
-        $idUserPasivo = $_POST['idOculto'];
+
+        return new JsonResponse($busqueda);
         $enviados = $mensajeRepository->chatSender($usuarioActivo->getId(), $idUserPasivo);
         $recibidos = $mensajeRepository->chatSender($idUserPasivo, $usuarioActivo->getId());
-        return $this->render('app/index.html.twig', [
-            'enviados' => $enviados,
-            'recibidos' => $recibidos,
-            'idPasiva' => $idUserPasivo,
-            'users' => $userRepository->findAll(),
-        ]);
+        
    
-
     }
     /**
      * @Route("/home/message/{id}", name="sendMessage", methods={"POST"})

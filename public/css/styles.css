@@ -34,7 +34,7 @@
     height: 15em;
 }
 
-#resultados{
+.derecha{
     border: 2px solid black;
     float: right;
     height: 30em;

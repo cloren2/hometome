@@ -38,7 +38,7 @@ security:
          - { path: ^/preferencias, roles: ROLE_ADMIN }
          - { path: ^/ciudad, roles: ROLE_ADMIN }
          - { path: ^/foto, roles: ROLE_ADMIN }
-        # - { path: ^/registerAdmin, roles: ROLE_ADMIN }
+         - { path: ^/registerAdmin, roles: ROLE_ADMIN }
          - { path: ^/user, roles: ROLE_ADMIN }
          - { path: ^/home, roles: ROLE_USER }     
-         - { path: ^/app, roles: ROLE_USER }      
+        # - { path: ^/app, roles: ROLE_USER }      
