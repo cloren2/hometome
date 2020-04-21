@@ -1,6 +1,6 @@
 //petición al chat
 botones = document.getElementsByClassName('chat');
-
+var idPasivo="";
 for (i=0;i<botones.length;i++){
     botones[i].addEventListener('click', createElements);
 }
@@ -14,7 +14,7 @@ function createElements(event) {
     console.log('crearElementos');
 
     limpiarDiv();
-    id= event.target.value;
+    idPasivo= event.target.value;
 
     contenedor = document.createElement('div');
     contenedor.setAttribute('class', 'derecha col-7');
@@ -34,18 +34,18 @@ function createElements(event) {
     recuadro.setAttribute('id', 'mensaje');
     contenedor.appendChild(recuadro);
     enviar = document.createElement('button');
-    enviar.id = id;
+    enviar.id = idPasivo;
     textoBoton = document.createTextNode('Enviar');
     enviar.addEventListener('click', enviarMensaje);
 
     enviar.appendChild(textoBoton);
     contenedor.appendChild(enviar);
-    
-    peticionMensajes(id);
+    setInterval(peticionMensajes,5000);
+   // peticionMensajes(idPasivo);
 }
 
-function peticionMensajes(id){
-    console.log(id);
+function peticionMensajes(){
+    console.log('peticion mensjes');
   
     ruta = Routing.generate('chat');
     
@@ -53,7 +53,7 @@ function peticionMensajes(id){
     xhr.addEventListener('readystatechange', gestionarRespuesta);
     xhr.open('POST', ruta);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('value='+id);
+    xhr.send('value='+idPasivo);
 }
 
 function gestionarRespuesta(event) {
@@ -63,17 +63,21 @@ function gestionarRespuesta(event) {
         objeto = JSON.parse(objeto_vuelta);
         console.log(objeto);
         contenedor = document.getElementById('msn');
-        salto = document.createElement('br');
-        for (let i = 0; i < objeto.enviados.length; i++) {
-            mensaje = document.createTextNode(objeto.enviados[i].Mensaje+'-ENVIADOS');
-            contenedor.appendChild(salto);   
-            contenedor.appendChild(mensaje);               
+       contenedor.innerHTML="";
+      console.log(idPasivo)
+        for (let i = 0; i < objeto.length; i++) {
+            div = document.createElement('div');
+            contenedor.appendChild(div);
+            mensaje = document.createTextNode(objeto[i].Mensaje);
+            salto = document.createElement('br');
+            div.appendChild(salto);   
+            div.appendChild(mensaje); 
+           if(parseInt(objeto[i].Receptor)==idPasivo){
+            div.setAttribute('class','recibidos')             
+        } else{
+            div.setAttribute('class','enviados')   
         }
-        for (let i = 0; i < objeto.recibidos.length; i++) {
-            mensaje = document.createTextNode(objeto.recibidos[i].Mensaje+'-RECIBIDOS');
-            contenedor.appendChild(salto);   
-            contenedor.appendChild(mensaje);               
-        }
+      }
     }
 }
 

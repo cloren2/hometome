@@ -26,11 +26,11 @@ class MensajesRepository extends ServiceEntityRepository
     public function chatSender($sender, $reciever)
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.sender_name = :val')
+            ->andWhere('m.sender_name = :val or m.sender_name = :val2')
             ->setParameter('val', $sender)
-            ->andWhere('m.reciever_name= :val2')
+            ->andWhere('m.reciever_name= :val2 or m.reciever_name= :val')
             ->setParameter('val2', $reciever)
-            ->orderBy('m.date', 'ASC')
+            ->orderBy('m.id', 'ASC')
             ->getQuery()
             ->getResult()
         ;

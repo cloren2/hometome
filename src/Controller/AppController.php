@@ -142,19 +142,7 @@ class AppController extends AbstractController
         $idUserActivo = $this->getUser();
 
         $enviados = $mensajeRepository->chatSender($idUserActivo->getId(), $idUserPasivo);
-        $recibidos = $mensajeRepository->chatSender($idUserPasivo, $idUserActivo->getId());
-
-        foreach ($recibidos as $clave => $results){
-            $campo= [
-            'Id'=> $results->getId(),
-            'Mensaje'=>$results->getMessage(),
-            'Emisor'=>$results->getSenderName()->getId(),
-            'Receptor'=>$results->getRecieverName(),
-            'Fecha'=>$results->getDate(),
-            ];
-            $recibidos[$clave] = $campo;
-        }
-
+       
         foreach ($enviados as $clave => $results){
             $campo= [
             'Id'=> $results->getId(),
@@ -166,7 +154,7 @@ class AppController extends AbstractController
             $enviados[$clave] = $campo;
         }
 
-        return new JsonResponse(array('enviados'=> $enviados, 'recibidos' => $recibidos));
+        return new JsonResponse($enviados);
    
     }
     /**
