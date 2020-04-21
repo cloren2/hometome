@@ -138,30 +138,52 @@ class AppController extends AbstractController
     public function chat(Request $request, MensajesRepository $mensajeRepository, UserRepository $userRepository): Response
     {
 
-        $busqueda = $request->get('value');
+        $idUserPasivo = $request->get('value');
+        $idUserActivo = $this->getUser();
 
-        $usuarioActivo = $this->getUser();
+        $enviados = $mensajeRepository->chatSender($idUserActivo->getId(), $idUserPasivo);
+        $recibidos = $mensajeRepository->chatSender($idUserPasivo, $idUserActivo->getId());
 
-        return new JsonResponse($busqueda);
-        $enviados = $mensajeRepository->chatSender($usuarioActivo->getId(), $idUserPasivo);
-        $recibidos = $mensajeRepository->chatSender($idUserPasivo, $usuarioActivo->getId());
-        
+        foreach ($recibidos as $clave => $results){
+            $campo= [
+            'Id'=> $results->getId(),
+            'Mensaje'=>$results->getMessage(),
+            'Emisor'=>$results->getSenderName()->getId(),
+            'Receptor'=>$results->getRecieverName(),
+            'Fecha'=>$results->getDate(),
+            ];
+            $recibidos[$clave] = $campo;
+        }
+
+        foreach ($enviados as $clave => $results){
+            $campo= [
+            'Id'=> $results->getId(),
+            'Mensaje'=>$results->getMessage(),
+            'Emisor'=>$results->getSenderName()->getId(),
+            'Receptor'=>$results->getRecieverName(),
+            'Fecha'=>$results->getDate(),
+            ];
+            $enviados[$clave] = $campo;
+        }
+
+        return new JsonResponse(array('enviados'=> $enviados, 'recibidos' => $recibidos));
    
     }
     /**
-     * @Route("/home/message/{id}", name="sendMessage", methods={"POST"})
+     * @Route("/home/message", name="sendMessage", options={"expose"=true})
      */
-    public function sendMessage(Request $request, User $userChat, UserRepository $userRepository): Response
+    public function sendMessage(Request $request)
     {
-        $usuarioActivo = $this->getUser();
-        $mensajeEnviado = $_POST['messagePost'];
+        $idUserPasivo = $request->get('idPasiva');
+        $mensajeTexto = $request->get('mensaje');
+        $idUserActivo = $this->getUser();
 
         $hoy = date_create();
 
         $mensaje = new Mensajes();
-        $mensaje->setSenderName($usuarioActivo);
-        $mensaje->setRecieverName($userChat->getId());
-        $mensaje->setMessage($mensajeEnviado);
+        $mensaje->setSenderName($idUserActivo);
+        $mensaje->setRecieverName($idUserPasivo);
+        $mensaje->setMessage($mensajeTexto);
         $mensaje->setStatus(true);
         $mensaje->setDate($hoy);
 
@@ -169,10 +191,7 @@ class AppController extends AbstractController
         $entityManager->persist($mensaje);
         $entityManager->flush();
 
-        return $this->render('app/index.html.twig', [
-            'users' => $userRepository->findAll()
-
-        ]);
+        return new JsonResponse();
     }
 
     private function renamePic(User $user, $fotoFile)

@@ -41,4 +41,4 @@ security:
          - { path: ^/registerAdmin, roles: ROLE_ADMIN }
          - { path: ^/user, roles: ROLE_ADMIN }
          - { path: ^/home, roles: ROLE_USER }     
-        # - { path: ^/app, roles: ROLE_USER }      
+         - { path: ^/app, roles: ROLE_USER }      
