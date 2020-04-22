@@ -31,7 +31,7 @@
     border: 2px solid black;
     float: left; 
     clear: left;
-    height: 15em;
+    height: 18em;
 }
 
 .derecha{
@@ -56,3 +56,4 @@ textarea {
   border:2px solid blue;
   background-color: rgb(200, 255, 127);
 }
+

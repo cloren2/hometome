@@ -111,3 +111,5 @@ function gestionarEnviado(event) {
         peticionMensajes(idPasivo);
     }
 }
+
+
