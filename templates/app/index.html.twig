@@ -29,35 +29,6 @@
     <h2>Buscador</h2>
     Aquí estarán los filtros.
     <label for="cuadro_busqueda">Buscar</label>
-    <input type="text" id="cuadro_busqueda">
-            <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Username</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.nombre }}</td>
-                <td>{{ user.Apellidos }}</td>
-                <td>
-                    <button type="button" class="chat" value="{{ user.id}}">Chat</button>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">No hay registros</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 </div>
 
 
