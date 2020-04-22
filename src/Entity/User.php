@@ -74,6 +74,26 @@ class User implements UserInterface
      */
     private $mensajes;
 
+    /**
+     * @ORM\Column(type="string", length=2, nullable=true)
+     */
+    private $numRoomMates;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $precioMax;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $precioMin;
+
+    /**
+     * @ORM\Column(type="string", length=1, nullable=true)
+     */
+    private $genero;
+
     public function __construct()
     {
         $this->preferencias = new ArrayCollection();
@@ -282,6 +302,54 @@ class User implements UserInterface
                 $mensaje->setSenderName(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNumRoomMates(): ?string
+    {
+        return $this->numRoomMates;
+    }
+
+    public function setNumRoomMates(?string $numRoomMates): self
+    {
+        $this->numRoomMates = $numRoomMates;
+
+        return $this;
+    }
+
+    public function getPrecioMax(): ?int
+    {
+        return $this->precioMax;
+    }
+
+    public function setPrecioMax(?int $precioMax): self
+    {
+        $this->precioMax = $precioMax;
+
+        return $this;
+    }
+
+    public function getPrecioMin(): ?int
+    {
+        return $this->precioMin;
+    }
+
+    public function setPrecioMin(?int $precioMin): self
+    {
+        $this->precioMin = $precioMin;
+
+        return $this;
+    }
+
+    public function getGenero(): ?string
+    {
+        return $this->genero;
+    }
+
+    public function setGenero(?string $genero): self
+    {
+        $this->genero = $genero;
 
         return $this;
     }

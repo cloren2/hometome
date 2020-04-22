@@ -8,6 +8,7 @@ use App\Entity\Preferencias;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -40,6 +41,22 @@ class RegistrationFormType extends AbstractType
                 'choice_label' => 'nombre'
                
             ])
+            ->add('genero', ChoiceType::class, array(
+                'choices' => array(
+                    'Hombre' =>'H',
+                    'Mujer'=>'M',
+                    'No importa'=>'N'
+                )
+            ))
+            ->add('numRoomMates', ChoiceType::class, array(
+                'choices' => array(
+                    '1' =>'1',
+                    '2'=>'2',
+                    '3 o más'=>'3+'
+                )
+            ))
+            ->add('precioMin')
+            ->add('precioMax')
             ->add('preferencias', EntityType::class, [
                 'class' => Preferencias::class,
                 'choice_label' => 'nombre',
