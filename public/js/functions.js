@@ -154,7 +154,11 @@ function gestionarRespuestaBuscador(event) {
 // autocompletar
 function autocompletar(nombres) {
     $("#tags").autocomplete({
-        source: nombres
+        source: nombres,
+
+        select: function () {
+            $(this).val(''); return false;
+        }
     });
 }
 
@@ -172,7 +176,6 @@ function addPreferences(event) {
     }
     console.log(arrayPref);
     paintPreference(preferencia);
-    document.getElementById('tags').innerHTML='';
 }
 
 function removePreferences(event) {
@@ -226,6 +229,7 @@ $(function () {
         slide: function (event, ui) {
             $("#amount").val(ui.values[0] + "€ - " + ui.values[1] + "€");
         }
+        
     });
     $("#amount").val($("#slider-range").slider("values", 0) + "€ - " + $("#slider-range").slider("values", 1) + "€");
 });
