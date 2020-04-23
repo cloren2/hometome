@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -55,7 +56,14 @@ class RegistrationFormType extends AbstractType
                     '3 o más'=>'3+'
                 )
             ))
-            ->add('precioMin')
+            ->add('precioMin', RangeType::class, [
+                'attr' => [
+                   
+                   "data-slider-min" => "0",
+                   "data-slider-max" => "1000",
+                ]
+            ])
+           
             ->add('precioMax')
             ->add('preferencias', EntityType::class, [
                 'class' => Preferencias::class,
