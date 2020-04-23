@@ -5657,7 +5657,7 @@ $.widget( "ui.autocomplete", {
 					suppressKeyPressRepeat = true;
 					return;
 				}
-
+				
 				suppressKeyPress = false;
 				suppressInput = false;
 				suppressKeyPressRepeat = false;
@@ -5680,10 +5680,11 @@ $.widget( "ui.autocomplete", {
 					this._keyEvent( "next", event );
 					break;
 				case keyCode.ENTER:
-
+					
 					// when menu is open and has focus
 					if ( this.menu.active ) {
-
+						addPreferences();
+						
 						// #6055 - Opera still allows the keypress to occur
 						// which causes forms to submit
 						suppressKeyPress = true;
