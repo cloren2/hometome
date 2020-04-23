@@ -132,6 +132,7 @@ function enviarPeticionBuscador(event) {
 }
 
 var arrayPref = [];
+var nombres = [];
 function gestionarRespuestaBuscador(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
 
@@ -139,14 +140,15 @@ function gestionarRespuestaBuscador(event) {
         objetoPref = JSON.parse(objeto_vuelta);
         nombres = [];
         for (i = 0; i < objetoPref.length; i++) {
-
+            
             if(arrayPref.indexOf(objetoPref[i].Nombre) == -1){
                 nombres[i] = objetoPref[i].Nombre;
-            }   
+            }  else{
+                break;
+            } 
         }
-        if(nombres.length>0){
             autocompletar(nombres);
-        }
+        
         
     }
 }
@@ -171,11 +173,17 @@ div = document.createElement('div');
 
 function addPreferences(event) {
     preferencia = document.getElementById('tags').value;
-    if (preferencia.length > 0) {
-        arrayPref.push(preferencia);
+ console.log(objetoPref)
+    if (nombres.indexOf(preferencia) != -1){
+        document.getElementById('add').disabled = false;
+        if (preferencia.length > 0) {
+            arrayPref.push(preferencia);
+        }
+        paintPreference(preferencia);
+    } else {
+        document.getElementById('add').disabled = true;
     }
-    console.log(arrayPref);
-    paintPreference(preferencia);
+ 
 }
 
 function removePreferences(event) {
