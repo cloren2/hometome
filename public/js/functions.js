@@ -1,7 +1,7 @@
 //petición al chat
 botones = document.getElementsByClassName('chat');
 var idPasivo="";
-
+var objetoPref="";
 //Cargando los botones de chat con eventos
 for (i=0;i<botones.length;i++){
     botones[i].addEventListener('click', createElements);
@@ -111,7 +111,86 @@ function gestionarEnviado(event) {
         peticionMensajes(idPasivo);
     }
 }
+//buscador petición asíncrona
+search= document.getElementById('tags');
+search.addEventListener('keyup',enviarPeticionBuscador);
+function enviarPeticionBuscador(event){
+  
+    valor= document.getElementById('tags').value;
+    ruta = Routing.generate('search');
+    if (valor.length>0){
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', gestionarRespuestaBuscador);
+    xhr.open('POST', ruta);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('value='+valor);
+    }
+    
+}
 
+function gestionarRespuestaBuscador(event){
+    if (event.target.readyState == 4 && event.target.status == 200) {
+
+        objeto_vuelta = event.target.responseText;
+        objetoPref = JSON.parse(objeto_vuelta);
+        nombres=[];
+       for (i=0;i<objetoPref.length;i++){
+        nombres[i]= objetoPref[i].Nombre
+       }
+        autocompletar(nombres);
+    }
+}
+
+// autocompletar
+ function autocompletar(nombres) {
+    $( "#tags" ).autocomplete({
+      source: nombres
+    });
+  } 
+
+  //add Preferences list
+  add= document.getElementById('add');
+  add.addEventListener('click',addPreferences);
+  var arrayPref=[];
+function addPreferences(event){
+    
+    preferencias= document.getElementById('tags').value;
+    if (preferencias.length>0){
+        arrayPref.push(preferencias)
+    }
+    console.log(arrayPref)
+    paintPreferences();
+}  
+function removePreferences(event){
+    remove = event.target.value;
+    var indice =arrayPref.indexOf(remove);
+    arrayPref.splice(indice,indice);
+    nodoBorrar = document.getElementById(remove)
+    nodoBorrar.remove()
+}
+
+function paintPreferences(){
+    buscador= document.getElementById('buscador')
+    div= document.createElement('div');
+   tag = document.getElementById('tags');
+   console.log(buscador.childNodes)
+    div.setAttribute('id', 'contenedorPref')
+    buscador.insertBefore(div,buscador.childNodes[19])
+   
+    for (i=0;i<arrayPref.length;i++){
+        divTag = document.createElement('div');
+        div.appendChild(divTag);
+        texto = document.createTextNode(arrayPref[i])
+        boton = document.createElement('button');
+        divTag.setAttribute('id',arrayPref[i])
+        boton.setAttribute('value',arrayPref[i])
+        boton.innerHTML='X';
+        boton.addEventListener('click',removePreferences)
+        divTag.appendChild(texto);
+        divTag.appendChild(boton);
+    }
+}
+//slider
 $( function() {
     $( "#slider-range" ).slider({
       range: true,

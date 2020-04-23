@@ -19,22 +19,21 @@ class PreferenciasRepository extends ServiceEntityRepository
         parent::__construct($registry, Preferencias::class);
     }
 
-    // /**
-    //  * @return Preferencias[] Returns an array of Preferencias objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Preferencias[] Returns an array of Preferencias objects
+     */
+    
+    public function buscadorPreferencias($search)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        return $this->createQueryBuilder('a')
+        ->andWhere('a.nombre LIKE :val')
+        ->setParameter('val','%'.$search.'%') 
+         ->getQuery()
+         ->getResult()
+         ;
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Preferencias

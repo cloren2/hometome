@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use App\Entity\Foto;
 use App\Entity\Mensajes;
+use App\Repository\PreferenciasRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -156,6 +157,25 @@ class AppController extends AbstractController
 
         return new JsonResponse($enviados);
    
+    }
+     /**
+     * @Route("/home/search", name="search", options={"expose"=true})
+     */
+    public function search(Request $request, PreferenciasRepository $preferenciasRepository)
+    {
+        $busqueda = $request->get('value');
+      $preferencias = $preferenciasRepository->buscadorPreferencias($busqueda);
+      foreach ($preferencias as $clave => $results){
+        $campo= [
+        'Id'=> $results->getId(),
+        'Nombre'=>$results->getNombre(),
+        
+        ];
+        $preferencias[$clave] = $campo;
+    }
+
+    return new JsonResponse($preferencias);
+
     }
     /**
      * @Route("/home/message", name="sendMessage", options={"expose"=true})
