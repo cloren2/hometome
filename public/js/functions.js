@@ -227,6 +227,36 @@ function paintPreference(preference) {
 
 }
 
+//función que hace petición asíncrona de búsqueda
+botonBusqueda = document.getElementById('botonBusqueda');
+botonBusqueda.addEventListener('click', recogidaDatos);
+function recogidaDatos(){
+    gender = document.getElementById('genderSelect').value;
+    rooMates = document.getElementById('roomMatesSelect').value;
+    min = document.getElementById('min').value;
+    max = document.getElementById('max').value;
+    arrayPreferences = arrayPref.slice();
+    console.log(arrayPreferences);
+
+    ruta = Routing.generate('searchUsers');
+
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', gestionarRespuestaBuscadorUsers);
+    xhr.open('POST', ruta);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('gender=' + gender +'&roomMates='+ rooMates + '&min=' 
+    + min + '&max=' + max + '&preferencias=' + arrayPreferences);
+}
+
+function gestionarRespuestaBuscadorUsers(event) {
+    if (event.target.readyState == 4 && event.target.status == 200) {
+        console.log("gestionREsp")
+        objeto_vuelta = event.target.responseText;
+        objeto = JSON.parse(objeto_vuelta);
+        console.log(objeto);
+    }
+}
+
 //slider
 $(function () {
     $("#slider-range").slider({

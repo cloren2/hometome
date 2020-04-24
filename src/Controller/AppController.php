@@ -176,6 +176,30 @@ class AppController extends AbstractController
 
     return new JsonResponse($preferencias);
 
+}
+     /**
+     * @Route("/home/searchUsers", name="searchUsers", options={"expose"=true})
+     */
+    public function searchUsers(Request $request, UserRepository $userRepository)
+    {
+        $gender = $request->get('gender');
+        $roomMates = $request->get('roomMates');
+        $min = $request->get('min');
+        $max = $request->get('max');
+        $arrayPreferencias = $request->get('preferencias');
+
+      $resultadosBusqueda = $userRepository->filtradoUsuarios($arrayPreferencias, $gender,$roomMates,$min,$max);
+      foreach ($resultadosBusqueda as $clave => $results){
+        $campo= [
+        'Id'=> $results->getId(),
+        'Nombre'=>$results->getNombre(),
+        
+        ];
+        $preferencias[$clave] = $campo;
+    }
+
+    return new JsonResponse($preferencias);
+
     }
     /**
      * @Route("/home/message", name="sendMessage", options={"expose"=true})

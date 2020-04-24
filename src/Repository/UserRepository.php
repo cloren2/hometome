@@ -53,15 +53,39 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?User
+    
+    public function filtradoUsuarios($preferences, $gender,$roomMates,$min,$max)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
+        var_dump($preferences);
+        //$array = implode(',',$preferences);
+        if($gender=='N'){
+            return $this->createQueryBuilder('u')
+            ->WHERE (
+            'u.preferencias IN (:preferences)')
+            ->andWHERE ('u.numRoomMates = :roomMates')
+            ->andWHERE ('u.precioMin between :min and :max OR u.precioMax between :min and :max')
+            ->setParameter('preferences',$preferences)
+            ->setParameter('roomMates', $roomMates)
+            ->setParameter('min', $min)
+            ->setParameter('max', $max)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+            ->getResult()
+            ;
+        }else{
+            return $this->createQueryBuilder('u')
+            ->WHERE (
+            'u.preferencias IN (:preferences)')
+            ->andWHERE ('u.numRoomMates = :roomMates')
+            ->andWHERE ('u.precioMin between :min and :max OR u.precioMax between :min and :max')
+            ->andWHERE ('u.genero = :gender')
+            ->setParameter('preferences', $preferences)
+            ->setParameter('roomMates', $roomMates)
+            ->setParameter('gender', $gender)
+            ->setParameter('min', $min)
+            ->setParameter('max', $max)
+            ->getQuery()
+            ->getResult()
+            ;
+        }
+    }   
 }

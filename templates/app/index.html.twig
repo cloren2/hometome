@@ -29,19 +29,19 @@
     <h2>Buscador</h2>
     Aquí estarán los filtros.
     </br>
-    <select name="genero">
+    <select id="genderSelect" name="genero">
         <option value="H">Hombre</option> 
-        <option value="M" selected>Mujer</option>
-        <option value="N+">No me importa</option>
+        <option value="M">Mujer</option>
+        <option value="N" selected>No me importa</option>
     </select>
-    <select name="romMates">
+    <select id="roomMatesSelect" name="roomMates">
         <option value="1">1 persona</option> 
         <option value="2" selected>2 personas</option>
         <option value="3+">3 o más personas</option>
     </select>
     </br>
     <input type="text" size="4" placeholder="min" id="min"></input>
-    <input type="text" size="4" placeholder="max"></input>
+    <input type="text" size="4" placeholder="max"id="max"></input>
     </br>
   <div class="ui-widget">
   <label for="tags">Búsqueda de preferencias: </label>
@@ -51,7 +51,7 @@
   <button type="button" id="add" >Añadir</button>
 
     </br>
-    <button type="button">Buscar</button>
+    <button type="button" id="botonBusqueda">Buscar</button>
 </div>
 
 
