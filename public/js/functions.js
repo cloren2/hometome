@@ -116,6 +116,7 @@ function gestionarEnviado(event) {
 //buscador preferencia petición asíncrona
 search = document.getElementById('tags');
 search.addEventListener('keyup', enviarPeticionBuscador);
+
 function enviarPeticionBuscador(event) {
 
     valor = document.getElementById('tags').value;
@@ -128,28 +129,26 @@ function enviarPeticionBuscador(event) {
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.send('value=' + valor);
     }
-
 }
 
 var arrayPref = [];
 var nombres = [];
 function gestionarRespuestaBuscador(event) {
+
     if (event.target.readyState == 4 && event.target.status == 200) {
 
         objeto_vuelta = event.target.responseText;
         objetoPref = JSON.parse(objeto_vuelta);
         nombres = [];
+
         for (i = 0; i < objetoPref.length; i++) {
-            
-            if(arrayPref.indexOf(objetoPref[i].Nombre) == -1){
+            if (arrayPref.indexOf(objetoPref[i].Nombre) == -1) {
                 nombres[i] = objetoPref[i].Nombre;
-            }  else{
+            } else {
                 break;
-            } 
+            }
         }
-            autocompletar(nombres);
-        
-        
+        autocompletar(nombres);
     }
 }
 
@@ -158,7 +157,9 @@ function autocompletar(nombres) {
     $("#tags").autocomplete({
         source: nombres,
 
-        select: function () {
+        select: function (event, ui) {
+            input = ui.item.value;
+            addPreferences(input);
             $(this).val(''); return false;
         }
     });
@@ -171,10 +172,15 @@ add.addEventListener('keyup', addPreferences);
 
 div = document.createElement('div');
 
-function addPreferences(event) {
-    preferencia = document.getElementById('tags').value;
- console.log(objetoPref)
-    if (nombres.indexOf(preferencia) != -1){
+function addPreferences(pref) {
+
+    if (typeof pref !== 'undefined') {
+        preferencia = pref;
+    } else {
+        preferencia = document.getElementById('tags').value;
+    }
+
+    if (nombres.indexOf(preferencia) != -1) {
         document.getElementById('add').disabled = false;
         if (preferencia.length > 0) {
             arrayPref.push(preferencia);
@@ -183,29 +189,27 @@ function addPreferences(event) {
     } else {
         document.getElementById('add').disabled = true;
     }
- 
 }
 
 function removePreferences(event) {
     remove = event.target.value;
     var indice = arrayPref.indexOf(remove);
 
-    if(indice==0){
-        arrayPref=[];
-    }else{
+    if (indice == 0) {
+        arrayPref = [];
+    } else {
         arrayPref.splice(indice, indice);
     }
 
-    nodoBorrar = document.getElementById(remove)
-    nodoBorrar.remove()
-    console.log(arrayPref);
-    
+    nodoBorrar = document.getElementById(remove);
+    nodoBorrar.remove();
+
 }
 
 function paintPreference(preference) {
-    
+
     buscador = document.getElementById('buscador');
-    
+
     tag = document.getElementById('tags');
     div.setAttribute('id', 'contenedorPref');
 
@@ -224,13 +228,13 @@ function paintPreference(preference) {
     divTag.appendChild(boton);
     div.appendChild(divTag);
 
-
 }
 
 //función que hace petición asíncrona de búsqueda
 botonBusqueda = document.getElementById('botonBusqueda');
 botonBusqueda.addEventListener('click', recogidaDatos);
-function recogidaDatos(){
+
+function recogidaDatos() {
     gender = document.getElementById('genderSelect').value;
     rooMates = document.getElementById('roomMatesSelect').value;
     min = document.getElementById('min').value;
@@ -244,8 +248,8 @@ function recogidaDatos(){
     xhr.addEventListener('readystatechange', gestionarRespuestaBuscadorUsers);
     xhr.open('POST', ruta);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('gender=' + gender +'&roomMates='+ rooMates + '&min=' 
-    + min + '&max=' + max + '&preferencias=' + arrayPreferences);
+    xhr.send('gender=' + gender + '&roomMates=' + rooMates + '&min='
+        + min + '&max=' + max + '&preferencias=' + arrayPreferences);
 }
 
 function gestionarRespuestaBuscadorUsers(event) {
@@ -267,7 +271,7 @@ $(function () {
         slide: function (event, ui) {
             $("#amount").val(ui.values[0] + "€ - " + ui.values[1] + "€");
         }
-        
+
     });
     $("#amount").val($("#slider-range").slider("values", 0) + "€ - " + $("#slider-range").slider("values", 1) + "€");
 });
