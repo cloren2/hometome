@@ -29,6 +29,14 @@
     <h2>Buscador</h2>
     Aquí estarán los filtros.
     </br>
+    <select id="ciudadSelect" name="ciudad">
+    {% for ciudades in nombre %}
+        <option value="{{ ciudades.id }}">{{ ciudades.nombre }}</option> 
+    {% else %}
+        <option value="N">No hay ciudades</option> 
+    {% endfor %}
+    </select>
+    </br>
     <select id="genderSelect" name="genero">
         <option value="H">Hombre</option> 
         <option value="M">Mujer</option>
@@ -40,19 +48,15 @@
         <option value="3+">3 o más personas</option>
     </select>
     </br>
-    <input type="text" size="4" placeholder="min" id="min"></input>
-    <input type="text" size="4" placeholder="max"id="max"></input>
+    <input type="text" size="4" placeholder="min" id="min">
+    <input type="text" size="4" placeholder="max" id="max">
     </br>
-  <div class="ui-widget">
-  <label for="tags">Búsqueda de preferencias: </label>
-  <input id="tags">
-</div>
- 
-  <button type="button" id="add" >Añadir</button>
-
-    </br>
+    <div class="ui-widget">
+        <label for="tags">Búsqueda de preferencias: </label>
+        <input id="tags">
+    </div>
     <button type="button" id="botonBusqueda">Buscar</button>
-</div>
+
 
 
 {% endblock %}

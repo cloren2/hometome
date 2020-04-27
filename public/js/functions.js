@@ -133,6 +133,7 @@ function enviarPeticionBuscador(event) {
 
 var arrayPref = [];
 var nombres = [];
+
 function gestionarRespuestaBuscador(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
@@ -142,12 +143,15 @@ function gestionarRespuestaBuscador(event) {
         nombres = [];
 
         for (i = 0; i < objetoPref.length; i++) {
-            if (arrayPref.indexOf(objetoPref[i].Nombre) == -1) {
-                nombres[i] = objetoPref[i].Nombre;
-            } else {
+            if (arrayPref.indexOf(objetoPref[i].Id) == -1) {
+                nombres = [{
+                    id: objetoPref[i].Id,
+                    label: objetoPref[i].Nombre
+                }]
+            }  else{
                 break;
-            }
-        }
+            } 
+        }   
         autocompletar(nombres);
     }
 }
@@ -158,69 +162,60 @@ function autocompletar(nombres) {
         source: nombres,
 
         select: function (event, ui) {
-            input = ui.item.value;
-            addPreferences(input);
+            preferencia = ui.item.label;
+            preferenciaId = ui.item.id;
+
+            paintPreference(preferencia,preferenciaId);
+            addPreferences(preferenciaId);
             $(this).val(''); return false;
         }
     });
 }
 
 //add Preferences list
-add = document.getElementById('add');
-add.addEventListener('click', addPreferences);
-add.addEventListener('keyup', addPreferences);
-
 div = document.createElement('div');
+Array.prototype.unique=function(a){
+    return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+  });
 
-function addPreferences(pref) {
-
-    if (typeof pref !== 'undefined') {
-        preferencia = pref;
-    } else {
-        preferencia = document.getElementById('tags').value;
-    }
-
-    if (nombres.indexOf(preferencia) != -1) {
-        document.getElementById('add').disabled = false;
-        if (preferencia.length > 0) {
-            arrayPref.push(preferencia);
-        }
-        paintPreference(preferencia);
-    } else {
-        document.getElementById('add').disabled = true;
-    }
+function addPreferences(preferenciaId) {
+    arrayPref.push(preferenciaId);
+    arrayPref = arrayPref.unique();
 }
 
 function removePreferences(event) {
-    remove = event.target.value;
-    var indice = arrayPref.indexOf(remove);
 
+    remove = parseInt(event.target.value);
+    var indice = arrayPref.indexOf(remove);
+    
     if (indice == 0) {
         arrayPref = [];
     } else {
         arrayPref.splice(indice, indice);
     }
-
     nodoBorrar = document.getElementById(remove);
     nodoBorrar.remove();
 
 }
 
-function paintPreference(preference) {
 
+function paintPreference(preference,preferenciaId) {
+    
     buscador = document.getElementById('buscador');
 
     tag = document.getElementById('tags');
     div.setAttribute('id', 'contenedorPref');
 
-    buscador.insertBefore(div, buscador.childNodes[19]);
+    buscador.insertBefore(div, buscador.childNodes[22]);
 
     divTag = document.createElement('span');
     texto = document.createTextNode(preference);
     boton = document.createElement('button');
 
-    divTag.setAttribute('id', preference);
-    boton.setAttribute('value', preference);
+    divTag.setAttribute('id', preferenciaId);
+    divTag.setAttribute('name', preferencia);
+
+    boton.setAttribute('value', preferenciaId);
     boton.innerHTML = 'X';
     boton.addEventListener('click', removePreferences);
 
@@ -240,7 +235,6 @@ function recogidaDatos() {
     min = document.getElementById('min').value;
     max = document.getElementById('max').value;
     arrayPreferences = arrayPref.slice();
-    console.log(arrayPreferences);
 
     ruta = Routing.generate('searchUsers');
 
@@ -254,10 +248,10 @@ function recogidaDatos() {
 
 function gestionarRespuestaBuscadorUsers(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
-        console.log("gestionREsp")
-        objeto_vuelta = event.target.responseText;
-        objeto = JSON.parse(objeto_vuelta);
-        console.log(objeto);
+        console.log("gestionREsp");
+        var objeto_vuelta = event.target.responseText;
+        console.log(objeto_vuelta);
+        var objeto = JSON.parse(objeto_vuelta);
     }
 }
 

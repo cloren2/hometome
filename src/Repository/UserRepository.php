@@ -60,11 +60,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         //$array = implode(',',$preferences);
         if($gender=='N'){
             return $this->createQueryBuilder('u')
-            ->WHERE (
-            'u.preferencias IN (:preferences)')
+            //->WHERE ('u.preferencias IN (:preferences)')
             ->andWHERE ('u.numRoomMates = :roomMates')
             ->andWHERE ('u.precioMin between :min and :max OR u.precioMax between :min and :max')
-            ->setParameter('preferences',$preferences)
+            //->setParameter('preferences',$preferences)
             ->setParameter('roomMates', $roomMates)
             ->setParameter('min', $min)
             ->setParameter('max', $max)
@@ -73,8 +72,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ;
         }else{
             return $this->createQueryBuilder('u')
-            ->WHERE (
-            'u.preferencias IN (:preferences)')
+            ->WHERE ('u.preferencias IN (:preferences)')
             ->andWHERE ('u.numRoomMates = :roomMates')
             ->andWHERE ('u.precioMin between :min and :max OR u.precioMax between :min and :max')
             ->andWHERE ('u.genero = :gender')

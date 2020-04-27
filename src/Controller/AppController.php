@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use App\Entity\Foto;
 use App\Entity\Mensajes;
+use App\Repository\CiudadRepository;
 use App\Repository\PreferenciasRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -24,10 +25,11 @@ class AppController extends AbstractController
     /**
      * @Route("/home", name="home_user")
      */
-    public function home_user(UserRepository $userRepository): Response
+    public function home_user(UserRepository $userRepository, CiudadRepository $ciudadRepository): Response
     {
         return $this->render('app/index.html.twig', [
             'users' => $userRepository->findAll(),
+            'nombre' => $ciudadRepository->findAll()
         ]);
     }
 
@@ -193,7 +195,6 @@ class AppController extends AbstractController
         $campo= [
         'Id'=> $results->getId(),
         'Nombre'=>$results->getNombre(),
-        
         ];
         $preferencias[$clave] = $campo;
     }

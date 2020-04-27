@@ -5682,8 +5682,7 @@ $.widget( "ui.autocomplete", {
 				case keyCode.ENTER:
 					
 					// when menu is open and has focus
-					if ( this.menu.active ) {
-						addPreferences();
+					if ( this.menu.active ) { 
 						
 						// #6055 - Opera still allows the keypress to occur
 						// which causes forms to submit
