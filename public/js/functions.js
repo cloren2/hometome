@@ -234,6 +234,7 @@ function recogidaDatos() {
     rooMates = document.getElementById('roomMatesSelect').value;
     min = document.getElementById('min').value;
     max = document.getElementById('max').value;
+    ciudad = document.getElementById('ciudadSelect').value;
     arrayPreferences = arrayPref.slice();
 
     ruta = Routing.generate('searchUsers');
@@ -242,7 +243,7 @@ function recogidaDatos() {
     xhr.addEventListener('readystatechange', gestionarRespuestaBuscadorUsers);
     xhr.open('POST', ruta);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('gender=' + gender + '&roomMates=' + rooMates + '&min='
+    xhr.send('ciudad=' + ciudad + '&gender=' + gender + '&roomMates=' + rooMates + '&min='
         + min + '&max=' + max + '&preferencias=' + arrayPreferences);
 }
 

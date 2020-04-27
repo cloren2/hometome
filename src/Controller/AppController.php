@@ -184,13 +184,14 @@ class AppController extends AbstractController
      */
     public function searchUsers(Request $request, UserRepository $userRepository)
     {
+        $ciudad = $request->get('ciudad');
         $gender = $request->get('gender');
         $roomMates = $request->get('roomMates');
         $min = $request->get('min');
         $max = $request->get('max');
         $arrayPreferencias = $request->get('preferencias');
 
-      $resultadosBusqueda = $userRepository->filtradoUsuarios($arrayPreferencias, $gender,$roomMates,$min,$max);
+      $resultadosBusqueda = $userRepository->filtradoUsuarios($ciudad, $arrayPreferencias, $gender,$roomMates,$min,$max);
       foreach ($resultadosBusqueda as $clave => $results){
         $campo= [
         'Id'=> $results->getId(),
