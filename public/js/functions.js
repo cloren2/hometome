@@ -1,12 +1,6 @@
 //petición al chat
-botones = document.getElementsByClassName('chat');
 var idPasivo = "";
 var objetoPref = "";
-//Cargando los botones de chat con eventos
-for (i = 0; i < botones.length; i++) {
-    botones[i].addEventListener('click', createElements);
-}
-
 //Limpieza del div del chat
 function limpiarDiv(params) {
     divBuscador = document.getElementById('resultados');
@@ -249,13 +243,42 @@ function recogidaDatos() {
 
 function gestionarRespuestaBuscadorUsers(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
-        console.log("gestionREsp");
         var objeto_vuelta = event.target.responseText;
-        console.log(objeto_vuelta);
+       
         var objeto = JSON.parse(objeto_vuelta);
+        console.log(objeto);
+        createTable(objeto);
     }
 }
 
+function createTable(objeto){
+    tabla= document.createElement('table');
+    tabla.setAttribute('class','tablaUsuarios')
+    var encabezado = tabla.insertRow(0);
+    var nombreEncabezado = encabezado.insertCell(0);
+    nombreEncabezado.innerHTML = 'Nombre';
+    var idEncabezado = encabezado.insertCell(0);
+    idEncabezado.innerHTML = 'Id'
+document.body.appendChild(tabla);
+
+   
+    
+    for (i=0;i<objeto.length;i++){
+        var nombreUsuarios = objeto[i].Nombre;
+        var idUsuarios=  objeto[i].Id;
+        var row = tabla.insertRow(1);
+        var celdaId = row.insertCell(0);
+        var botonChat = document.createElement('button');
+       var texto = document.createTextNode('Chat')
+        botonChat.appendChild(texto)
+        botonChat.setAttribute('class','chat');
+        botonChat.setAttribute('value',idUsuarios);
+        botonChat.addEventListener('click',createElements);
+        celdaId.appendChild(botonChat);
+        var celdaUsuarios = row.insertCell(1);
+        celdaUsuarios.innerHTML = nombreUsuarios;
+    }
+}
 //slider
 $(function () {
     $("#slider-range").slider({

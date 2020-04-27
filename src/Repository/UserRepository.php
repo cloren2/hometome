@@ -54,16 +54,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     */
 
     
-    public function filtradoUsuarios($preferences, $gender,$roomMates,$min,$max)
+    public function filtradoUsuarios($ciudad,$preferences, $gender,$roomMates,$min,$max)
     {
-        var_dump($preferences);
-        //$array = implode(',',$preferences);
         if($gender=='N'){
             return $this->createQueryBuilder('u')
-            //->WHERE ('u.preferencias IN (:preferences)')
+            ->join('u.preferencias', 'o')
+            ->addSelect('o')
+            ->where('o.id = :preferences')
+            ->WHERE (
+            'o.id IN (:preferences)')
             ->andWHERE ('u.numRoomMates = :roomMates')
+            ->andWHERE ('u.ciudad= :ciudad')
             ->andWHERE ('u.precioMin between :min and :max OR u.precioMax between :min and :max')
-            //->setParameter('preferences',$preferences)
+            ->setParameter('ciudad', $ciudad)
+            ->setParameter('preferences',$preferences)
             ->setParameter('roomMates', $roomMates)
             ->setParameter('min', $min)
             ->setParameter('max', $max)
@@ -72,11 +76,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ;
         }else{
             return $this->createQueryBuilder('u')
-            ->WHERE ('u.preferencias IN (:preferences)')
+            ->join('u.preferencias', 'o')
+            ->addSelect('o')
+            ->where('o.id = :preferences')
+            ->WHERE (
+            'o.id IN (:preferences)')
             ->andWHERE ('u.numRoomMates = :roomMates')
+            ->andWHERE ('u.ciudad= :ciudad')
             ->andWHERE ('u.precioMin between :min and :max OR u.precioMax between :min and :max')
             ->andWHERE ('u.genero = :gender')
-            ->setParameter('preferences', $preferences)
+            ->setParameter('ciudad', $ciudad)
+            ->setParameter('preferences',$preferences)
             ->setParameter('roomMates', $roomMates)
             ->setParameter('gender', $gender)
             ->setParameter('min', $min)
