@@ -2,22 +2,22 @@
 var idPasivo = "";
 var objetoPref = "";
 //Limpieza del div resultados
-function limpiarDiv(params) {
+function limpiarDiv() {
     divBuscador = document.getElementById('resultados');
-    divBuscador.setAttribute('style', 'display: none');
+    document.body.removeChild(divBuscador)
 }
 function limpiarChat(){
     divChat = document.getElementById('contenedorChat');
-    divChat.setAttribute('style', 'display: none');
-    resultados.setAttribute('style', 'display: contents');
+    document.body.removeChild(divChat)
 }
+var intervalo;
 //crea el chat
 function createElements(event) {
 
     //Limpiamos el div y obtenemos el id del receptor
     limpiarDiv();
     idPasivo = event.target.value;
-
+    buscador = document.getElementById('buscador');
     //Creando elementos html
     contenedor = document.createElement('div');
     contenedor.setAttribute('class', 'derecha col-7');
@@ -28,7 +28,7 @@ function createElements(event) {
     //Insercion del nuevo div(mensajes)
     titulo.appendChild(textoTit);
     contenedor.appendChild(titulo);
-    document.body.insertBefore(contenedor, divBuscador);
+    document.body.insertBefore(contenedor, buscador);
 
     msn = document.createElement('div');
     msn.setAttribute('id', 'msn');
@@ -49,9 +49,8 @@ function createElements(event) {
     contenedor.appendChild(enviar);
    
     //Llamada a peticion de mensajes de forma regular
-    setInterval(peticionMensajes, 5000);
+    intervalo = setInterval(peticionMensajes, 5000);
 }
-
 function peticionMensajes() {
 
     ruta = Routing.generate('chat');
@@ -73,18 +72,18 @@ function gestionarRespuesta(event) {
 
         for (let i = 0; i < objeto.length; i++) {
 
-            div = document.createElement('div');
-            contenedorMsn.appendChild(div);
+            divMensaje = document.createElement('div');
+            contenedorMsn.appendChild(divMensaje);
             mensaje = document.createTextNode(objeto[i].Mensaje);
             salto = document.createElement('br');
 
-            div.appendChild(salto);
-            div.appendChild(mensaje);
+            divMensaje.appendChild(salto);
+            divMensaje.appendChild(mensaje);
 
             if (parseInt(objeto[i].Receptor) == idPasivo) {
-                div.setAttribute('class', 'enviados col-6')
+                divMensaje.setAttribute('class', 'enviados col-6')
             } else {
-                div.setAttribute('class', 'recibidos col-6')
+                divMensaje.setAttribute('class', 'recibidos col-6')
             }
         }
     }
@@ -250,13 +249,20 @@ function recogidaDatos() {
     xhr.send('ciudad=' + ciudad + '&gender=' + gender + '&roomMates=' + rooMates + '&min='
         + min + '&max=' + max + '&preferencias=' + arrayPreferences);
 }
-var resultados = document.getElementById('resultados');
+var resultados;
 var divResult;
 function gestionarRespuestaBuscadorUsers(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
-    if (divResult){resultados.removeChild(divResult);}
+        provisional = document.getElementById('provisional');
+        if (intervalo){ clearInterval(intervalo)}
+        if (provisional){ document.body.removeChild(provisional)}
+    buscador = document.getElementById('buscador');
+   
+    resultados = document.createElement('div');
+    resultados.setAttribute('class','col-7 derecha')
+    resultados.setAttribute('id','resultados')
     divResult= document.createElement('div');
-       
+    document.body.insertBefore(resultados, buscador);
         var objeto_vuelta = event.target.responseText;
         var objeto = JSON.parse(objeto_vuelta);
         resultados.appendChild(divResult);
@@ -266,7 +272,7 @@ function gestionarRespuestaBuscadorUsers(event) {
        }else {
            createTable(objeto);
        }
-        
+       
     }
 }
 
