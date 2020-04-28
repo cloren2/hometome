@@ -56,14 +56,7 @@ class RegistrationFormType extends AbstractType
                     '3 o más'=>'3+'
                 )
             ))
-            ->add('precioMin', RangeType::class, [
-                'attr' => [
-                   
-                   "data-slider-min" => "0",
-                   "data-slider-max" => "1000",
-                ]
-            ])
-           
+            ->add('precioMin')
             ->add('precioMax')
             ->add('preferencias', EntityType::class, [
                 'class' => Preferencias::class,
@@ -76,6 +69,8 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
+                'required'=>false,
+                'attr'=> array('class'=>'pass'),
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Introduce una contraseña',
