@@ -1,12 +1,17 @@
 //petición al chat
 var idPasivo = "";
 var objetoPref = "";
-//Limpieza del div del chat
+//Limpieza del div resultados
 function limpiarDiv(params) {
     divBuscador = document.getElementById('resultados');
     divBuscador.setAttribute('style', 'display: none');
 }
-
+function limpiarChat(){
+    divChat = document.getElementById('contenedorChat');
+    divChat.setAttribute('style', 'display: none');
+    resultados.setAttribute('style', 'display: contents');
+}
+//crea el chat
 function createElements(event) {
 
     //Limpiamos el div y obtenemos el id del receptor
@@ -16,7 +21,7 @@ function createElements(event) {
     //Creando elementos html
     contenedor = document.createElement('div');
     contenedor.setAttribute('class', 'derecha col-7');
-    contenedor.setAttribute('id', 'resultados');
+    contenedor.setAttribute('id', 'contenedorChat');
     titulo = document.createElement('h2');
     textoTit = document.createTextNode('Mensajes');
 
@@ -42,7 +47,7 @@ function createElements(event) {
 
     enviar.appendChild(textoBoton);
     contenedor.appendChild(enviar);
-
+   
     //Llamada a peticion de mensajes de forma regular
     setInterval(peticionMensajes, 5000);
 }
@@ -63,13 +68,13 @@ function gestionarRespuesta(event) {
 
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
-        contenedor = document.getElementById('msn');
-        contenedor.innerHTML = "";
+        contenedorMsn = document.getElementById('msn');
+        contenedorMsn.innerHTML = "";
 
         for (let i = 0; i < objeto.length; i++) {
 
             div = document.createElement('div');
-            contenedor.appendChild(div);
+            contenedorMsn.appendChild(div);
             mensaje = document.createTextNode(objeto[i].Mensaje);
             salto = document.createElement('br');
 
@@ -77,9 +82,9 @@ function gestionarRespuesta(event) {
             div.appendChild(mensaje);
 
             if (parseInt(objeto[i].Receptor) == idPasivo) {
-                div.setAttribute('class', 'recibidos')
+                div.setAttribute('class', 'enviados col-6')
             } else {
-                div.setAttribute('class', 'enviados')
+                div.setAttribute('class', 'recibidos col-6')
             }
         }
     }
@@ -199,8 +204,8 @@ function paintPreference(preference,preferenciaId) {
 
     tag = document.getElementById('tags');
     div.setAttribute('id', 'contenedorPref');
-
-    buscador.insertBefore(div, buscador.childNodes[22]);
+    nodoBuscador = document.getElementById('botonBusqueda')
+    buscador.insertBefore(div, nodoBuscador);
 
     divTag = document.createElement('span');
     texto = document.createTextNode(preference);
@@ -224,6 +229,11 @@ botonBusqueda = document.getElementById('botonBusqueda');
 botonBusqueda.addEventListener('click', recogidaDatos);
 
 function recogidaDatos() {
+   
+    msn = document.getElementById('msn');
+    if (msn !=null){
+         limpiarChat()
+    }
     gender = document.getElementById('genderSelect').value;
     rooMates = document.getElementById('roomMatesSelect').value;
     min = document.getElementById('min').value;
@@ -240,14 +250,23 @@ function recogidaDatos() {
     xhr.send('ciudad=' + ciudad + '&gender=' + gender + '&roomMates=' + rooMates + '&min='
         + min + '&max=' + max + '&preferencias=' + arrayPreferences);
 }
-
+var resultados = document.getElementById('resultados');
+var divResult;
 function gestionarRespuestaBuscadorUsers(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
-        var objeto_vuelta = event.target.responseText;
+    if (divResult){resultados.removeChild(divResult);}
+    divResult= document.createElement('div');
        
+        var objeto_vuelta = event.target.responseText;
         var objeto = JSON.parse(objeto_vuelta);
-        console.log(objeto);
-        createTable(objeto);
+        resultados.appendChild(divResult);
+        divResult.setAttribute('id','datos')
+       if (objeto[0].Id ==undefined){
+            createDiv(objeto);
+       }else {
+           createTable(objeto);
+       }
+        
     }
 }
 
@@ -259,10 +278,8 @@ function createTable(objeto){
     nombreEncabezado.innerHTML = 'Nombre';
     var idEncabezado = encabezado.insertCell(0);
     idEncabezado.innerHTML = 'Id'
-document.body.appendChild(tabla);
+divResult.appendChild(tabla);
 
-   
-    
     for (i=0;i<objeto.length;i++){
         var nombreUsuarios = objeto[i].Nombre;
         var idUsuarios=  objeto[i].Id;
@@ -278,6 +295,11 @@ document.body.appendChild(tabla);
         var celdaUsuarios = row.insertCell(1);
         celdaUsuarios.innerHTML = nombreUsuarios;
     }
+}
+function createDiv(objeto){
+    
+    texto = document.createTextNode(objeto);
+    divResult.appendChild(texto);
 }
 //slider
 $(function () {

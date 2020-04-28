@@ -192,13 +192,18 @@ class AppController extends AbstractController
         $arrayPreferencias = $request->get('preferencias');
 
       $resultadosBusqueda = $userRepository->filtradoUsuarios($ciudad, $arrayPreferencias, $gender,$roomMates,$min,$max);
-      foreach ($resultadosBusqueda as $clave => $results){
+      if (!$resultadosBusqueda){
+        $preferencias= "No se han encontrado resultados con esos parámetros";
+      }else {
+          foreach ($resultadosBusqueda as $clave => $results){
         $campo= [
         'Id'=> $results->getId(),
         'Nombre'=>$results->getNombre(),
         ];
         $preferencias[$clave] = $campo;
     }
+      }
+      
 
     return new JsonResponse($preferencias);
 

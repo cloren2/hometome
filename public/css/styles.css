@@ -49,13 +49,20 @@ textarea {
   width: 80%;
 }
 .enviados{
-  border:2px solid blue;
   background-color: rgb(127, 219, 255);
+  float:right;
+  clear:both;
+  margin:0.2em;
 }
 .recibidos{
-  border:2px solid blue;
   background-color: rgb(200, 255, 127);
+  float:left;
+  clear:both;
+  margin:0.2em;
 }
 .tablaUsuarios{
-  border:2px;
+  border-collapse: collapse;
+}
+table, th, td {
+  border: 1px solid black;
 }
