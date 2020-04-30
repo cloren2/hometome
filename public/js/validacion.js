@@ -21,15 +21,15 @@ function validacion(event) {
 function erroresUser(userError){
 var div =document.getElementById('errorDiv'); 
     if (div == null){
-    parentNode = document.getElementById('formRegister')
-     div= document.createElement('div');
-    div.setAttribute('class', 'error');
-    div.setAttribute('id', 'errorDiv');
+        parentNode = document.getElementById('formRegister')
+        div= document.createElement('div');
+        div.setAttribute('class', 'error');
+        div.setAttribute('id', 'errorDiv');
         parentNode.appendChild(div)
     } else {div = document.getElementById('errorDiv');div.innerHTML=""}
-     event.preventDefault();
-     span = document.createElement('div')
-     texto =document.createTextNode(userError);
-     div.appendChild(span);
-     span.appendChild(texto);
-}
+        event.preventDefault();
+        span = document.createElement('div')
+        texto =document.createTextNode(userError);
+        div.appendChild(span);
+        span.appendChild(texto);
+    }
