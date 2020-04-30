@@ -184,6 +184,7 @@ class AppController extends AbstractController
      */
     public function searchUsers(Request $request, UserRepository $userRepository)
     {
+        $idUserActivo = $this->getUser()->getId();
         $ciudad = $request->get('ciudad');
         $gender = $request->get('gender');
         $roomMates = $request->get('roomMates');
@@ -191,7 +192,7 @@ class AppController extends AbstractController
         $max = $request->get('max');
         $arrayPreferencias = $request->get('preferencias');
 
-      $resultadosBusqueda = $userRepository->filtradoUsuarios($ciudad, $arrayPreferencias, $gender,$roomMates,$min,$max);
+      $resultadosBusqueda = $userRepository->filtradoUsuarios($ciudad, $arrayPreferencias, $gender,$roomMates,$min,$max,$idUserActivo);
       if (!$resultadosBusqueda){
         $preferencias= "No se han encontrado resultados con esos parámetros";
       }else {

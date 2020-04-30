@@ -66,3 +66,6 @@ textarea {
 table, th, td {
   border: 1px solid black;
 }
+.error{
+  color: red;
+}

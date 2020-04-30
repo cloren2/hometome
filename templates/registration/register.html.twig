@@ -3,7 +3,10 @@
 {% block title %}Registro de usuario{% endblock %}
 
 {% block body %}
+
     <h1>Registro de usuario</h1>
+    <div id="formRegister">
+  
 {{ form_start(registrationForm) }}
     {{ form_widget(registrationForm) }}
       <p>
@@ -12,7 +15,9 @@
 </p>
  
 <div id="slider-range"></div>
-        <button class="btn">Registro</button>
+        <button class="btn" id="botonRegistro">Registro</button>
         <a href="/">Volver</a>
     {{ form_end(registrationForm) }}
+ </div>
+    <script type="text/javascript" src="js/validacion.js"></script>
 {% endblock %}

@@ -54,8 +54,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     */
 
     
-    public function filtradoUsuarios($ciudad,$preferences, $gender,$roomMates,$min,$max)
+    public function filtradoUsuarios($ciudad,$preferences, $gender,$roomMates,$min,$max,$idUserActivo)
     {
+        $admin = $this->createQueryBuilder('admin')
+        ->andWhere('admin.roles= :roles')
+        ->setParameter('roles', '["ROLE_ADMIN"]')
+        ->getQuery()
+        ->getResult();
         if($gender=='N'){
             return $this->createQueryBuilder('u')
             ->join('u.preferencias', 'o')
@@ -63,10 +68,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->where('o.id = :preferences')
             ->WHERE (
             'o.id IN (:preferences)')
+            ->andWHERE (
+                'u.id NOT IN (:admin)')
+            ->andWHERE('u.id != :useractivo')
             ->andWHERE ('u.numRoomMates = :roomMates')
             ->andWHERE ('u.ciudad= :ciudad')
             ->andWHERE ('u.precioMin between :min and :max OR u.precioMax between :min and :max')
+            
             ->setParameter('ciudad', $ciudad)
+            ->setParameter('useractivo', $idUserActivo)
+            ->setParameter('admin',$admin)
             ->setParameter('preferences',$preferences)
             ->setParameter('roomMates', $roomMates)
             ->setParameter('min', $min)
@@ -81,11 +92,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->where('o.id = :preferences')
             ->WHERE (
             'o.id IN (:preferences)')
+            ->andWHERE (
+                'u.id NOT IN (:admin)')
+            ->andWHERE('u.id != :useractivo')
             ->andWHERE ('u.numRoomMates = :roomMates')
             ->andWHERE ('u.ciudad= :ciudad')
             ->andWHERE ('u.precioMin between :min and :max OR u.precioMax between :min and :max')
             ->andWHERE ('u.genero = :gender')
             ->setParameter('ciudad', $ciudad)
+            ->setParameter('useractivo', $idUserActivo)
+            ->setParameter('admin',$admin)
             ->setParameter('preferences',$preferences)
             ->setParameter('roomMates', $roomMates)
             ->setParameter('gender', $gender)

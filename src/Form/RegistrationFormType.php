@@ -27,7 +27,7 @@ class RegistrationFormType extends AbstractType
             ->add('Apellidos')
             ->add('foto', FileType::class,[
                 'label'=> "Imagen:",
-                'attr'=> ['class'=> 'form-control'],
+                'attr'=> ['class'=> 'fileImg'],
                 'data_class' => null,
                 'mapped'=>false,
                 'required' =>false
@@ -35,7 +35,7 @@ class RegistrationFormType extends AbstractType
             ->add('fechaNac',DateType::class, array(
                 'widget' => 'choice',
                 'years' => range(date('Y'), date('Y')-80),
-        
+                'label' => 'Fecha de nacimiento'
               ))
             ->add('ciudad', EntityType::class, [
                 'class' => Ciudad::class,
@@ -54,17 +54,15 @@ class RegistrationFormType extends AbstractType
                     '1' =>'1',
                     '2'=>'2',
                     '3 o más'=>'3+'
-                )
+                ),
+                'label' => 'Número de compañeros/as de piso'
             ))
-            ->add('precioMin', RangeType::class, [
-                'attr' => [
-                   
-                   "data-slider-min" => "0",
-                   "data-slider-max" => "1000",
-                ]
+            ->add('precioMin' , null, [
+                'label' => 'Precio mínimo'  
             ])
-           
-            ->add('precioMax')
+            ->add('precioMax' , null, [
+                'label' => 'Precio máximo'
+            ])
             ->add('preferencias', EntityType::class, [
                 'class' => Preferencias::class,
                 'choice_label' => 'nombre',
@@ -75,14 +73,15 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => 'Contraseña',
                 'mapped' => false,
+                'required'=>false,
+                'attr'=> array('class'=>'pass'),
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Introduce una contraseña',
-                    ]),
+                   
                     new Length([
                         'min' => 4,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'La contraseña debe inlcuir al menos 4 caracteres',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
