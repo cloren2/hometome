@@ -1,2 +1,9 @@
-<h1> hola</h1>
-{{ exception.traceAsString }}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="error">Error 404</h1>
+
+    <p>
+       No se ha encontrado la página solicitada
+    </p>
+{% endblock %}
