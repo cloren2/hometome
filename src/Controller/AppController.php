@@ -209,6 +209,26 @@ class AppController extends AbstractController
     return new JsonResponse($preferencias);
 
     }
+        /**
+     * @Route("/home/messageConversation", name="searchConversations", options={"expose"=true})
+     */
+    public function searchConversation(Request $request, MensajesRepository $mensajeRepository)
+    {
+        $idUserActivo = $this->getUser();
+        $enviados = $mensajeRepository->chatConversation($idUserActivo->getId());
+       
+    /*     foreach ($enviados as $clave => $results){
+            $campo= [
+            'Id'=> $results->getId(),
+            'Mensaje'=>$results->getMessage(),
+            'Emisor'=>$results->getSenderName()->getId(),
+            'Receptor'=>$results->getRecieverName(),
+            'Fecha'=>$results->getDate(),
+            ];
+            $enviados[$clave] = $campo;
+        }*/
+        return new JsonResponse( $enviados);
+    }
     /**
      * @Route("/home/message", name="sendMessage", options={"expose"=true})
      */

@@ -268,7 +268,6 @@ function messagesResponse(event) {
 
 //Solicitud asincrona para enviar un nuevo mensaje
 function sendMessageRequest(event) {
-
     idPasivo = event.target.id;
     mensaje = document.getElementById('mensaje').value;
     ruta = Routing.generate('sendMessage');
@@ -455,4 +454,17 @@ function erroresUser(userError) {
     texto = document.createTextNode(userError);
     div.appendChild(span);
     span.appendChild(texto);
+}
+if (viewMessagesButton = document.getElementById('buttonMessages')) {
+    viewMessagesButton.addEventListener('click', userConversationsRequest);
+}
+function userConversationsRequest(params) {
+
+    ruta = Routing.generate('searchConversations');
+
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', searchUserResponse);
+    xhr.open('POST', ruta);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(null);
 }
