@@ -1,5 +1,37 @@
 /////////////////////////////////////////////////
 //
+//TFG: HomeToMe 2020
+//
+//I.E.S Clara del Rey
+//Autores: Cristina Lorenzo || Antonio Martin
+//Tutor: Amadeo Mora
+//
+//Descripcion: Hoja de funciones de JavaScript que permite el uso de la aplicacion
+//
+/////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////
+//
+//Metodos globales
+//
+/////////////////////////////////////////////////
+
+//Limpieza del div resultados y el de chat
+function limpiarDiv() {
+
+    if (divBuscador = document.getElementById('provisional')) {
+        document.body.removeChild(divBuscador);
+    }
+    if (msn = document.getElementById('msn')) {
+        divChat = document.getElementById('contenedorChat');
+        document.body.removeChild(divChat);
+    }
+}
+
+
+/////////////////////////////////////////////////
+//
 //Buscador de preferencias asincrona.
 //
 //Este modulo consta de las llamadas asincronas al servidor, ademas de
@@ -19,12 +51,12 @@ if (search = document.getElementById('tags')) {
     search.addEventListener('keyup', searchPreferenceRequest);
 }
 
-//Peticion de preferencias al servidor que de produce
+//Peticion de preferencias al servidor que se produce
 //cuando el usuario escribe sobre el input 'tags'
 function searchPreferenceRequest() {
 
     valor = document.getElementById('tags').value;
-    ruta = Routing.generate('search'); 
+    ruta = Routing.generate('search');
 
     if (valor.length > 0) {
         xhr = new XMLHttpRequest();
@@ -36,7 +68,7 @@ function searchPreferenceRequest() {
 }
 
 //Respuesta con las preferencias encontradas
-//return autocompletar (function)
+//@return autocompletar (function)
 function searchPreferenceResponse(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
@@ -59,7 +91,7 @@ function searchPreferenceResponse(event) {
     }
 }
 
-// autocompletar
+//Funcion de jquery que implementa un imput de texto con autocompletar
 function autocompletar(nombres) {
     $("#tags").autocomplete({
         source: nombres,
@@ -75,23 +107,26 @@ function autocompletar(nombres) {
     });
 }
 
-//add Preferences list
+//Metodo para la clase Array que nos permite identificar elementos duplicados
 Array.prototype.unique = function (a) {
     return function () { return this.filter(a) }
 }(function (a, b, c) {
     return c.indexOf(a, b + 1) < 0
 });
 
+//Añadir al array de preferencias una nueva
 function addPreferences(preferenciaId) {
     arrayPref.push(preferenciaId);
     arrayPref = arrayPref.unique();
 }
 
+//Eliminar del arry de preferencias una de ellas
 function removePreferences(event) {
 
     remove = parseInt(event.target.value);
     var indice = arrayPref.indexOf(remove);
 
+    //Si no hay elementos entonces se vacia el array
     if (indice == 0) {
         arrayPref = [];
     } else {
@@ -99,9 +134,9 @@ function removePreferences(event) {
     }
     nodoBorrar = document.getElementById(remove);
     nodoBorrar.remove();
-
 }
 
+//Funcion para pintar la preferencia en el template
 function paintPreference(preference, preferenciaId) {
 
     buscador = document.getElementById('buscador');
@@ -143,30 +178,15 @@ var idPasivo = "";
 var objetoPref = "";
 var intervalo;
 
-//Limpieza del div resultados y el de chat
-function limpiarDiv() {
-    if(divBuscador = document.getElementById('provisional')){
-        document.body.removeChild(divBuscador);
-        console.log('hola');
-    }
-    console.log(divBuscador);
-    
-    console.log('hola');
-}
-function limpiarChat() {
-    divChat = document.getElementById('contenedorChat');
-    document.body.removeChild(divChat);
-}
-
 //Crea los elementos necesarios para renderizar el chat
-function createChatElements(event) {
+function printChatElements(event) {
 
     //Limpiamos el div y obtenemos el id del receptor
     limpiarDiv();
     idPasivo = event.target.value;
-    buscador = document.getElementById('buscador');
 
-    //Creando elementos html
+    //Creando el contenedor del chat
+    buscador = document.getElementById('buscador');
     contenedor = document.createElement('div');
     contenedor.setAttribute('class', 'derecha col-7');
     contenedor.setAttribute('id', 'contenedorChat');
@@ -200,6 +220,31 @@ function createChatElements(event) {
     intervalo = setInterval(messagesRequest, 5000);
 }
 
+//Funcion para pintar los mensajes nuevos
+function printNewMessages(objeto) {
+
+    contenedorMsn = document.getElementById('msn');
+    contenedorMsn.innerHTML = "";
+
+    for (let i = 0; i < objeto.length; i++) {
+
+        divMensaje = document.createElement('div');
+        contenedorMsn.appendChild(divMensaje);
+        mensaje = document.createTextNode(objeto[i].Mensaje);
+        salto = document.createElement('br');
+
+        divMensaje.appendChild(salto);
+        divMensaje.appendChild(mensaje);
+
+        if (parseInt(objeto[i].Receptor) == idPasivo) {
+            divMensaje.setAttribute('class', 'enviados col-6')
+        } else {
+            divMensaje.setAttribute('class', 'recibidos col-6')
+        }
+    }
+}
+
+//Solicitud de todos los mensajes asincrona
 function messagesRequest() {
 
     ruta = Routing.generate('chat');
@@ -211,34 +256,17 @@ function messagesRequest() {
     xhr.send('value=' + idPasivo);
 }
 
+//Respuesta de todos los mensajes asincrona
 function messagesResponse(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
-
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
-        contenedorMsn = document.getElementById('msn');
-        contenedorMsn.innerHTML = "";
-
-        for (let i = 0; i < objeto.length; i++) {
-
-            divMensaje = document.createElement('div');
-            contenedorMsn.appendChild(divMensaje);
-            mensaje = document.createTextNode(objeto[i].Mensaje);
-            salto = document.createElement('br');
-
-            divMensaje.appendChild(salto);
-            divMensaje.appendChild(mensaje);
-
-            if (parseInt(objeto[i].Receptor) == idPasivo) {
-                divMensaje.setAttribute('class', 'enviados col-6')
-            } else {
-                divMensaje.setAttribute('class', 'recibidos col-6')
-            }
-        }
+        printNewMessages(objeto);
     }
 }
 
+//Solicitud asincrona para enviar un nuevo mensaje
 function sendMessageRequest(event) {
 
     idPasivo = event.target.id;
@@ -253,6 +281,7 @@ function sendMessageRequest(event) {
     xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
 }
 
+//Respuesta de envio de mensaje
 function sendMessageResponse(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
@@ -280,15 +309,10 @@ if (searhUserButton = document.getElementById('botonBusqueda')) {
     searhUserButton.addEventListener('click', searchUserRequest);
 }
 
+//Peticion asincrona de busqueda de usuario
 function searchUserRequest() {
 
-    msn = document.getElementById('msn');
-    if (msn != null) {
-        limpiarChat();
-        
-    }else{
-        limpiarDiv();
-    }
+    limpiarDiv();
 
     //Recogemos los datos que vamos a enviar al servidor
     gender = document.getElementById('genderSelect').value;
@@ -308,75 +332,75 @@ function searchUserRequest() {
         + min + '&max=' + max + '&preferencias=' + arrayPreferences);
 }
 
+//Respuesta de busqueda de usuarios
 function searchUserResponse(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
 
-        provisional = document.getElementById('provisional');
-
-        if (intervalo) { clearInterval(intervalo); }
-        if (provisional) { document.body.removeChild(provisional); }
-
-        buscador = document.getElementById('buscador');
-
-        resultados = document.createElement('div');
-        resultados.setAttribute('class', 'col-7 derecha');
-        resultados.setAttribute('id', 'resultados');
-        divResult = document.createElement('div');
-        document.body.insertBefore(resultados, buscador);
+        if (intervalo) {
+            clearInterval(intervalo);
+        }
 
         var objeto_vuelta = event.target.responseText;
         var objeto = JSON.parse(objeto_vuelta);
-        resultados.appendChild(divResult);
-        divResult.setAttribute('id', 'datos');
 
-        if (objeto[0].Id == undefined) {
-            createDiv(objeto);
-        } else {
-            createTable(objeto);
+        createUserList(objeto);
+    }
+}
+
+//Metodo que pinta la lista de usuarios encontrados o un texto en el caso de que no
+function createUserList(objeto) {
+
+    limpiarDiv();
+
+    buscador = document.getElementById('buscador');
+
+    resultados = document.createElement('div');
+    resultados.setAttribute('class', 'col-7 derecha');
+    resultados.setAttribute('id', 'provisional');
+    divResult = document.createElement('div');
+    document.body.insertBefore(resultados, buscador);
+    resultados.appendChild(divResult);
+    divResult.setAttribute('id', 'datos');
+
+    if (objeto[0].Id == undefined) {
+
+        texto = document.createTextNode(objeto);
+        divResult.appendChild(texto);
+    } else {
+
+        tabla = document.createElement('table');
+        tabla.setAttribute('class', 'tablaUsuarios');
+
+        var encabezado = tabla.insertRow(0);
+        var nombreEncabezado = encabezado.insertCell(0);
+        nombreEncabezado.innerHTML = 'Nombre';
+
+        var idEncabezado = encabezado.insertCell(0);
+        idEncabezado.innerHTML = 'Id'
+        divResult.appendChild(tabla);
+
+        for (i = 0; i < objeto.length; i++) {
+
+            var nombreUsuarios = objeto[i].Nombre;
+            var idUsuarios = objeto[i].Id;
+            var row = tabla.insertRow(1);
+            var celdaId = row.insertCell(0);
+            var botonChat = document.createElement('button');
+            var texto = document.createTextNode('Chat');
+
+            botonChat.appendChild(texto);
+            botonChat.setAttribute('class', 'chat');
+            botonChat.setAttribute('value', idUsuarios);
+            botonChat.addEventListener('click', printChatElements);
+            celdaId.appendChild(botonChat);
+            var celdaUsuarios = row.insertCell(1);
+            celdaUsuarios.innerHTML = nombreUsuarios;
         }
-
     }
 }
 
-function createTable(objeto) {
-
-    tabla = document.createElement('table');
-    tabla.setAttribute('class', 'tablaUsuarios');
-
-    var encabezado = tabla.insertRow(0);
-    var nombreEncabezado = encabezado.insertCell(0);
-    nombreEncabezado.innerHTML = 'Nombre';
-
-    var idEncabezado = encabezado.insertCell(0);
-    idEncabezado.innerHTML = 'Id'
-    divResult.appendChild(tabla);
-
-    for (i = 0; i < objeto.length; i++) {
-
-        var nombreUsuarios = objeto[i].Nombre;
-        var idUsuarios = objeto[i].Id;
-        var row = tabla.insertRow(1);
-        var celdaId = row.insertCell(0);
-        var botonChat = document.createElement('button');
-        var texto = document.createTextNode('Chat');
-
-        botonChat.appendChild(texto);
-        botonChat.setAttribute('class', 'chat');
-        botonChat.setAttribute('value', idUsuarios);
-        botonChat.addEventListener('click', createChatElements);
-        celdaId.appendChild(botonChat);
-        var celdaUsuarios = row.insertCell(1);
-        celdaUsuarios.innerHTML = nombreUsuarios;
-    }
-}
-function createDiv(objeto) {
-
-    texto = document.createTextNode(objeto);
-    divResult.appendChild(texto);
-}
-
-//slider
+//Slider de para el rango de precios
 $(function () {
     $("#slider-range").slider({
         range: true,
