@@ -178,6 +178,10 @@ var idPasivo = "";
 var objetoPref = "";
 var intervalo;
 
+if (viewMessagesButton = document.getElementById('buttonMessages')) {
+    viewMessagesButton.addEventListener('click', userConversationsRequest);
+}
+
 //Crea los elementos necesarios para renderizar el chat
 function printChatElements(event) {
 
@@ -290,6 +294,30 @@ function sendMessageResponse(event) {
     }
 }
 
+function userConversationsRequest(params) {
+
+    ruta = Routing.generate('searchConversations');
+
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', searchUserResponse);
+    xhr.open('POST', ruta);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(null);
+}
+
+function userConversationsResponse(event){
+
+    if (intervalo) {
+        clearInterval(intervalo);
+    }
+
+    if (event.target.readyState == 4 && event.target.status == 200){
+        var objeto_vuelta = event.target.responseText;
+        var objeto = JSON.parse(objeto_vuelta);
+
+        createUserList(objeto);
+    }
+}
 /////////////////////////////////////////////////
 //
 //Aplicacion de busqueda de usuarios
@@ -308,6 +336,7 @@ var divResult;
 if (searhUserButton = document.getElementById('botonBusqueda')) {
     searhUserButton.addEventListener('click', searchUserRequest);
 }
+
 
 //Peticion asincrona de busqueda de usuario
 function searchUserRequest() {
@@ -347,6 +376,8 @@ function searchUserResponse(event) {
         createUserList(objeto);
     }
 }
+
+
 
 //Metodo que pinta la lista de usuarios encontrados o un texto en el caso de que no
 function createUserList(objeto) {
