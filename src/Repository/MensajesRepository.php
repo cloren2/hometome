@@ -26,7 +26,7 @@ class MensajesRepository extends ServiceEntityRepository
       {
         return $this->createQueryBuilder('m')
         ->addselect('m.reciever_name')
-        ->distinct('m.reciever_name')
+        ->groupBy('m.reciever_name')
         ->where('m.sender_name=:val')
         ->setParameter('val', $sender)
         ->orderBy('m.id', 'ASC')
