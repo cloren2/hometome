@@ -26,7 +26,7 @@ class MensajesRepository extends ServiceEntityRepository
       {
         return $this->createQueryBuilder('m')
         ->addselect('m.reciever_name')
-        ->groupBy('m.reciever_name')
+        
         ->where('m.sender_name=:val')
         ->setParameter('val', $sender)
         ->orderBy('m.id', 'ASC')
@@ -50,7 +50,17 @@ class MensajesRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-
+    public function modifyStatus($idMensajes){
+       //forearch id
+        return $this->createQueryBuilder('m')
+        ->update('Mensajes')
+        ->set('status', 'false')
+        ->where('m.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getResult()
+        ;
+    }
     /*
     public function findOneBySomeField($value): ?Mensajes
     {
