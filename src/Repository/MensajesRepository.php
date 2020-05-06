@@ -25,9 +25,8 @@ class MensajesRepository extends ServiceEntityRepository
       public function chatConversation($sender)
       {
         return $this->createQueryBuilder('m')
-        ->addselect('m.reciever_name')
-        
         ->where('m.sender_name=:val')
+        ->groupBy('m.reciever_name')
         ->setParameter('val', $sender)
         ->orderBy('m.id', 'ASC')
         ->getQuery()

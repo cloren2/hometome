@@ -134,7 +134,6 @@ class AppController extends AbstractController
         return $this->redirectToRoute('perfil_show');
     }
 
-    
     /**
      * @Route("/home/chat", name="chat", options={"expose"=true})
      */
@@ -145,41 +144,40 @@ class AppController extends AbstractController
         $idUserActivo = $this->getUser();
 
         $enviados = $mensajeRepository->chatSender($idUserActivo->getId(), $idUserPasivo);
-       
-        foreach ($enviados as $clave => $results){
-            $campo= [
-            'Id'=> $results->getId(),
-            'Mensaje'=>$results->getMessage(),
-            'Emisor'=>$results->getSenderName()->getId(),
-            'Receptor'=>$results->getRecieverName(),
-            'Fecha'=>$results->getDate(),
+
+        foreach ($enviados as $clave => $results) {
+            $campo = [
+                'Id' => $results->getId(),
+                'Mensaje' => $results->getMessage(),
+                'Emisor' => $results->getSenderName()->getId(),
+                'Receptor' => $results->getRecieverName(),
+                'Fecha' => $results->getDate(),
             ];
             $enviados[$clave] = $campo;
         }
 
         return new JsonResponse($enviados);
-   
     }
-     /**
+    /**
      * @Route("/home/search", name="search", options={"expose"=true})
      */
     public function search(Request $request, PreferenciasRepository $preferenciasRepository)
     {
         $busqueda = $request->get('value');
-      $preferencias = $preferenciasRepository->buscadorPreferencias($busqueda);
-      foreach ($preferencias as $clave => $results){
-        $campo= [
-        'Id'=> $results->getId(),
-        'Nombre'=>$results->getNombre(),
-        
-        ];
-        $preferencias[$clave] = $campo;
+        $preferencias = $preferenciasRepository->buscadorPreferencias($busqueda);
+        foreach ($preferencias as $clave => $results) {
+            $campo = [
+                'Id' => $results->getId(),
+                'Nombre' => $results->getNombre(),
+
+            ];
+            $preferencias[$clave] = $campo;
+        }
+
+        return new JsonResponse($preferencias);
     }
 
-    return new JsonResponse($preferencias);
-
-}
-     /**
+    /**
      * @Route("/home/searchUsers", name="searchUsers", options={"expose"=true})
      */
     public function searchUsers(Request $request, UserRepository $userRepository)
@@ -192,36 +190,43 @@ class AppController extends AbstractController
         $max = $request->get('max');
         $arrayPreferencias = $request->get('preferencias');
 
-      $resultadosBusqueda = $userRepository->filtradoUsuarios($ciudad, $arrayPreferencias, $gender,$roomMates,$min,$max,$idUserActivo);
-      if (!$resultadosBusqueda){
-        $preferencias= "No se han encontrado resultados con esos parámetros";
-      }else {
-          foreach ($resultadosBusqueda as $clave => $results){
-        $campo= [
-        'Id'=> $results->getId(),
-        'Nombre'=>$results->getNombre(),
-        ];
-        $preferencias[$clave] = $campo;
-    }
-      }
-      
+        $resultadosBusqueda = $userRepository->filtradoUsuarios($ciudad, $arrayPreferencias, $gender, $roomMates, $min, $max, $idUserActivo);
+        if (!$resultadosBusqueda) {
+            $preferencias = "No se han encontrado resultados con esos parámetros";
+        } else {
+            foreach ($resultadosBusqueda as $clave => $results) {
+                $campo = [
+                    'Id' => $results->getId(),
+                    'Nombre' => $results->getNombre(),
+                ];
+                $preferencias[$clave] = $campo;
+            }
+        }
 
-    return new JsonResponse($preferencias);
 
+        return new JsonResponse($preferencias);
     }
-        /**
+    /**
      * @Route("/home/messageConversation", name="searchConversations", options={"expose"=true})
      */
     public function searchConversation(Request $request, MensajesRepository $mensajeRepository, UserRepository $userRepository)
     {
         $idUserActivo = $this->getUser();
         $enviados = $mensajeRepository->chatConversation($idUserActivo->getId());
-        var_dump($enviados);
-     /*   foreach ($enviados as $clave => $valor){
-            $userRepository->findBy($valor);
-        }*/
-        
-        return new JsonResponse($enviados->reciever_name);
+
+        foreach ($enviados as $clave => $objMensaje) {
+            $idChat['id'] = $objMensaje->getRecieverName();
+            $users[$clave] = $userRepository->findBy($idChat);
+        }
+
+        foreach ($users as $clave => $objUser) {
+            $campo = [
+                'Id' => $objUser[0]->getId(),
+                'Nombre' => $objUser[0]->getNombre(),
+            ];
+            $idUsuarios[$clave] = $campo;
+        }
+        return new JsonResponse($idUsuarios);
     }
     /**
      * @Route("/home/message", name="sendMessage", options={"expose"=true})
