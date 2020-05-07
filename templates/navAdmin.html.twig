@@ -1,10 +1,95 @@
-<!DOCTYPE html>
-    <hr/>
-        <a href="/">Home</a>
-        <a href="/user">Usuario</a>
-        <a href="/ciudad">Ciudad</a>
-        <a href="/preferencias">Preferencias</a>
-        <a href="/foto">Foto</a>
-        <a href="/registerAdmin">Crear nuevo admin</a>
-        <a href="/logout">Logout</a>
-    <hr/>
+{% extends 'base.html.twig' %}
+{% block title %}Registro de usuario{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+	   <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
+	   
+	{{parent()}}
+{% endblock %}
+{% block body %}
+ <!-- /#left-panel -->
+    <!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+        <!-- Header-->
+        <header id="header" class="header">
+            <div class="top-left">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/user/panel"><img src="{{asset('img/backend/HomeToMe_Color.png')}}" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+            <div class="top-right">
+                <div class="header-menu">
+                    <div class="header-left">
+                    
+
+                    <div class=" dropdown float-right">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{app.user.username}}
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="/logout"><i class="fa fa-power -off"></i>Logout</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        <!-- /#header -->
+
+ <!-- Left Panel -->
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="menu-title">ADMINISTRACIÓN</li><!-- /.menu-title -->
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Preferencias</a>
+                        <ul class="sub-menu children dropdown-menu">                            <li><i class="fa fa-puzzle-piece"></i><a href="/preferencias/new">Insertar</a></li>
+                            <li><i class="fa fa-id-badge"></i><a href="/preferencias">Mostrar todas</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Usuarios</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-table"></i><a href="/register">Insertar</a></li>
+                            <li><i class="fa fa-table"></i><a href="/user">Mostrar todos</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Fotos</a>
+                        <ul class="sub-menu children dropdown-menu">
+                             <li><i class="fa fa-table"></i><a href="tables-basic.html">Insertar</a></li>
+                            <li><i class="fa fa-table"></i><a href="tables-data.html">Mostrar todos</a></li>
+                        </ul>
+                    </li>
+                     <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Ciudad</a>
+                        <ul class="sub-menu children dropdown-menu">
+                             <li><i class="fa fa-table"></i><a href="/ciudad/new">Insertar</a></li>
+                            <li><i class="fa fa-table"></i><a href="/ciudad">Mostrar todas</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-title">Perfil</li><!-- /.menu-title -->
+
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Opciones</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="{{ path('user_edit', {'id': app.user.id}) }}">Editar mi perfil</a></li>
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Mostrar datos</a></li>
+                        </ul>
+                    </li>
+                   
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside>
+                  
+{% endblock%}
+ {% block javascripts %}
+	{{parent()}}
+	<script src="{{ asset ('js/bootstrap.min.js') }}"></script>
+	<script src="{{asset ('js/jquery.slimscroll.min.js')}}"></script>
+    
+	{% endblock%}

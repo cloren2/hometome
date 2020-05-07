@@ -6,9 +6,9 @@
 {% include 'navAdmin.html.twig' %}
     <h1>Editar usuario</h1>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    {{ include('admin/user/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
     <a href="{{ path('user_index') }}">Volver al listado</a>
 
-    {{ include('user/_delete_form.html.twig') }}
+    {{ include('admin/user/_delete_form.html.twig') }}
 {% endblock %}

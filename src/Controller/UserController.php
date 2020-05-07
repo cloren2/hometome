@@ -24,11 +24,20 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', [
+        return $this->render('admin/user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
-
+  /**
+     * @Route("/panel", name="user_index", methods={"GET"})
+     */
+    public function panelAdmin()
+    {
+        $user =$this->getUser();
+        return $this->render('admin/panelAdmin.html.twig', [
+            'userActive' => $user,
+        ]);
+    }
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})
      */
@@ -36,7 +45,7 @@ class UserController extends AbstractController
     {
         $preferencias = $user->getPreferencias();
         $fotos = $user->getFoto();
-        return $this->render('user/show.html.twig', [
+        return $this->render('admin/user/show.html.twig', [
             'user' => $user,
             'preferencias' => $preferencias,
             'fotos' => $fotos
@@ -63,7 +72,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('admin/user/edit.html.twig', [
             'user' => $user,
             'registrationForm' => $form->createView(),
         ]);

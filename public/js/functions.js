@@ -215,9 +215,9 @@ function printChatElements(event) {
 
     enviar.appendChild(textoBoton);
     contenedor.appendChild(enviar);
-
+messagesRequest()
     //Llamada a peticion de mensajes de forma regular
-    intervalo = setInterval(messagesRequest, 5000);
+   // intervalo = setInterval(, 5000);
 }
 
 //Funcion para pintar los mensajes nuevos
