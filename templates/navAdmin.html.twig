@@ -77,7 +77,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Opciones</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-fort-awesome"></i><a href="{{ path('user_edit', {'id': app.user.id}) }}">Editar mi perfil</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Mostrar datos</a></li>
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="{{ path('user_show', {'id': app.user.id}) }}">Mostrar datos</a></li>
                         </ul>
                     </li>
                    

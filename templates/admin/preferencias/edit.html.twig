@@ -8,9 +8,9 @@
         {% if error is defined %}
              {{error}}
         {% endif %}
-    {{ include('preferencias/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    {{ include('admin/preferencias/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
     <a href="{{ path('preferencias_index') }}">Volver al listado</a>
 
-    {{ include('preferencias/_delete_form.html.twig') }}
+    {{ include('admin/preferencias/_delete_form.html.twig') }}
 {% endblock %}
