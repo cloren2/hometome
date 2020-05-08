@@ -432,6 +432,7 @@ function createUserList(objeto) {
 }
 
 //Slider de para el rango de precios
+/*
 $(function () {
     $("#slider-range").slider({
         range: true,
@@ -445,7 +446,7 @@ $(function () {
     });
     $("#amount").val($("#slider-range").slider("values", 0) + "€ - " + $("#slider-range").slider("values", 1) + "€");
 });
-
+*/
 /////////////////////////////////////////////////
 //
 //Validacion del formulario de registro

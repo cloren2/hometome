@@ -15,10 +15,18 @@
 *{
     box-sizing: border-box;
 }
+body{
+  margin-left: 2% !important;
+  margin-right: 2% !important;
+}
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   [class*="col-"] {
     width: 100%;
+  }
+  body{
+    margin-left: 0% !important;
+    margin-right: 0%!important;
   }
 }
 
@@ -69,3 +77,30 @@ table, th, td {
 .error{
   color: red;
 }
+
+
+/****
+
+****/
+
+.md-l{
+  float: left;
+  clear: both;
+}
+
+.md-r{
+  float: right;
+}
+
+.md-tit{
+  color: #015989;
+}
+
+.but{
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
+  background-blend-mode: overlay, normal;
+  border-radius: 40px;
+}
+
+
+
