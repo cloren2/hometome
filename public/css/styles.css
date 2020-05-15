@@ -6,33 +6,36 @@
 **
 **************************/
 
+@media (max-width: 768px) {
+  #menuMedia{
+    display: none;
+  }
+
+
+}
+
+
 
 #logo{
-  width:25rem;
-  padding-top:1.8rem;
+  width:10rem;
+  padding-top: 0.5rem;
 }
-#boverride{
-  background-color: white !important;
-  font-size: 4rem;
-}
-#nav{
-  font-size: 4rem;
-}
+
 .md-topl{
   float: left;
-  padding-top: 4rem;
+  padding-top: 1rem;
 }
 .md-topr{
   float: right;
-  padding-top: 4em;
+  padding-top: 1em;
 }
 .md-tit{
   color: #015989;
   font-family: Work Sans;
   font-style: normal;
   font-weight: bold;
-  font-size: 5.5em;
-  line-height: 1.2em;
+  font-size: 2.2rem;
+  line-height: 2.5rem;
   
   
   /* or 97% */
@@ -43,8 +46,8 @@
   font-family: Work Sans;
   font-style: normal;
   font-weight: bold;
-  font-size: 4em;
-  line-height: 1em;
+  font-size: 1.8rem;
+  line-height: 2.3rem;
   
   
   /* or 97% */
@@ -54,106 +57,49 @@
   font-family: Raleway;
   font-style: normal;
   font-weight: normal;
-  font-size: 3rem;
+  font-size: 1rem;
   line-height: 1.4em;
   padding-top: 1em;
-  padding-bottom: 1em;
+  padding-bottom: 1rem;
   /* or 142% */
 
   color: #333333;
 }
 .md-md{
-  padding-top: 7rem;
+  padding-top: 2rem;
   clear: both;
 }
 .butBlu {
-	background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
-	background-blend-mode: overlay, normal;
-	border-radius: 2em;
-	padding: 0.7em;
-	font-family: Montserrat;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
+  background-blend-mode: overlay, normal;
+  border-radius: 2em;
+  padding: 0.7em;
+  font-family: Montserrat;
   font-style: normal;
   font-weight: bold;
-  font-size: 3rem;
-  line-height: 4rem;
+  font-size: 1rem;
+  line-height: 1rem;
 
 /* identical to box height, or 81% */
 
   color: #FFFFFF;
 }
 .butWhit {
-	
-	background-blend-mode: overlay, normal;
-	border-radius: 2em;
-	padding: 0.7em;
+    
+  background-blend-mode: overlay, normal;
+  border-radius: 2em;
+  padding: 0.7em;
   font-family: Montserrat;
   font-style: normal;
   font-weight: bold;
-  font-size: 3rem;
-  line-height: 4rem;
+  font-size: 1rem;
+  line-height: 1rem;
   
   /* identical to box height, or 81% */
   
   color: #015989;
 }
 
-
-
-
-/**************************
-**
-**Estilos provisionales de la app - HomeToMe 2020
-**
-**Antonio Martin - Cristina Lorenzo
-**
-**************************/
-
-#perfil{
-  border: 2px solid black;
-  float: left;
-  height: 15em;
-}
-#buscador{
-  border: 2px solid black;
-  float: left; 
-  clear: left;
-  height: 18em;
-}
-.derecha{
-  border: 2px solid black;
-  float: right;
-  height: 30em;
-}
-#msn{
-border: 1px solid black;
-height: 60%;
-}
-textarea {
-resize: none;
-height: 3.5em;
-width: 80%;
-}
-.enviados{
-background-color: rgb(127, 219, 255);
-float:right;
-clear:both;
-margin:0.2em;
-}
-.recibidos{
-background-color: rgb(200, 255, 127);
-float:left;
-clear:both;
-margin:0.2em;
-}
-.tablaUsuarios{
-border-collapse: collapse;
-}
-table, th, td {
-border: 1px solid black;
-}
-.error{
-color: red;
-}
 
 /* The Overlay (background) */
 .overlay {
@@ -210,4 +156,132 @@ color: red;
     top: 15px;
     right: 35px;
   }
+}
+
+/*
+
+CC 2.0 License Iatek LLC 2018
+Attribution required
+
+*/
+
+@media (min-width: 768px) {
+
+  /* show 3 items */
+  .carousel-inner .active,
+  .carousel-inner .active + .carousel-item,
+  .carousel-inner .active + .carousel-item + .carousel-item {
+      display: block;
+  }
+  
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
+      transition: none;
+      margin-right: initial;
+  }
+  
+  .carousel-inner .carousel-item-next,
+  .carousel-inner .carousel-item-prev {
+    position: relative;
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item {
+      position: absolute;
+      top: 0;
+      right: -33.3333%;
+      z-index: -1;
+      display: block;
+      visibility: visible;
+  }
+  
+  /* left or forward direction */
+  .active.carousel-item-left + .carousel-item-next.carousel-item-left,
+  .carousel-item-next.carousel-item-left + .carousel-item,
+  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
+  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item {
+      position: relative;
+      transform: translate3d(-100%, 0, 0);
+      visibility: visible;
+  }
+  
+  /* farthest right hidden item must be abso position for animations */
+  .carousel-inner .carousel-item-prev.carousel-item-right {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      display: block;
+      visibility: visible;
+  }
+  
+  /* right or prev direction */
+  .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
+  .carousel-item-prev.carousel-item-right + .carousel-item,
+  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
+  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item {
+      position: relative;
+      transform: translate3d(100%, 0, 0);
+      visibility: visible;
+      display: block;
+      visibility: visible;
+  }
+
+}
+
+
+/**************************
+**
+**Estilos provisionales de la app - HomeToMe 2020
+**
+**Antonio Martin - Cristina Lorenzo
+**
+**************************/
+
+#perfil{
+  border: 2px solid black;
+  float: left;
+  height: 15em;
+}
+#buscador{
+  border: 2px solid black;
+  float: left; 
+  clear: left;
+  height: 18em;
+}
+.derecha{
+  border: 2px solid black;
+  float: right;
+  height: 30em;
+}
+#msn{
+border: 1px solid black;
+height: 60%;
+}
+textarea {
+resize: none;
+height: 3.5em;
+width: 80%;
+}
+.enviados{
+background-color: rgb(127, 219, 255);
+float:right;
+clear:both;
+margin:0.2em;
+}
+.recibidos{
+background-color: rgb(200, 255, 127);
+float:left;
+clear:both;
+margin:0.2em;
+}
+.tablaUsuarios{
+border-collapse: collapse;
+}
+table, th, td {
+border: 1px solid black;
+}
+.error{
+color: red;
 }
