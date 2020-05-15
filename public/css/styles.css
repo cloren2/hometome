@@ -1,106 +1,213 @@
-/* For desktop: */
-.col-1 {width: 8.33%;}
-.col-2 {width: 16.66%;}
-.col-3 {width: 25%;}
-.col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;}
-.col-6 {width: 50%;}
-.col-7 {width: 58.33%;}
-.col-8 {width: 66.66%;}
-.col-9 {width: 75%;}
-.col-10 {width: 83.33%;}
-.col-11 {width: 91.66%;}
-.col-12 {width: 100%;}
-
-*{
-    box-sizing: border-box;
-}
-body{
-  margin-left: 2% !important;
-  margin-right: 2% !important;
-}
-@media only screen and (max-width: 768px) {
-  /* For mobile phones: */
-  [class*="col-"] {
-    width: 100%;
-  }
-  body{
-    margin-left: 0% !important;
-    margin-right: 0%!important;
-  }
-}
-
-#perfil{
-    border: 2px solid black;
-    float: left;
-    height: 15em;
-}
-#buscador{
-    border: 2px solid black;
-    float: left; 
-    clear: left;
-    height: 18em;
-}
-
-.derecha{
-    border: 2px solid black;
-    float: right;
-    height: 30em;
-}
-#msn{
-  border: 1px solid black;
-  height: 60%;
-}
-textarea {
-  resize: none;
-  height: 3.5em;
-  width: 80%;
-}
-.enviados{
-  background-color: rgb(127, 219, 255);
-  float:right;
-  clear:both;
-  margin:0.2em;
-}
-.recibidos{
-  background-color: rgb(200, 255, 127);
-  float:left;
-  clear:both;
-  margin:0.2em;
-}
-.tablaUsuarios{
-  border-collapse: collapse;
-}
-table, th, td {
-  border: 1px solid black;
-}
-.error{
-  color: red;
-}
+/**************************
+**
+**Estilos de la home - HomeToMe 2020
+**
+**Antonio Martin - Cristina Lorenzo
+**
+**************************/
 
 
-/****
-
-****/
-
-.md-l{
+#logo{
+  width:25rem;
+  padding-top:1.8rem;
+}
+#boverride{
+  background-color: white !important;
+  font-size: 4rem;
+}
+#nav{
+  font-size: 4rem;
+}
+.md-topl{
   float: left;
+  padding-top: 4rem;
+}
+.md-topr{
+  float: right;
+  padding-top: 4em;
+}
+.md-tit{
+  color: #015989;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 5.5em;
+  line-height: 1.2em;
+  
+  
+  /* or 97% */
+  letter-spacing: -0.08em;
+}
+.md-subtit{
+  color: #015989;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 4em;
+  line-height: 1em;
+  
+  
+  /* or 97% */
+  letter-spacing: -0.08em;
+}
+.md-p{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 3rem;
+  line-height: 1.4em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  /* or 142% */
+
+  color: #333333;
+}
+.md-md{
+  padding-top: 7rem;
   clear: both;
 }
+.butBlu {
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
+	background-blend-mode: overlay, normal;
+	border-radius: 2em;
+	padding: 0.7em;
+	font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 3rem;
+  line-height: 4rem;
 
-.md-r{
-  float: right;
+/* identical to box height, or 81% */
+
+  color: #FFFFFF;
 }
-
-.md-tit{
+.butWhit {
+	
+	background-blend-mode: overlay, normal;
+	border-radius: 2em;
+	padding: 0.7em;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 3rem;
+  line-height: 4rem;
+  
+  /* identical to box height, or 81% */
+  
   color: #015989;
 }
 
-.but{
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
-  background-blend-mode: overlay, normal;
-  border-radius: 40px;
+
+
+
+/**************************
+**
+**Estilos provisionales de la app - HomeToMe 2020
+**
+**Antonio Martin - Cristina Lorenzo
+**
+**************************/
+
+#perfil{
+  border: 2px solid black;
+  float: left;
+  height: 15em;
+}
+#buscador{
+  border: 2px solid black;
+  float: left; 
+  clear: left;
+  height: 18em;
+}
+.derecha{
+  border: 2px solid black;
+  float: right;
+  height: 30em;
+}
+#msn{
+border: 1px solid black;
+height: 60%;
+}
+textarea {
+resize: none;
+height: 3.5em;
+width: 80%;
+}
+.enviados{
+background-color: rgb(127, 219, 255);
+float:right;
+clear:both;
+margin:0.2em;
+}
+.recibidos{
+background-color: rgb(200, 255, 127);
+float:left;
+clear:both;
+margin:0.2em;
+}
+.tablaUsuarios{
+border-collapse: collapse;
+}
+table, th, td {
+border: 1px solid black;
+}
+.error{
+color: red;
 }
 
+/* The Overlay (background) */
+.overlay {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  background-color: rgb(255, 255, 255); /* Black fallback color */
+  background-color: rgb(255, 255, 255); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
 
+/* Position the content inside the overlay */
+.overlay-content {
+  position: relative;
+  top: 25%; /* 25% from the top */
+  width: 100%; /* 100% width */
+  text-align: center; /* Centered text/links */
+  margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
 
+/* The navigation links inside the overlay */
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block; /* Display block instead of inline */
+  transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+/* When you mouse over the navigation links, change their color */
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+
+/* Position the close button (top right corner) */
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+@media screen and (max-height: 450px) {
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
