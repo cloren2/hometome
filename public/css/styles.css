@@ -10,26 +10,22 @@
   #menuMedia{
     display: none;
   }
-
-
 }
-
-
 
 #logo{
   width:10rem;
   padding-top: 0.5rem;
 }
 
-.md-topl{
+.top-l{
   float: left;
-  padding-top: 1rem;
+  padding-top: 3rem;
 }
-.md-topr{
+.top-r{
   float: right;
   padding-top: 1em;
 }
-.md-tit{
+.top-tit{
   color: #015989;
   font-family: Work Sans;
   font-style: normal;
@@ -65,10 +61,30 @@
 
   color: #333333;
 }
-.md-md{
+.md-top{
   padding-top: 2rem;
   clear: both;
 }
+.md-carrousel{
+  padding-bottom: 3rem;
+}
+.md-md{
+  padding-top: 4rem;
+}
+
+.md-fill{
+  background-color: #eef8fb;
+  padding-bottom: 5rem;
+  }
+
+.md-butt{
+  padding-bottom: 2rem;
+}
+.butt-alerts{
+  padding-top: 5rem;
+  padding-bottom: 0.01rem;
+}
+
 .butBlu {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
   background-blend-mode: overlay, normal;
@@ -101,7 +117,9 @@
 }
 
 
-/* The Overlay (background) */
+
+
+/* Menu overlay  */
 .overlay {
   /* Height & width depends on how you want to reveal the overlay (see JS below) */   
   height: 100%;
@@ -115,7 +133,6 @@
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
 }
-
 /* Position the content inside the overlay */
 .overlay-content {
   position: relative;
@@ -124,7 +141,6 @@
   text-align: center; /* Centered text/links */
   margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
 }
-
 /* The navigation links inside the overlay */
 .overlay a {
   padding: 8px;
@@ -134,12 +150,10 @@
   display: block; /* Display block instead of inline */
   transition: 0.3s; /* Transition effects on hover (color) */
 }
-
 /* When you mouse over the navigation links, change their color */
 .overlay a:hover, .overlay a:focus {
   color: #f1f1f1;
 }
-
 /* Position the close button (top right corner) */
 .overlay .closebtn {
   position: absolute;
@@ -147,7 +161,6 @@
   right: 45px;
   font-size: 60px;
 }
-
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
 @media screen and (max-height: 450px) {
   .overlay a {font-size: 20px}
@@ -159,10 +172,9 @@
 }
 
 /*
-
 CC 2.0 License Iatek LLC 2018
 Attribution required
-
+Carrousel
 */
 
 @media (min-width: 768px) {
