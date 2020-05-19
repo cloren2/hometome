@@ -16,7 +16,9 @@
   width:10rem;
   padding-top: 0.5rem;
 }
-
+#round-input{
+  border-radius: 1rem;
+}
 .top-l{
   float: left;
   padding-top: 3rem;
@@ -49,6 +51,16 @@
   /* or 97% */
   letter-spacing: -0.08em;
 }
+.md-foot{
+  color: #015989;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.3rem;
+  line-height: 2.3rem;
+  
+  
+}
 .md-p{
   font-family: Raleway;
   font-style: normal;
@@ -69,14 +81,12 @@
   padding-bottom: 3rem;
 }
 .md-md{
-  padding-top: 4rem;
+  padding-top: 3.5rem;
 }
-
 .md-fill{
   background-color: #eef8fb;
-  padding-bottom: 5rem;
+  padding-bottom: 4rem;
   }
-
 .md-butt{
   padding-bottom: 2rem;
 }
@@ -84,7 +94,6 @@
   padding-top: 5rem;
   padding-bottom: 0.01rem;
 }
-
 .butBlu {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
   background-blend-mode: overlay, normal;
