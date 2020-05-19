@@ -218,14 +218,16 @@ class AppController extends AbstractController
             $idChat['id'] = $objMensaje->getRecieverName();
             $users[$clave] = $userRepository->findBy($idChat);
         }
-
-        foreach ($users as $clave => $objUser) {
+       if(isset($users)){
+               foreach ($users as $clave => $objUser) {
             $campo = [
                 'Id' => $objUser[0]->getId(),
                 'Nombre' => $objUser[0]->getNombre(),
             ];
             $idUsuarios[$clave] = $campo;
         }
+        } else {$idUsuarios="No tienes mensajes";}
+     
         return new JsonResponse($idUsuarios);
     }
     /**
