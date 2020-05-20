@@ -20,7 +20,7 @@ class CiudadController extends AbstractController
      */
     public function index(CiudadRepository $ciudadRepository): Response
     {
-        return $this->render('ciudad/index.html.twig', [
+        return $this->render('admin/ciudad/index.html.twig', [
             'ciudads' => $ciudadRepository->findAll(),
         ]);
     }
@@ -44,7 +44,7 @@ class CiudadController extends AbstractController
                 $entityManager->flush();
             } catch (\Doctrine\DBAL\DBALException $e) {
                 $errorMessage = "Ciudad duplicada";
-                return $this->render('ciudad/new.html.twig', [
+                return $this->render('admin/ciudad/new.html.twig', [
                     'error' => $errorMessage,
                     'form' => $form->createView()
                 ]);
@@ -53,7 +53,7 @@ class CiudadController extends AbstractController
             return $this->redirectToRoute('ciudad_index');
         }
 
-        return $this->render('ciudad/new.html.twig', [
+        return $this->render('admin/ciudad/new.html.twig', [
             'ciudad' => $ciudad,
             'form' => $form->createView(),
         ]);
@@ -64,7 +64,7 @@ class CiudadController extends AbstractController
      */
     public function show(Ciudad $ciudad): Response
     {
-        return $this->render('ciudad/show.html.twig', [
+        return $this->render('admin/ciudad/show.html.twig', [
             'ciudad' => $ciudad,
         ]);
     }
@@ -84,7 +84,7 @@ class CiudadController extends AbstractController
                 $this->getDoctrine()->getManager()->flush();
             } catch (\Doctrine\DBAL\DBALException $e) {
                 $errorMessage = "Ciudad duplicada";
-                return $this->render('ciudad/edit.html.twig', [
+                return $this->render('admin/ciudad/edit.html.twig', [
                     'error' => $errorMessage,
                     'ciudad' => $ciudad,
                     'form' => $form->createView()
@@ -93,7 +93,7 @@ class CiudadController extends AbstractController
             return $this->redirectToRoute('ciudad_index');
         }
 
-        return $this->render('ciudad/edit.html.twig', [
+        return $this->render('admin/ciudad/edit.html.twig', [
             'ciudad' => $ciudad,
             'form' => $form->createView(),
         ]);

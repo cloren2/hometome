@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Editar preferencias{% endblock %}
+{% block title %}Nueva preferencia{% endblock %}
 
 {% block body %}
 {% include 'navAdmin.html.twig' %}
-    <h1>Editar preferencias</h1>
+<div id="layoutSidenav_content">
+    <h1>Nueva preferencia</h1>
         {% if error is defined %}
              {{error}}
         {% endif %}
-    {{ include('preferencias/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    {{ include('admin/preferencias/_form.html.twig') }}
 
     <a href="{{ path('preferencias_index') }}">Volver al listado</a>
-
-    {{ include('preferencias/_delete_form.html.twig') }}
+</div>
 {% endblock %}

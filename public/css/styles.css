@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**************************
 **
 **Estilos de la home - HomeToMe 2020
@@ -290,6 +291,16 @@ Carrousel
 **
 **************************/
 
+=======
+
+body{
+  background-color: #fbfbfe;
+}
+.navProp img{
+  padding-left:1rem;
+  padding-top: .5rem;
+}
+>>>>>>> origin/cristina
 #perfil{
   border: 2px solid black;
   float: left;
@@ -334,5 +345,33 @@ table, th, td {
 border: 1px solid black;
 }
 .error{
-color: red;
+  color: red;
+}
+
+.navbar-brand img{
+  max-width: 10rem;
+}
+.box {
+  flex-basis: 30rem;     
+  justify-content: center;
+  align-items: center;
+
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 12px 18px 2px rgba(34,0,51,.04),0 6px 22px 4px rgba(7,48,114,.12),0 6px 10px -4px rgba(14,13,26,.12);
+    margin: 0 auto;
+    margin-top: 1.5rem;
+    padding: 70px 40px 40px;
+
+}
+.box input{
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+.box h1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }

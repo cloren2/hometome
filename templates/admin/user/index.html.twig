@@ -4,6 +4,7 @@
 
 {% block body %}
 {% include 'navAdmin.html.twig' %}
+<div id="layoutSidenav_content">
     <h1>Usuarios</h1>
 
     <table class="table">
@@ -37,4 +38,5 @@
     </table>
 
     <a href="{{ path('app_register') }}">Crear nuevo</a>
+</div>
 {% endblock %}

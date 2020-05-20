@@ -20,7 +20,7 @@ class PreferenciasController extends AbstractController
      */
     public function index(PreferenciasRepository $preferenciasRepository): Response
     {
-        return $this->render('preferencias/index.html.twig', [
+        return $this->render('admin/preferencias/index.html.twig', [
             'preferencias' => $preferenciasRepository->findAll(),
         ]);
     }
@@ -52,7 +52,7 @@ class PreferenciasController extends AbstractController
             return $this->redirectToRoute('preferencias_index');
         }
 
-        return $this->render('preferencias/new.html.twig', [
+        return $this->render('admin/preferencias/new.html.twig', [
             'preferencia' => $preferencia,
             'form' => $form->createView(),
         ]);
@@ -63,7 +63,7 @@ class PreferenciasController extends AbstractController
      */
     public function show(Preferencias $preferencia): Response
     {
-        return $this->render('preferencias/show.html.twig', [
+        return $this->render('admin/preferencias/show.html.twig', [
             'preferencia' => $preferencia,
         ]);
     }
@@ -91,7 +91,7 @@ class PreferenciasController extends AbstractController
             return $this->redirectToRoute('preferencias_index');
         }
 
-        return $this->render('preferencias/edit.html.twig', [
+        return $this->render('admin/preferencias/edit.html.twig', [
             'preferencia' => $preferencia,
             'form' => $form->createView(),
         ]);

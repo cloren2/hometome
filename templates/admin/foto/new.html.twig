@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Foto{% endblock %}
+
+{% block body %}
+{% include 'navAdmin.html.twig' %}
+<div id="layoutSidenav_content">
+    <h1>Insertar foto nueva</h1>
+
+    {{ include('admin/foto/_form.html.twig') }}
+
+    <a href="{{ path('foto_index') }}">Volver</a>
+</div>
+{% endblock %}

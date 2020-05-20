@@ -53,7 +53,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
     */
 
-    
     public function filtradoUsuarios($ciudad,$preferences, $gender,$roomMates,$min,$max,$idUserActivo)
     {
         $admin = $this->createQueryBuilder('admin')

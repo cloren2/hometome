@@ -1,10 +1,101 @@
-<!DOCTYPE html>
-    <hr/>
-        <a href="/">Home</a>
-        <a href="/user">Usuario</a>
-        <a href="/ciudad">Ciudad</a>
-        <a href="/preferencias">Preferencias</a>
-        <a href="/foto">Foto</a>
-        <a href="/registerAdmin">Crear nuevo admin</a>
-        <a href="/logout">Logout</a>
-    <hr/>
+ {% extends 'base.html.twig' %}
+{% block title %}Registro de usuario{% endblock %}
+{% block stylesheets %}
+ <link href="css/styles.css" rel="stylesheet" />
+       {{parent()}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="{{asset('css/stylesAdmin.css')}}">
+{% endblock %}
+{% block body %}      
+           <nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
+                               <a class="navbar-brand" href="/user/panel"><img src="{{asset('img/backend/HomeToMe_Color.png')}}" alt="Logo"></a>
+<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
+            ><!-- Navbar Search-->
+                <div class="input-group"></div>
+            
+         <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                           
+                            <div class="sb-sidenav-menu-heading">Administración</div>
+                            <a class="nav-link collapsed" href="#!" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Preferencias
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="/preferencias/new">Insertar nueva</a><a class="nav-link" href="/preferencias">Mostrar todas</a></nav>
+                            </div>
+                            
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Ciudad
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                         
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                  <a class="nav-link" href="/ciudad/new">Insertar Nueva</a>
+                                  <a class="nav-link" href="/ciudad">Mostrar Todas</a>
+                            </div>
+                          
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Usuarios
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                         
+                            <div class="collapse" id="collapseUser" aria-labelledby="headingFour" data-parent="#sidenavAccordion">
+                                  <a class="nav-link" href="/register">Insertar Nuevo</a>
+                                  <a class="nav-link" href="/user">Mostrar Todos</a>
+                            </div>
+                          
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFoto" aria-expanded="false" aria-controls="collapseFoto"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Foto
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                         
+                            <div class="collapse" id="collapseFoto" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                  <a class="nav-link" href="/foto/new">Insertar Nueva</a>
+                                  <a class="nav-link" href="/foto">Mostrar Todas</a>
+                            </div>
+
+                            <div class="sb-sidenav-menu-heading">Opciones</div>
+                            <a class="nav-link" href="{{ path('user_show', {'id': app.user.id}) }}"" 
+                                ><div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Ver perfil</a
+                            ><a class="nav-link" href="{{ path('user_edit', {'id': app.user.id}) }}"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Editar perfil</a
+                            >
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logueado como:</div>
+                        {{app.user.username}}
+                    </div>
+                </nav>
+        
+            
+            </div>
+     
+      
+       {% block javascripts %}
+	{{parent()}}
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	{% endblock%}  
+{% endblock %}  

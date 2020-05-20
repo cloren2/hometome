@@ -20,7 +20,7 @@ class FotoController extends AbstractController
      */
     public function index(FotoRepository $fotoRepository): Response
     {
-        return $this->render('foto/index.html.twig', [
+        return $this->render('admin/foto/index.html.twig', [
             'fotos' => $fotoRepository->findAll(),
         ]);
     }
@@ -42,7 +42,7 @@ class FotoController extends AbstractController
             return $this->redirectToRoute('foto_index');
         }
 
-        return $this->render('foto/new.html.twig', [
+        return $this->render('admin/foto/new.html.twig', [
             'foto' => $foto,
             'form' => $form->createView(),
         ]);
@@ -53,7 +53,7 @@ class FotoController extends AbstractController
      */
     public function show(Foto $foto): Response
     {
-        return $this->render('foto/show.html.twig', [
+        return $this->render('admin/foto/show.html.twig', [
             'foto' => $foto,
         ]);
     }
@@ -72,7 +72,7 @@ class FotoController extends AbstractController
             return $this->redirectToRoute('foto_index');
         }
 
-        return $this->render('foto/edit.html.twig', [
+        return $this->render('admin/foto/edit.html.twig', [
             'foto' => $foto,
             'form' => $form->createView(),
         ]);

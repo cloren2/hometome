@@ -219,9 +219,9 @@ function printChatElements(event) {
 
     enviar.appendChild(textoBoton);
     contenedor.appendChild(enviar);
-
+messagesRequest()
     //Llamada a peticion de mensajes de forma regular
-    intervalo = setInterval(messagesRequest, 5000);
+   // intervalo = setInterval(, 5000);
 }
 
 //Funcion para pintar los mensajes nuevos
@@ -272,7 +272,6 @@ function messagesResponse(event) {
 
 //Solicitud asincrona para enviar un nuevo mensaje
 function sendMessageRequest(event) {
-
     idPasivo = event.target.id;
     mensaje = document.getElementById('mensaje').value;
     ruta = Routing.generate('sendMessage');
@@ -530,3 +529,38 @@ function openNav() {
     }
 });
 
+if (viewMessagesButton = document.getElementById('buttonMessages')) {
+    viewMessagesButton.addEventListener('click', userConversationsRequest);
+}
+function userConversationsRequest(params) {
+
+    ruta = Routing.generate('searchConversations');
+
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', searchUserResponse);
+    xhr.open('POST', ruta);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(null);
+}
+/*!
+    * Start Bootstrap - SB Admin v6.0.0 (https://startbootstrap.com/templates/sb-admin)
+    * Copyright 2013-2020 Start Bootstrap
+    * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-sb-admin/blob/master/LICENSE)
+    */
+   (function($) {
+    "use strict";
+
+    // Add active state to sidbar nav links
+    var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
+        $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function() {
+            if (this.href === path) {
+                $(this).addClass("active");
+            }
+        });
+
+    // Toggle the side navigation
+    $("#sidebarToggle").on("click", function(e) {
+        e.preventDefault();
+        $("body").toggleClass("sb-sidenav-toggled");
+    });
+})(jQuery);
