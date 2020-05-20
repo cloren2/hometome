@@ -6,26 +6,56 @@
 **
 **************************/
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   #menuMedia{
     display: none;
   }
 }
 
+@media screen and (min-width: 375px) {
+  .photo img{
+   width: 100%;
+ }
+}
+
+#navbar {
+  background-color: rgb(255, 255, 255);
+}
 #logo{
   width:10rem;
   padding-top: 0.5rem;
 }
 #round-input{
   border-radius: 1rem;
+  padding: 0.4rem;
+  padding-bottom: 0.7rem;
+  margin-bottom: 1rem;
+}
+#topfill{
+  padding-top: 6.5em;
+  background-color: #eef8fb;
+}
+#quote{
+  color: #1ea7f1;
+  font-family: Monsterrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 2.2rem;
+  line-height: 2.5rem;
+  
+  
+  /* or 97% */
+  letter-spacing: -0.08em;
+  width: 100%;
+  text-align: center;
 }
 .top-l{
   float: left;
-  padding-top: 3rem;
 }
 .top-r{
   float: right;
-  padding-top: 1em;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 .top-tit{
   color: #015989;
@@ -87,17 +117,17 @@
   background-color: #eef8fb;
   padding-bottom: 4rem;
   }
-.md-butt{
+.md-bott{
   padding-bottom: 2rem;
 }
-.butt-alerts{
+.bott-alerts{
   padding-top: 5rem;
   padding-bottom: 0.01rem;
 }
 .butBlu {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
   background-blend-mode: overlay, normal;
-  border-radius: 2em;
+  border-radius: 1.5em;
   padding: 0.7em;
   font-family: Montserrat;
   font-style: normal;
@@ -112,7 +142,7 @@
 .butWhit {
     
   background-blend-mode: overlay, normal;
-  border-radius: 2em;
+  border-radius: 1.5em;
   padding: 0.7em;
   font-family: Montserrat;
   font-style: normal;
@@ -134,7 +164,7 @@
   height: 100%;
   width: 0;
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 2; /* Sit on top */
   left: 0;
   top: 0;
   background-color: rgb(255, 255, 255); /* Black fallback color */
@@ -161,7 +191,7 @@
 }
 /* When you mouse over the navigation links, change their color */
 .overlay a:hover, .overlay a:focus {
-  color: #f1f1f1;
+  color: #015989;
 }
 /* Position the close button (top right corner) */
 .overlay .closebtn {

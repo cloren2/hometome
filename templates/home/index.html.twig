@@ -6,7 +6,7 @@
 
 <header>
 <!-- Nav -->
-<nav class="navbar navbar-expand-lg navbar-light" id="nav">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navbar">
   <a class="navbar-brand" href="#">
   <img src="img/home/HomeToMe_Color.png" alt="Logo" id="logo">
   </a>
@@ -44,7 +44,7 @@
       <a href="#">Home</a>
       <a href="#">Servicios</a>
       <a href="#">Ayuda</a>
-      <a href="#">Iniciiar sesión</a>
+      <a href="#">Iniciar sesión</a>
     </div>
   </div>
 </nav>
@@ -52,9 +52,10 @@
 
 <main>
 <!-- Topside -->
+<div id="topfill">
 <div class="container">
   <div class="row">
-    <div class="col-sm top-l ">
+    <div class="col-sm top-l">
       <p class="top-tit">Encuentra a tu compañero de piso ideal</p>
       <p class="md-p">La manera más rápida y fácil de buscar nueva casa, con tus compañeros más compatibles.</p>
       <div class="d-flex justify-content-center">
@@ -66,6 +67,7 @@
       <img src="img/home/men_Illustratrion.svg" class="w-75">
     </div>
   </div>
+</div>
 </div>
 
 <!-- Midside-top -->
@@ -116,7 +118,7 @@
     <div class="row">
       <div class="col-sm md-md">
         <p class="d-flex justify-content-center md-subtit">¿Qué perfil eres?</p>
-        <p class="md-p ">Selecciona que es lo que buscas y te ayudaremos a encontrarlo</p>
+        <p class="md-p" style="text-align: center;">Selecciona que es lo que buscas y te ayudaremos a encontrarlo</p>
         <div class="d-flex justify-content-center md-carrousel">
           <button type="button" class="butBlu">Iniciar sesión</button>
           <button type="button" class="butWhit">Registrarme</button>
@@ -140,44 +142,40 @@
   </div>
 </div>
 
-<!-- Midside-buttom -->
+<!-- Midside-bottom -->
 <div class="container">
   <div class="row">
-    <p class="col-sm md-md md-subtit">Inquilinos felices, Casas felices</p>
+    <p class="col-sm md-md md-subtit d-flex justify-content-center">Inquilinos felices, Casas felices</p>
   </div>
   <div class="row">
-    <p>"</p>
-    <p class="md-p">Quería irme a vivir fuera de mi ciudad y no tenía suficiente dinero 
+    <div class="col-xs" id="quote">”</div>
+    <p class="md-p col-sm" style="text-align: center;">Quería irme a vivir fuera de mi ciudad y no tenía suficiente dinero 
     como para vivir sola, tuve que buscar piso sin haber compartido casa 
     con desconocidos nunca antes y me daba miedo. Una amiga me hablo de Home To Me 
     y gracias a esta web conseguí encontrar unos compis geniales con mis gustos y 
     manías con la limpieza. Lo recomiendo totalemente.</p>
-    <p>"</p>
+    <p class="col-xs" id="quote">”</p>
   </div>
   
-  <div class="row md-butt">
-      <div class="col-sm">
-        <a href="#" title=""><img src="img/home/mark-customer.png" class="rounded-circle rounded mx-auto d-block"></a>
-      </div>
-      <div class="col-sm">
-          <a href="#" title=""><img src="img/home/ana-customer.png" class="rounded-circle rounded mx-auto d-block"></a>
-      </div>
-      <div class="col-sm">
-          <a href="#" title=""><img src="img/home/marta-customer.png" class="rounded-circle rounded mx-auto d-block"></a>
-      </div>    
+  <div class="row md-bott">
+      <div class="col-sm d-flex justify-content-center">
+        <a href="#" title="" class="photo"><img src="img/home/mark-customer.png" class="rounded-circle rounded mx-auto "></a>
+        <a href="#" title="" class="photo"><img src="img/home/ana-customer.png" class="rounded-circle rounded mx-auto"></a>
+        <a href="#" title="" class="photo"><img src="img/home/marta-customer.png" class="rounded-circle rounded mx-auto"></a>
+      </div>   
     </div>
   </div>
 </div>  
 
-<!-- Buttomside -->
+<!-- Bottomside -->
 <div class="md-fill">
   <div class="container">
     <div class="row">
         <div class="col-sm">
-          <img src="img/home/sofa.svg" class="butt-alerts w-75">
+          <img src="img/home/sofa.svg" class="bott-alerts w-75">
         </div>
         <div class="col-sm">
-          <div class="align-middle butt-alerts">
+          <div class="align-middle bott-alerts">
           <p class="md-subtit">Actívate las alertas</p>
           <p class="md-p">Recibe emails con anuncios nuevos y los que bajan de precio.</p>
           <input type="text" placeholder="    Escribe tu mail" id="round-input"></input>
