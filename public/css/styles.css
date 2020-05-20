@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**************************
 **
 **Estilos de la home - HomeToMe 2020
@@ -291,7 +290,6 @@ Carrousel
 **
 **************************/
 
-=======
 
 body{
   background-color: #fbfbfe;
@@ -300,7 +298,6 @@ body{
   padding-left:1rem;
   padding-top: .5rem;
 }
->>>>>>> origin/cristina
 #perfil{
   border: 2px solid black;
   float: left;
