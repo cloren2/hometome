@@ -4,6 +4,7 @@
 
 {% block body %}
 {% include 'navAdmin.html.twig' %}
+<div id="layoutSidenav_content">
     <h1>Editar preferencias</h1>
         {% if error is defined %}
              {{error}}
@@ -13,4 +14,5 @@
     <a href="{{ path('preferencias_index') }}">Volver al listado</a>
 
     {{ include('admin/preferencias/_delete_form.html.twig') }}
+</div>
 {% endblock %}

@@ -3,6 +3,8 @@
 {% block title %}Foto index{% endblock %}
 
 {% block body %}
+{% include 'navAdmin.html.twig' %}
+<div id="layoutSidenav_content">
     <h1>Foto index</h1>
 
     <table class="table">
@@ -32,4 +34,5 @@
     </table>
 
     <a href="{{ path('foto_new') }}">Create new</a>
+</div>
 {% endblock %}

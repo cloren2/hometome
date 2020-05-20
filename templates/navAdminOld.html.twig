@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+{% block title %}Registro de usuario{% endblock %}
+{% block stylesheets %}
+	   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{asset('css/stylesAdmin.css')}}">
+	{{parent()}}
+{% endblock %}
+{% block body %}
+ 
+        <!-- Header-->
+        <header id="header" class="header">
+            <div class="top-left">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/user/panel"><img src="{{asset('img/backend/HomeToMe_Color.png')}}" alt="Logo"></a>
+                    <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
+                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+            <div class="top-right">
+                <div class="header-menu">
+                    <div class="header-left">
+                    <div class=" dropdown float-right">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{app.user.username}}
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="/logout"><i class="fa fa-power -off"></i>Logout</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        <!-- /#header -->
+
+ <!-- Left Panel -->
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="menu-title">ADMINISTRACIÓN</li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Preferencias</a>
+                        <ul class="sub-menu children dropdown-menu">                            <li><i class="fa fa-puzzle-piece"></i><a href="/preferencias/new">Insertar</a></li>
+                            <li><i class="fa fa-table"></i><a href="/preferencias">Mostrar todas</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Usuarios</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-puzzle-piece"></i><a href="/register">Insertar</a></li>
+                            <li><i class="fa fa-table"></i><a href="/user">Mostrar todos</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Fotos</a>
+                        <ul class="sub-menu children dropdown-menu">
+                             <li><i class="fa fa-puzzle-piece"></i><a href="/foto/new">Insertar</a></li>
+                            <li><i class="fa fa-table"></i><a href="/foto">Mostrar todas</a></li>
+                        </ul>
+                    </li>
+                     <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Ciudad</a>
+                        <ul class="sub-menu children dropdown-menu">
+                             <li><i class="fa fa-table"></i><a href="/ciudad/new">Insertar</a></li>
+                            <li><i class="fa fa-puzzle-piece"></i><a href="/ciudad">Mostrar todas</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="menu-title">Perfil</li><!-- /.menu-title -->
+
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Opciones</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="{{ path('user_edit', {'id': app.user.id}) }}">Editar mi perfil</a></li>
+                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="{{ path('user_show', {'id': app.user.id}) }}">Mostrar datos</a></li>
+                        </ul>
+                    </li>
+                   
+                </ul>
+            </div>
+        </nav>
+    </aside>
+{% endblock%}
+ {% block javascripts %}
+	{{parent()}}
+    	<script src="{{asset ('js/main.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	{% endblock%}
