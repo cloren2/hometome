@@ -19,14 +19,8 @@
 
 //Limpieza del div resultados y el de chat
 function limpiarDiv() {
-
-    if (divBuscador = document.getElementById('provisional')) {
-        document.body.removeChild(divBuscador);
-    }
-    if (msn = document.getElementById('msn')) {
-        divChat = document.getElementById('contenedorChat');
-        document.body.removeChild(divChat);
-    }
+    divResult = document.getElementById('results');
+    divResult.removeChild(divResult.lastChild.previousSibling);
 }
 
 
@@ -139,7 +133,7 @@ function removePreferences(event) {
 //Funcion para pintar la preferencia en el template
 function paintPreference(preference, preferenciaId) {
 
-    buscador = document.getElementById('buscador');
+    buscador = document.getElementById('search');
 
     tag = document.getElementById('tags');
     divContTag.setAttribute('id', 'contenedorPref');
@@ -190,7 +184,7 @@ function printChatElements(event) {
     idPasivo = event.target.value;
 
     //Creando el contenedor del chat
-    buscador = document.getElementById('buscador');
+    buscador = document.getElementById('search');
     contenedor = document.createElement('div');
     contenedor.setAttribute('class', 'derecha col-7');
     contenedor.setAttribute('id', 'contenedorChat');
@@ -219,7 +213,7 @@ function printChatElements(event) {
 
     enviar.appendChild(textoBoton);
     contenedor.appendChild(enviar);
-messagesRequest()
+    messagesRequest()
     //Llamada a peticion de mensajes de forma regular
    // intervalo = setInterval(, 5000);
 }
@@ -383,20 +377,14 @@ function createUserList(objeto) {
 
     limpiarDiv();
 
-    buscador = document.getElementById('buscador');
-
-    resultados = document.createElement('div');
-    resultados.setAttribute('class', 'col-7 derecha');
-    resultados.setAttribute('id', 'provisional');
-    divResult = document.createElement('div');
-    document.body.insertBefore(resultados, buscador);
-    resultados.appendChild(divResult);
-    divResult.setAttribute('id', 'datos');
+    divResult = document.getElementById('results');
 
     if (objeto[0].Id == undefined) {
 
         texto = document.createTextNode(objeto);
-        divResult.appendChild(texto);
+        p = document.createElement('p');
+        p.appendChild(texto);
+        divResult.appendChild(p);
     } else {
 
         tabla = document.createElement('table');
@@ -529,19 +517,7 @@ function openNav() {
     }
 });
 
-if (viewMessagesButton = document.getElementById('buttonMessages')) {
-    viewMessagesButton.addEventListener('click', userConversationsRequest);
-}
-function userConversationsRequest(params) {
 
-    ruta = Routing.generate('searchConversations');
-
-    xhr = new XMLHttpRequest();
-    xhr.addEventListener('readystatechange', searchUserResponse);
-    xhr.open('POST', ruta);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(null);
-}
 /*!
     * Start Bootstrap - SB Admin v6.0.0 (https://startbootstrap.com/templates/sb-admin)
     * Copyright 2013-2020 Start Bootstrap

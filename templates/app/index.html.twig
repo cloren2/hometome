@@ -3,56 +3,71 @@
 {% block title %}Home de usuario{% endblock %}
 
 {% block body %}
-<div class="col-5" id="perfil">
-    <h2>Bienvenid@!  {{ app.user.nombre }}</h2>
 
-    Aquí estarán las principales funciones de los usuarios de la app.
-    </br>
-    <a href="home/perfil"> Editar tu perfil</a>
-    <a href="/"> Volver</a>
-    <a href="/logout"> Logout</a>
-    </br>
-    <button type="button" id="buttonMessages">Ver tus mensajes</button>
-</div>
+<div class="container " id="l-app">
 
-<div class="col-7 derecha" id="provisional">
+    <div class="row">
+        <div class="col-sm" id="profile">
+            <h2>Bienvenid@!  {{ app.user.nombre }}</h2>
 
-    <h2>Provisional</h2>
-    Aquí saldrán los resultados.
-    </br>
-</div>
+            Aquí estarán las principales funciones de los usuarios de la app.
+            </br>
+            <a href="home/perfil"> Editar tu perfil</a>
+            <a href="/"> Volver</a>
+            <a href="/logout"> Logout</a>
+            </br>
+            <button type="button" id="buttonMessages">Ver tus mensajes</button>
+        </div>
 
-<div class="col-5" id="buscador">
-    <h2>Buscador</h2>
-    Aquí estarán los filtros.
-    </br>
-    <select id="ciudadSelect" name="ciudad">
-    {% for ciudades in nombre %}
-        <option value="{{ ciudades.id }}">{{ ciudades.nombre }}</option> 
-    {% else %}
-        <option value="N">No hay ciudades</option> 
-    {% endfor %}
-    </select>
-    </br>
-    <select id="genderSelect" name="genero">
-        <option value="H">Hombre</option> 
-        <option value="M">Mujer</option>
-        <option value="N" selected>No me importa</option>
-    </select>
-    <select id="roomMatesSelect" name="roomMates">
-        <option value="1">1 persona</option> 
-        <option value="2" selected>2 personas</option>
-        <option value="3+">3 o más personas</option>
-    </select>
-    </br>
-    <input type="text" size="4" placeholder="min" id="min">
-    <input type="text" size="4" placeholder="max" id="max">
-    </br>
-    <div class="ui-widget" id="buscadorPreferencias">
-        <label for="tags">Búsqueda de preferencias: </label>
-        <input id="tags">
+
     </div>
-    <button type="button" id="botonBusqueda">Buscar</button>
+
+
+    
+    <div class="row">
+        <div class="col-sm" id="search">
+            <h2>Buscador</h2>
+            Aquí estarán los filtros.
+            </br>
+            <select id="ciudadSelect" name="ciudad">
+            {% for ciudades in nombre %}
+                <option value="{{ ciudades.id }}">{{ ciudades.nombre }}</option> 
+            {% else %}
+                <option value="N">No hay ciudades</option> 
+            {% endfor %}
+            </select>
+            </br>
+            <select id="genderSelect" name="genero">
+                <option value="H">Hombre</option> 
+                <option value="M">Mujer</option>
+                <option value="N" selected>No me importa</option>
+            </select>
+            <select id="roomMatesSelect" name="roomMates">
+                <option value="1">1 persona</option> 
+                <option value="2" selected>2 personas</option>
+                <option value="3+">3 o más personas</option>
+            </select>
+            </br>
+            <input type="text" size="4" placeholder="min" id="min">
+            <input type="text" size="4" placeholder="max" id="max">
+            </br>
+            <div class="ui-widget" id="buscadorPreferencias">
+                <label for="tags">Búsqueda de preferencias: </label>
+                <input id="tags">
+            </div>
+            <button type="button" id="botonBusqueda">Buscar</button>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="r-app">
+    <div class="row">
+        <div class="col-sm" id="results" >
+            <h2>Resultados</h2>
+                <p>Aquí saldrán los resultados.</p>
+        </div>
+    </div>
+</div>
 
 
 
