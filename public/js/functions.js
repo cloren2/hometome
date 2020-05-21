@@ -20,7 +20,12 @@
 //Limpieza del div resultados y el de chat
 function limpiarDiv() {
     divResult = document.getElementById('results');
-    divResult.removeChild(divResult.lastChild.previousSibling);
+   
+    incognita= document.getElementById('parrafo')
+    if (divResult.hasChildNodes() && incognita) {
+        divResult.removeChild(incognita);
+        
+    }
 }
 
 
@@ -184,7 +189,7 @@ function printChatElements(event) {
     idPasivo = event.target.value;
 
     //Creando el contenedor del chat
-    buscador = document.getElementById('search');
+    buscador = document.getElementById('results');
     contenedor = document.createElement('div');
     contenedor.setAttribute('class', 'derecha col-7');
     contenedor.setAttribute('id', 'contenedorChat');
@@ -194,7 +199,8 @@ function printChatElements(event) {
     //Insercion del nuevo div(mensajes)
     titulo.appendChild(textoTit);
     contenedor.appendChild(titulo);
-    document.body.insertBefore(contenedor, buscador);
+    buscador.appendChild(contenedor)
+    //document.body.insertBefore(contenedor, buscador);
 
     msn = document.createElement('div');
     msn.setAttribute('id', 'msn');
@@ -383,6 +389,7 @@ function createUserList(objeto) {
 
         texto = document.createTextNode(objeto);
         p = document.createElement('p');
+        p.setAttribute('id','parrafo')
         p.appendChild(texto);
         divResult.appendChild(p);
     } else {
