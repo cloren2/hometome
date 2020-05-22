@@ -191,6 +191,8 @@ class AppController extends AbstractController
         $arrayPreferencias = $request->get('preferencias');
 
         $resultadosBusqueda = $userRepository->filtradoUsuarios($ciudad, $arrayPreferencias, $gender, $roomMates, $min, $max, $idUserActivo);
+    
+        
         if (!$resultadosBusqueda) {
             $preferencias = "No se han encontrado resultados con esos parámetros";
         } else {
@@ -198,6 +200,8 @@ class AppController extends AbstractController
                 $campo = [
                     'Id' => $results->getId(),
                     'Nombre' => $results->getNombre(),
+                    'Ciudad' => $results->getCiudad(),
+                    'Preferencias' => $results->getPreferencias()
                 ];
                 $preferencias[$clave] = $campo;
             }

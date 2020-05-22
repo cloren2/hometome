@@ -155,13 +155,26 @@
 }
 
 /* Menu overlay  */
-.overlay {
+.overlay-l {
   /* Height & width depends on how you want to reveal the overlay (see JS below) */   
   height: 100%;
   width: 0;
   position: fixed; /* Stay in place */
   z-index: 2; /* Sit on top */
   left: 0;
+  top: 0;
+  background-color: rgb(255, 255, 255); /* Black fallback color */
+  background-color: rgb(255, 255, 255); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+.overlay-r {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  right: 0;
   top: 0;
   background-color: rgb(255, 255, 255); /* Black fallback color */
   background-color: rgb(255, 255, 255); /* Black w/opacity */
@@ -177,7 +190,7 @@
   margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
 }
 /* The navigation links inside the overlay */
-.overlay a {
+.overlay-l a, .overlay-r a {
   padding: 8px;
   text-decoration: none;
   font-size: 36px;
@@ -186,11 +199,11 @@
   transition: 0.3s; /* Transition effects on hover (color) */
 }
 /* When you mouse over the navigation links, change their color */
-.overlay a:hover, .overlay a:focus {
+.overlay-r a:hover, .overlay-r a:focus, .overlay-l a:hover, .overlay-l a:focus {
   color: #015989;
 }
 /* Position the close button (top right corner) */
-.overlay .closebtn {
+.overlay-l .closebtn, .overlay-r .closebtn {
   position: absolute;
   top: 20px;
   right: 45px;
@@ -285,6 +298,28 @@ Carrousel
 **
 **************************/
 
+@media screen and (max-width: 720px) {
+  #profile{
+    display: none;
+  }
+  #navbar-app{
+    display: inline-flexbox;
+  }
+}
+@media screen and (min-width: 720px) {
+  #r-app{
+    float: right;
+    max-width: 70%;
+  }
+  #l-app{
+    float: left;
+    max-width: 30%;
+  }
+  #navbar-app{
+    display: none;
+  }
+}
+
 .navbar-brand img{
   max-width: 10rem;
 }
@@ -320,8 +355,6 @@ body{
   padding-top: .5rem;
 }
 
-
-
 #profile{
   border: 2px solid black;
 }
@@ -332,28 +365,6 @@ body{
   border: 2px solid black;
 }
 
-@media screen and (max-width: 720px) {
-  #profile{
-    display: none;
-  }
-}
-@media screen and (min-width: 720px) {
-  #r-app{
-    float: right;
-    max-width: 70%;
-  }
-  #l-app{
-    float: left;
-    max-width: 30%;
-  }
-}
-
-.derecha{
-  border: 2px solid black;
-}
-.izquierda{
-}
-
 
 
 
@@ -361,7 +372,7 @@ body{
 
 #msn{
 border: 1px solid black;
-height: 60%;
+
 }
 textarea {
 resize: none;

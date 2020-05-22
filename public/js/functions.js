@@ -21,10 +21,9 @@
 function limpiarDiv() {
     divResult = document.getElementById('results');
    
-    incognita= document.getElementById('parrafo')
+    incognita = document.getElementById('parrafo')
     if (divResult.hasChildNodes() && incognita) {
         divResult.removeChild(incognita);
-        
     }
 }
 
@@ -189,9 +188,8 @@ function printChatElements(event) {
     idPasivo = event.target.value;
 
     //Creando el contenedor del chat
-    buscador = document.getElementById('results');
+    buscador = document.getElementById('container-msn');
     contenedor = document.createElement('div');
-    contenedor.setAttribute('class', 'derecha col-7');
     contenedor.setAttribute('id', 'contenedorChat');
     titulo = document.createElement('h2');
     textoTit = document.createTextNode('Mensajes');
@@ -206,7 +204,7 @@ function printChatElements(event) {
     msn.setAttribute('id', 'msn');
 
     contenedor.appendChild(msn);
-
+    //openNav();
     recuadro = document.createElement('textarea');
     recuadro.setAttribute('id', 'mensaje');
 
@@ -384,16 +382,21 @@ function createUserList(objeto) {
     limpiarDiv();
 
     divResult = document.getElementById('results');
+    div = document.createElement('div');
+    div.setAttribute('id','parrafo');
 
     if (objeto[0].Id == undefined) {
 
         texto = document.createTextNode(objeto);
+        
         p = document.createElement('p');
-        p.setAttribute('id','parrafo')
         p.appendChild(texto);
-        divResult.appendChild(p);
+        div.appendChild(p);
+        divResult.appendChild(div);
+
     } else {
 
+        /*
         tabla = document.createElement('table');
         tabla.setAttribute('class', 'tablaUsuarios');
 
@@ -403,7 +406,9 @@ function createUserList(objeto) {
 
         var idEncabezado = encabezado.insertCell(0);
         idEncabezado.innerHTML = 'Id'
-        divResult.appendChild(tabla);
+
+        div.appendChild(tabla);
+        divResult.appendChild(div);
 
         for (i = 0; i < objeto.length; i++) {
 
@@ -422,6 +427,39 @@ function createUserList(objeto) {
             var celdaUsuarios = row.insertCell(1);
             celdaUsuarios.innerHTML = nombreUsuarios;
         }
+        */
+        resultados = 
+        '<div class="container" id="conversation-box">'+
+            '<div class="row" id="title-section">' +
+                '<h5>Resultados</h5>'+
+            '</div>';
+            for (i = 0; i < objeto.length; i++) {
+           resultados= resultados+ '<div class="row">'+
+                '<div class="col-4">'+
+                    '<img src="img1.png" class="rounded-circle img-fluid app-img">'+
+                '</div>'+
+                '<div class="col-8">'+
+                    '<div class="col-xs">'+
+                        `<span>${objeto[i].Nombre}</span>`+
+                    '</div>'+
+                    '<div class="col-xs">'+
+                        '<span>Preferencias</span>'+
+                        '<span>Preferencias</span>'+
+                    '</div>'+
+                    '<div class="col-xs">'+
+                        '<span>Preferencias</span>'+
+                        '<span>+8 preferencias</span>'+
+                    '</div>'+
+                    '<button type="button">Chat</button>'+
+                '</div>'+
+            '</div>'+
+            '<div>'+
+                '<hr>'+
+            '</div>';
+            }
+       resultados= resultados+ '</div>';
+        divResult.innerHTML=resultados;
+
     }
 }
 
@@ -483,14 +521,36 @@ function erroresUser(userError) {
     div.appendChild(span);
     span.appendChild(texto);
 }
+buttonsToggler = document.getElementsByClassName('navbar-toggler')
+buttonClose = document.getElementsByClassName('close');
+if (buttonsToggler){
+    console.log(buttonClose)
+    for (i=0;i<buttonsToggler.length;i++){
+        buttonsToggler[i].addEventListener('click', openNav);
+        buttonClose[i].addEventListener('click', closeNav);
+       
+    }
+}
 
-function openNav() {
-    document.getElementById("myNav").style.width = "100%";
+
+function openNav(event) {
+    if(event.target.getAttribute('id') == 'toggler-l'){
+        
+        document.getElementById("myNav-profile").style.width = "100%";
+        console.log( document.getElementById("myNav-profile").style.width);
+    }else{
+        document.getElementById('myNav-chat').style.width="100%";
+    }
   }
   
   /* Close when someone clicks on the "x" symbol inside the overlay */
-  function closeNav() {
-    document.getElementById("myNav").style.width = "0%";
+  function closeNav(event) {
+      
+    if(event.target.getAttribute('id') == 'toggler-close-r'){
+        document.getElementById('myNav-profile').style.width="0%";
+    }else{
+        document.getElementById('myNav-chat').style.width="0%";
+    }
   }
 
   $('#carouselExample').on('slide.bs.carousel', function (e) {
