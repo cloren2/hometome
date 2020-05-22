@@ -3,10 +3,9 @@
 {% block title %}Editar Perfil{% endblock %}
 
 {% block body %}
-{% include 'navAdmin.html.twig' %}
     <h1>Editar Perfil</h1>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Actualizar'}) }}
+    {{ include('app/perfil/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
     <a href="/home">Volver atrás</a>
 
