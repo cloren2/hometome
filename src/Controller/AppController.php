@@ -188,7 +188,7 @@ class AppController extends AbstractController
         $roomMates = $request->get('roomMates');
         $min = $request->get('min');
         $max = $request->get('max');
-        $arrayPreferencias = $request->get('preferencias');
+        $arrayPreferencias = explode(',',$request->get('preferencias'));
 
         $resultadosBusqueda = $userRepository->filtradoUsuarios($ciudad, $arrayPreferencias, $gender, $roomMates, $min, $max, $idUserActivo);
     
@@ -200,12 +200,24 @@ class AppController extends AbstractController
                 $campo = [
                     'Id' => $results->getId(),
                     'Nombre' => $results->getNombre(),
-                    'Ciudad' => $results->getCiudad(),
-                    'Preferencias' => $results->getPreferencias()
-                ];
-                $preferencias[$clave] = $campo;
+                    'Ciudad' => $results->getCiudad()->getNombre(),
+        //'Preferencias' => $results->getPreferencias()->getNombre(),
+    ];
+        $key =0;
+            for ($i=0;$i<count($results->getPreferencias());$i++){
+
+                $arrayPref[$i]=$results->getPreferencias()[$i]->getNombre();
             }
+              $campo ['Preferencias'] = $arrayPref;
+            foreach ($results->getFoto() as $key2 => $resultados2) {
+                $arrayFoto=
+                    $resultados2->getNombre();
+                 $campo ['Foto'] = $arrayFoto;
+                }
+   
+    $preferencias[$clave] = $campo;
         }
+}
 
 
         return new JsonResponse($preferencias);

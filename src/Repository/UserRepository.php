@@ -63,10 +63,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         if($gender=='N'){
             return $this->createQueryBuilder('u')
             ->join('u.preferencias', 'o')
-            ->addSelect('o')
-            ->where('o.id = :preferences')
-            ->WHERE (
-            'o.id IN (:preferences)')
+            ->andWHERE (
+            ' o.id IN (:preferences)')
             ->andWHERE (
                 'u.id NOT IN (:admin)')
             ->andWHERE('u.id != :useractivo')
