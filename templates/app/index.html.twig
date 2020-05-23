@@ -6,12 +6,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-light" id="navbar-app">
 
-  <button class="navbar-toggler"   type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span id="toggler-l" class="navbar-toggler-icon"></span>
+  <button class="navbar-toggler" id="toggler-l" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <img src="img/app/profile.png"  id="toggler-l" class="toggler-profile">
   </button>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span id="toggler-r" class="navbar-toggler-icon"></span>
+  <img src="img/favicon.ico" style="width:2em">
+
+  <button class="navbar-toggler"  id="toggler-r" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <img src="img/app/msn.png" id="toggler-r" class="toggler-profile">
   </button>
 
   <div id="myNav-chat" class="overlay-r">
@@ -52,6 +54,7 @@
     <div class="row">
         <div class="col-sm" id="search">
             <div class="app-subtB">Buscador</div>
+            <div class="separator"></div>
             </br>
             <select id="ciudadSelect" name="ciudad" class="form-control">
             {% for ciudades in nombre %}

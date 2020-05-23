@@ -530,8 +530,8 @@ if (buttonsToggler){
     }
 }
 
-
 function openNav(event) {
+    console.log(event.target.getAttribute('id'));
     if(event.target.getAttribute('id') == 'toggler-l'){
         
         document.getElementById("myNav-profile").style.width = "100%";
