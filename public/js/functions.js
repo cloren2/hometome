@@ -442,15 +442,21 @@ function createUserList(objeto) {
                     '<div class="col-xs">'+
                         `<span>${objeto[i].Nombre}</span>`+
                     '</div>'+
-                    '<div class="col-xs">'+
-                        '<span>Preferencias</span>'+
-                        '<span>Preferencias</span>'+
-                    '</div>'+
-                    '<div class="col-xs">'+
-                        '<span>Preferencias</span>'+
-                        '<span>+8 preferencias</span>'+
-                    '</div>'+
-                    '<button type="button">Chat</button>'+
+                    '<div class="col-xs">'
+                    for (j = 0; j < 3; j++) {
+                        resultados= resultados+ `<span>#${objeto[i].Preferencias[j]} </span>`;
+                    
+                    ++j;
+                    if (objeto[i].Preferencias[j]!=undefined){
+                     resultados= resultados+`<span>#${objeto[i].Preferencias[j]}</span>`+
+                    '</div>'
+                    }
+                    
+                    }
+                    if (objeto[i].Preferencias.length>=4){resultados= resultados+'<span>#...</span>'}
+                    resultados= resultados+'<br>'
+                    resultados= resultados+'<br>'
+                    resultados= resultados+  '<button type="button">Chat</button>'+
                 '</div>'+
             '</div>'+
             '<div>'+

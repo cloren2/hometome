@@ -196,28 +196,32 @@ class AppController extends AbstractController
         if (!$resultadosBusqueda) {
             $preferencias = "No se han encontrado resultados con esos parámetros";
         } else {
-            foreach ($resultadosBusqueda as $clave => $results) {
+            //foreach ($resultadosBusqueda as $clave => $results) {
+                for ($i=0;$i<count($resultadosBusqueda);$i++){
                 $campo = [
-                    'Id' => $results->getId(),
-                    'Nombre' => $results->getNombre(),
-                    'Ciudad' => $results->getCiudad()->getNombre(),
-        //'Preferencias' => $results->getPreferencias()->getNombre(),
-    ];
-        $key =0;
-            for ($i=0;$i<count($results->getPreferencias());$i++){
-
-                $arrayPref[$i]=$results->getPreferencias()[$i]->getNombre();
-            }
-              $campo ['Preferencias'] = $arrayPref;
-            foreach ($results->getFoto() as $key2 => $resultados2) {
-                $arrayFoto=
-                    $resultados2->getNombre();
-                 $campo ['Foto'] = $arrayFoto;
+                    'Id' => $resultadosBusqueda[$i]->getId(),
+                    'Nombre' => $resultadosBusqueda[$i]->getNombre(),
+                    'Ciudad' => $resultadosBusqueda[$i]->getCiudad()->getNombre(),
+                 ];
+            
+                
+                 $arrayPref=[];
+            foreach ($resultadosBusqueda[$i]->getPreferencias()  as $key => $resultados){
+                 
+                if (!in_array($resultados->getNombre(),$arrayPref)){
+                    $arrayPref[$key]=$resultados->getNombre();
                 }
-   
-    $preferencias[$clave] = $campo;
+                $campo ['Preferencias'] = $arrayPref;
+            }
+           
+            foreach ($resultadosBusqueda[$i]->getFoto() as $key2 => $resultados2) {
+                $arrayFoto= $resultados2->getNombre();
+                 $campo ['Foto'] = $arrayFoto;
+                }$preferencias[$i] = $campo;
+       }
+    
         }
-}
+
 
 
         return new JsonResponse($preferencias);
