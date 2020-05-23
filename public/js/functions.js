@@ -444,8 +444,9 @@ function createUserList(objeto) {
                     '</div>'+
                     '<div class="col-xs">'
                     for (j = 0; j < 3; j++) {
+                        if (objeto[i].Preferencias[j]!=undefined){
                         resultados= resultados+ `<span>#${objeto[i].Preferencias[j]} </span>`;
-                    
+                          }
                     ++j;
                     if (objeto[i].Preferencias[j]!=undefined){
                      resultados= resultados+`<span>#${objeto[i].Preferencias[j]}</span>`+
