@@ -219,11 +219,7 @@
   }
 }
 
-/*
-CC 2.0 License Iatek LLC 2018
-Attribution required
-Carrousel
-*/
+/* Carrousel */
 
 @media (min-width: 768px) {
 
@@ -290,38 +286,6 @@ Carrousel
 
 }
 
-/**************************
-**
-**Estilos provisionales de la app - HomeToMe 2020
-**
-**Antonio Martin - Cristina Lorenzo
-**
-**************************/
-
-@media screen and (max-width: 720px) {
-  #profile{
-    display: none;
-  }
-  #userTlbr{
-    display: none;
-  }
-  #navbar-app{
-    display: inline-flexbox;
-  }
-}
-@media screen and (min-width: 720px) {
-  #r-app{
-    float: right;
-    max-width: 70%;
-  }
-  #l-app{
-    float: left;
-    max-width: 30%;
-  }
-  #navbar-app{
-    display: none;
-  }
-}
 
 /*Elementos del login*/
 .navbar-brand img{
@@ -332,13 +296,12 @@ Carrousel
   justify-content: center;
   align-items: center;
 
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 12px 18px 2px rgba(34,0,51,.04),0 6px 22px 4px rgba(7,48,114,.12),0 6px 10px -4px rgba(14,13,26,.12);
-    margin: 0 auto;
-    margin-top: 1.5rem;
-    padding: 70px 40px 40px;
-
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 18px 2px rgba(34,0,51,.04),0 6px 22px 4px rgba(7,48,114,.12),0 6px 10px -4px rgba(14,13,26,.12);
+  margin: 0 auto;
+  margin-top: 1.5rem;
+  padding: 70px 40px 40px;
 }
 .box input{
     margin-top: .5rem;
@@ -360,17 +323,96 @@ body{
 }
 
 
+/**************************
+**
+**Estilos provisionales de la app - HomeToMe 2020
+**
+**Antonio Martin - Cristina Lorenzo
+**
+**************************/
+
+
+/* Para moviles */
+@media screen and (max-width: 767px) {
+  #profile{
+    display: none;
+  }
+  #userTlbr{
+    display: none;
+  }
+  #l-app{
+    padding-top: 1rem;
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+  }
+  #navbar-app{
+    display: inline-flexbox;
+    background-color: rgb(219, 232, 255);
+  }
+  html, body {
+    height: 100%;
+    overflow-y: visible;
+  }
+}
+/*Para tablets*/
+@media screen and (min-width: 768px) {
+  #r-app{
+    float: right;
+    max-width: 65%;
+  }
+  #l-app{
+    float: left;
+    max-width: 35%;
+  }
+  #navbar-app{
+    display: none;
+  }
+  html, body {
+    height: 100%;
+  }
+}
+/* Para escritorioy*/
+@media screen and (min-width: 1024px) {
+  #r-app{
+    float: right;
+    max-width: 70%;
+  }
+  #l-app{
+    float: left;
+    max-width: 30%;
+  }
+  #navbar-app{
+    display: none;
+  }
+  html, body {
+    height: 100%;
+  }
+}
+
 #search{
   height: 100%;
 }
 #results{
   height: 100%;
 }
+
+.user-toolbar{
+  padding: 1rem;
+  background: rgb(0,132,204);
+  background: linear-gradient(284deg, rgba(0,132,204,1) 0%, rgba(5,120,162,1) 84%, rgba(250,208,0,1) 100%);
+  -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+  box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+}
+.img-profile{
+  width: 2em;
+  padding-bottom: 0.3em;
+}
 .separator{
   border: 2px solid rgb(3, 121, 255);
   width: 25%;
 }
-
 .toggler-profile{
   display: inline-block;
   width: 1.5em;
@@ -380,14 +422,6 @@ body{
   background: no-repeat center center;
   background-size: 100% 100%;
 }
-
-
-
-
-
-}
-
-
 .app-p{
   font-family: Raleway;
   font-style: normal;
@@ -438,18 +472,7 @@ body{
   color: #FFFFFF;
 }
 
-.user-toolbar{
-  padding: 1rem;
-  background: rgb(0,132,204);
-  background: linear-gradient(284deg, rgba(0,132,204,1) 0%, rgba(5,120,162,1) 84%, rgba(250,208,0,1) 100%);
-  -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
-  -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
-  box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
-}
-.img-profile{
-  width: 2em;
-  padding-bottom: 0.3em;
-}
+
 textarea {
   resize: none;
   height: 3.5em;
@@ -478,10 +501,7 @@ textarea {
   .app-img{
     width: 10em;
   }
-  html, body {
-    height: 100%;
-    overflow-y: hidden;
-  }
+
   #title-section{
     color: #015989;
     font-family: Work Sans;

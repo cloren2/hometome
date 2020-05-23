@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}HomeToMe{% endblock %}
+{% block title %}HomeToMe | Tu compañero de piso ideal{% endblock %}
 
 {% block body %}
 
@@ -16,10 +16,10 @@
     
   <ul class="navbar-nav ml-auto" id="menuMedia">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Servicios</a>
+        <a class="nav-link" href="#!">Servicios</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -43,10 +43,10 @@
     <a href="javascript:void(0)" class="close closebtn">&times;</a>
     <!-- Overlay content -->
     <div class="overlay-content">
-      <a href="#">Home</a>
+      <a href="/">Home</a>
       <a href="#">Servicios</a>
       <a href="#">Ayuda</a>
-      <a href="#">Iniciar sesión</a>
+      <a href="/home">Iniciar sesión</a>
     </div>
   </div>
 </nav>
@@ -61,8 +61,12 @@
       <p class="top-tit">Encuentra a tu compañero de piso ideal</p>
       <p class="md-p">La manera más rápida y fácil de buscar nueva casa, con tus compañeros más compatibles.</p>
       <div class="d-flex justify-content-center">
-        <button type="button" class="butBlu">Iniciar sesión</button>
-        <button type="button" class="butWhit">Registrarme</button>
+        <a href="/home">
+          <button type="button" class="butBlu">Iniciar sesión</button>
+        </a>
+        <a href="/register">
+          <button type="button" class="butWhit">Registrarme</button>
+        </a>
       </div>
     </div>
     <div class="col-sm d-flex justify-content-center top-r">
@@ -122,8 +126,12 @@
         <p class="d-flex justify-content-center md-subtit">¿Qué perfil eres?</p>
         <p class="md-p" style="text-align: center;">Selecciona que es lo que buscas y te ayudaremos a encontrarlo</p>
         <div class="d-flex justify-content-center md-carrousel">
-          <button type="button" class="butBlu">Iniciar sesión</button>
-          <button type="button" class="butWhit">Registrarme</button>
+          <a href="/home">
+            <button type="button" class="butBlu">Iniciar sesión</button>
+          </a>
+          <a href="/register">
+            <button type="button" class="butWhit">Registrarme</button>
+          </a>
         </div>
       </div>
     </div>
