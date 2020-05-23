@@ -6,12 +6,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-light" id="navbar-app">
 
-  <button class="navbar-toggler"   type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span id="toggler-l" class="navbar-toggler-icon"></span>
+  <button class="navbar-toggler" id="toggler-l" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <img src="img/app/profile.png"  id="toggler-l" class="toggler-profile">
   </button>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span id="toggler-r" class="navbar-toggler-icon"></span>
+  <img src="img/favicon.ico" style="width:2em">
+
+  <button class="navbar-toggler"  id="toggler-r" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <img src="img/app/msn.png" id="toggler-r" class="toggler-profile">
   </button>
 
   <div id="myNav-chat" class="overlay-r">
@@ -34,27 +36,27 @@
 </nav>
 
 
-<div class="container " id="l-app">
-    <div class="row">
+<div class="container h-100 border-right" id="l-app">
+    <div class="row user-toolbar" id="userTlbr">
         <div class="col-sm" id="profile">
-            <h2>Bienvenid@!  {{ app.user.nombre }}</h2>
-
-            Aquí estarán las principales funciones de los usuarios de la app.
-            </br>
-            <a href="home/perfil"> Editar tu perfil</a>
-            <a href="/"> Volver</a>
-            <a href="/logout"> Logout</a>
-            </br>
-            <button type="button" id="buttonMessages">Ver tus mensajes</button>
+            <div class="">
+                <img src="users/user1/img1-6.png" class="rounded-circle img-profile">
+                <a href="home/perfil">
+                    <div class="d-inline app-subt">Mi perfil</div>
+                </a>
+                <a href="#!" id="buttonMessages">
+                    <img src="img/app/mail.png">
+                </a>       
+            </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm" id="search">
-            <h2>Buscador</h2>
-            Aquí estarán los filtros.
+            <div class="app-subtB">Buscador</div>
+            <div class="separator"></div>
             </br>
-            <select id="ciudadSelect" name="ciudad">
+            <select id="ciudadSelect" name="ciudad" class="form-control">
             {% for ciudades in nombre %}
                 <option value="{{ ciudades.id }}">{{ ciudades.nombre }}</option> 
             {% else %}
@@ -62,25 +64,30 @@
             {% endfor %}
             </select>
             </br>
-            <select id="genderSelect" name="genero">
+            <select  class="form-control" id="genderSelect" name="genero">
                 <option value="H">Hombre</option> 
                 <option value="M">Mujer</option>
                 <option value="N" selected>No me importa</option>
             </select>
-            <select id="roomMatesSelect" name="roomMates">
+            </br>
+            <select  class="form-control" id="roomMatesSelect" name="roomMates">
                 <option value="1">1 persona</option> 
                 <option value="2" selected>2 personas</option>
                 <option value="3+">3 o más personas</option>
             </select>
             </br>
-            <input type="text" size="4" placeholder="min" id="min">
-            <input type="text" size="4" placeholder="max" id="max">
+            <div class="col-xs">
+                <input class="form-control" type="text" size="4" placeholder="min" id="min">
+            </div>
+            <div class="col-xs">
+                <input class="form-control" type="text" size="4" placeholder="max" id="max">
+            </div>
             </br>
             <div class="ui-widget" id="buscadorPreferencias">
                 <label for="tags">Búsqueda de preferencias: </label>
-                <input id="tags">
+                <input id="tags" class="form-control">
             </div>
-            <button type="button" id="botonBusqueda">Buscar</button>
+            <button type="button" class="form-control" id="botonBusqueda">Buscar</button>
         </div>
     </div>
 </div>

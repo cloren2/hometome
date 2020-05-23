@@ -530,22 +530,24 @@ function erroresUser(userError) {
 buttonsToggler = document.getElementsByClassName('navbar-toggler')
 buttonClose = document.getElementsByClassName('close');
 if (buttonsToggler){
-    console.log(buttonClose)
     for (i=0;i<buttonsToggler.length;i++){
         buttonsToggler[i].addEventListener('click', openNav);
         buttonClose[i].addEventListener('click', closeNav);
-       
     }
 }
 
-
 function openNav(event) {
+    console.log(event.target.getAttribute('id'));
     if(event.target.getAttribute('id') == 'toggler-l'){
         
         document.getElementById("myNav-profile").style.width = "100%";
-        console.log( document.getElementById("myNav-profile").style.width);
     }else{
-        document.getElementById('myNav-chat').style.width="100%";
+        if(chat = document.getElementById('myNav-chat')){
+            chat.style.width="100%";
+        }
+        if(home = document.getElementById('myNav')){
+            home.style.width="100%";
+        }
     }
   }
   
@@ -555,7 +557,12 @@ function openNav(event) {
     if(event.target.getAttribute('id') == 'toggler-close-r'){
         document.getElementById('myNav-profile').style.width="0%";
     }else{
-        document.getElementById('myNav-chat').style.width="0%";
+        if(chat = document.getElementById('myNav-chat')){
+            chat.style.width="0%";
+        }
+        if(home = document.getElementById('myNav')){
+            home.style.width="0%";
+        }
     }
   }
 

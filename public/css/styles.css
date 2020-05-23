@@ -302,6 +302,9 @@ Carrousel
   #profile{
     display: none;
   }
+  #userTlbr{
+    display: none;
+  }
   #navbar-app{
     display: inline-flexbox;
   }
@@ -320,6 +323,7 @@ Carrousel
   }
 }
 
+/*Elementos del login*/
 .navbar-brand img{
   max-width: 10rem;
 }
@@ -355,49 +359,158 @@ body{
   padding-top: .5rem;
 }
 
-#profile{
-  border: 2px solid black;
-}
+
 #search{
-  border: 2px solid black;
+  height: 100%;
 }
 #results{
-  border: 2px solid black;
+  height: 100%;
+}
+.separator{
+  border: 2px solid rgb(3, 121, 255);
+  width: 25%;
+}
+
+.toggler-profile{
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  content: "";
+  background: no-repeat center center;
+  background-size: 100% 100%;
+  background-image: url('img/app/profile.png');
 }
 
 
 
 
 
+}
 
-#msn{
-border: 1px solid black;
 
+.app-p{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 1.4em;
+  /* or 142% */
+
+  color: #333333;
+}
+
+.app-subt{
+  color: #ffffff;
+  font-family: Work Sans;
+  font-style: normal;
+  font-size: 1.5rem;  
+  text-decoration: inherit;
+  
+  padding-right: 1.5rem;
+  padding-left: 0.5rem;
+  /* or 97% */
+}
+
+.app-subtB{
+  color: #000000;
+  font-family: Work Sans;
+  font-style: normal;
+  font-size: 1.3rem;  
+  padding-top: 0.5rem;
+  padding-right: 1.5rem;
+
+  /* or 97% */
+}
+
+.app-blueBtn {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
+  background-blend-mode: overlay, normal;
+  border-radius: 1.5em;
+  padding: 0.5em;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 0.8rem;
+  line-height: 1rem;
+
+/* identical to box height, or 81% */
+
+  color: #FFFFFF;
+}
+
+.user-toolbar{
+  padding: 1rem;
+  background: rgb(0,132,204);
+  background: linear-gradient(284deg, rgba(0,132,204,1) 0%, rgba(5,120,162,1) 84%, rgba(250,208,0,1) 100%);
+  -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+  box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+}
+.img-profile{
+  width: 2em;
+  padding-bottom: 0.3em;
 }
 textarea {
-resize: none;
-height: 3.5em;
-width: 80%;
+  resize: none;
+  height: 3.5em;
+  width: 80%;
 }
 .enviados{
-background-color: rgb(127, 219, 255);
-float:right;
-clear:both;
-margin:0.2em;
+  background-color: rgb(127, 219, 255);
+  margin:0.5em;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 .recibidos{
-background-color: rgb(200, 255, 127);
-float:left;
-clear:both;
-margin:0.2em;
+  background-color: rgb(200, 255, 127);
+  margin:0.5em;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
-.tablaUsuarios{
-border-collapse: collapse;
-}
-table, th, td {
-border: 1px solid black;
-}
-.error{
-  color: red;
-}
+  #chat-box{
+    overflow-y: hidden;
+  }
+  #textArea{
+    background-color: #FFFFFF;
+    padding: 1rem;
+    border: solid 1px black;
+  }
+  .app-img{
+    width: 10em;
+  }
+  html, body {
+    height: 100%;
+    overflow-y: hidden;
+  }
+  #title-section{
+    color: #015989;
+    font-family: Work Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 2.3rem;
+    
+    
+    /* or 97% */
+    letter-spacing: -0.08em;
+    padding: 1rem;
+  }
+  .tablaUsuarios{
+  border-collapse: collapse;
+  }
+  table, th, td {
+  border: 1px solid black;
+  }
+  .error{
+    color: red;
+  }
+  
+  #container-msn{
+    display:flex;
+    max-width: 100%;
+    width:100%;
+    flex-basis: 30rem; 
+  }
+  
 
