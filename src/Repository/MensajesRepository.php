@@ -18,25 +18,37 @@ class MensajesRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Mensajes::class);
     }
-  /**
-      * @return Mensajes[] Returns an array of Mensajes objects
-      */
-    
-      public function chatConversation($sender)
-      {
+
+    /**
+     * @return Mensajes[] Returns an array of Mensajes objects
+     */
+    public function chatConversation($sender)
+    {
         return $this->createQueryBuilder('m')
-        ->where('m.sender_name=:val')
-        ->groupBy('m.reciever_name')
-        ->setParameter('val', $sender)
-        ->orderBy('m.id', 'ASC')
-        ->getQuery()
-        ->getResult()
-    ;
-        }
-     /**
-      * @return Mensajes[] Returns an array of Mensajes objects
-      */
-    
+            ->where('m.sender_name=:val')
+            ->groupBy('m.reciever_name')
+            ->setParameter('val', $sender)
+            ->orderBy('m.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    /**
+     * @return Mensajes[] Returns an array of Mensajes objects
+     */
+    public function lastMessage($sender)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.sender_name=:val')
+            ->groupBy('m.reciever_name')
+            ->setParameter('val', $sender)
+            ->orderBy('m.id', 'DES')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }    
+    /**
+     * @return Mensajes[] Returns an array of Mensajes objects
+     */
     public function chatSender($sender, $reciever)
     {
         return $this->createQueryBuilder('m')
@@ -46,19 +58,19 @@ class MensajesRepository extends ServiceEntityRepository
             ->setParameter('val2', $reciever)
             ->orderBy('m.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    public function modifyStatus($idMensajes){
-       //forearch id
+
+    public function modifyStatus($idMensajes)
+    {
+        //forearch id
         return $this->createQueryBuilder('m')
-        ->update('Mensajes')
-        ->set('status', 'false')
-        ->where('m.id = :id')
-        ->setParameter('id', $id)
-        ->getQuery()
-        ->getResult()
-        ;
+            ->update('Mensajes')
+            ->set('status', 'false')
+            ->where('m.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
     }
     /*
     public function findOneBySomeField($value): ?Mensajes

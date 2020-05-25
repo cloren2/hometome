@@ -19,9 +19,9 @@
 
 //Limpieza del div resultados y el de chat
 function limpiarDiv() {
-    divResult = document.getElementById('results');
-   
-    incognita = document.getElementById('parrafo')
+    divResult = document.getElementById('child-cpanel');
+
+    incognita = document.getElementById('search-cpanel')
     if (divResult.hasChildNodes() && incognita) {
         divResult.removeChild(incognita);
     }
@@ -177,7 +177,9 @@ var objetoPref = "";
 var intervalo;
 
 if (viewMessagesButton = document.getElementById('buttonMessages')) {
+    viewSearchButton = document.getElementById('buttonSearch')
     viewMessagesButton.addEventListener('click', userConversationsRequest);
+    viewSearchButton.addEventListener('click', createSearchElements);
 }
 
 //Crea los elementos necesarios para renderizar el chat
@@ -219,7 +221,7 @@ function printChatElements(event) {
     contenedor.appendChild(enviar);
     messagesRequest()
     //Llamada a peticion de mensajes de forma regular
-   // intervalo = setInterval(, 5000);
+    // intervalo = setInterval(, 5000);
 }
 
 //Funcion para pintar los mensajes nuevos
@@ -296,23 +298,22 @@ function userConversationsRequest(params) {
     ruta = Routing.generate('searchConversations');
 
     xhr = new XMLHttpRequest();
-    xhr.addEventListener('readystatechange', searchUserResponse);
+    xhr.addEventListener('readystatechange', userConversationsResponse);
     xhr.open('POST', ruta);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(null);
 }
 
-function userConversationsResponse(event){
+function userConversationsResponse(event) {
 
     if (intervalo) {
         clearInterval(intervalo);
     }
 
-    if (event.target.readyState == 4 && event.target.status == 200){
+    if (event.target.readyState == 4 && event.target.status == 200) {
         var objeto_vuelta = event.target.responseText;
         var objeto = JSON.parse(objeto_vuelta);
-
-        createUserList(objeto);
+        createUserConversationList(objeto);
     }
 }
 /////////////////////////////////////////////////
@@ -383,12 +384,12 @@ function createUserList(objeto) {
 
     divResult = document.getElementById('results');
     div = document.createElement('div');
-    div.setAttribute('id','parrafo');
+    div.setAttribute('id', 'parrafo');
 
     if (objeto[0].Id == undefined) {
 
         texto = document.createTextNode(objeto);
-        
+
         p = document.createElement('p');
         p.appendChild(texto);
         div.appendChild(p);
@@ -396,80 +397,138 @@ function createUserList(objeto) {
 
     } else {
 
-        /*
-        tabla = document.createElement('table');
-        tabla.setAttribute('class', 'tablaUsuarios');
-
-        var encabezado = tabla.insertRow(0);
-        var nombreEncabezado = encabezado.insertCell(0);
-        nombreEncabezado.innerHTML = 'Nombre';
-
-        var idEncabezado = encabezado.insertCell(0);
-        idEncabezado.innerHTML = 'Id'
-
-        div.appendChild(tabla);
-        divResult.appendChild(div);
-
-        for (i = 0; i < objeto.length; i++) {
-
-            var nombreUsuarios = objeto[i].Nombre;
-            var idUsuarios = objeto[i].Id;
-            var row = tabla.insertRow(1);
-            var celdaId = row.insertCell(0);
-            var botonChat = document.createElement('button');
-            var texto = document.createTextNode('Chat');
-
-            botonChat.appendChild(texto);
-            botonChat.setAttribute('class', 'chat');
-            botonChat.setAttribute('value', idUsuarios);
-            botonChat.addEventListener('click', printChatElements);
-            celdaId.appendChild(botonChat);
-            var celdaUsuarios = row.insertCell(1);
-            celdaUsuarios.innerHTML = nombreUsuarios;
-        }
-        */
-        resultados = 
-        '<div class="container" id="conversation-box">'+
+        resultados =
+            '<div class="container" id="conversation-box">' +
             '<div class="row" id="title-section">' +
-                '<h5>Resultados</h5>'+
+            '<h5>Resultados</h5>' +
             '</div>';
-            for (i = 0; i < objeto.length; i++) {
-           resultados= resultados+ '<div class="row">'+
-                '<div class="col-4">'+
-                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">`+
-                '</div>'+
-                '<div class="col-8">'+
-                    '<div class="col-xs">'+
-                        `<span>${objeto[i].Nombre}</span>`+
-                    '</div>'+
-                    '<div class="col-xs">'
-                    for (j = 0; j < 3; j++) {
-                        if (objeto[i].Preferencias[j]!=undefined){
-                        resultados= resultados+ `<span>#${objeto[i].Preferencias[j]} </span>`;
-                          }
-                    ++j;
-                    if (objeto[i].Preferencias[j]!=undefined){
-                     resultados= resultados+`<span>#${objeto[i].Preferencias[j]}</span>`+
-                    '</div>'
-                    }
-                    
-                    }
-                    if (objeto[i].Preferencias.length>=4){resultados= resultados+'<span>#...</span>'}
-                    resultados= resultados+'<br>'
-                    resultados= resultados+'<br>'
-                    resultados= resultados+  '<button type="button">Chat</button>'+
-                '</div>'+
-            '</div>'+
-            '<div>'+
-                '<hr>'+
-            '</div>';
+        for (i = 0; i < objeto.length; i++) {
+            resultados = resultados + '<div class="row">' +
+                '<div class="col-4">' +
+                `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                '</div>' +
+                '<div class="col-8">' +
+                '<div class="col-xs">' +
+                `<span>${objeto[i].Nombre}</span>` +
+                '</div>' +
+                '<div class="col-xs">'
+            for (j = 0; j < 3; j++) {
+                if (objeto[i].Preferencias[j] != undefined) {
+                    resultados = resultados + `<span>#${objeto[i].Preferencias[j]} </span>`;
+                }
+                ++j;
+                if (objeto[i].Preferencias[j] != undefined) {
+                    resultados = resultados + `<span>#${objeto[i].Preferencias[j]}</span>` +
+                        '</div>'
+                }
+
             }
-       resultados= resultados+ '</div>';
-        divResult.innerHTML=resultados;
+            if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
+            resultados = resultados + '<br>'
+            resultados = resultados + '<br>'
+            resultados = resultados + '<button type="button">Chat</button>' +
+                '</div>' +
+                '</div>' +
+                '<div>' +
+                '<hr>' +
+                '</div>';
+        }
+        resultados = resultados + '</div>';
+        divResult.innerHTML = resultados;
 
     }
 }
 
+function createUserConversationList(objeto){
+    limpiarDiv();
+    divResult = document.getElementById('child-cpanel');
+    div = document.createElement('div');
+    div.setAttribute('id', 'parrafo');
+
+    if (objeto[0].Id == undefined) {
+
+        texto = document.createTextNode(objeto);
+
+        p = document.createElement('p');
+        p.appendChild(texto);
+        div.appendChild(p);
+        divResult.appendChild(div);
+
+    } else {
+
+        resultados =
+            '<div class="container" id="conversation-box">';
+        for (i = 0; i < objeto.length; i++) {
+            resultados = resultados + 
+                '<button type="button" class="conversation-prev">'+
+                    '<div class="row d-flex justify-content-center">' +
+                        '<div class="col-xs">' +
+                            `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                        '</div>'+
+                        '<div class="col-sm" id="col-fix">'+
+                            `<div>${objeto[i].Nombre}</div>` +
+                            '<div class="msn-prev">Hola que pasa guapo kieres...</div>'+  
+                        '</div>'+
+                    '</div>'+
+                '</button>'+
+                '<div>'+
+                '<hr>'+
+                '</div>';
+        }
+        resultados = resultados + '</div>';
+        divResult.innerHTML = resultados;
+
+    }
+
+}
+
+function createSearchElements(params) {
+    console.log('hola');
+    divResult = document.getElementById('child-cpanel');
+    var search = '<div id="child-cpanel">'+
+                '<div id="search-panel">'+
+                '<label for="ciudad">Ciudad:</label>'+
+                '<select id="ciudadSelect" name="ciudad" class="form-control-sm">'+
+                '{% for ciudades in nombre %}'+
+                    '<option value="{{ ciudades.id }}">{{ ciudades.nombre }}</option> '+
+                '{% else %}'+
+                    '<option value="N">No hay ciudades</option> '+
+                '{% endfor %}'+
+                '</select>'+
+                '</br>'+
+                '<label for="genero">¿Chicos, chicas?:</label>'+
+                '<select  class="form-control-sm" id="genderSelect" name="genero">'+
+                    '<option value="H">Hombre</option>'+
+                    '<option value="M">Mujer</option>'+
+                    '<option value="N" selected>No me importa</option>'+
+                '</select>'+
+                '</br>'+
+                '<label for="genero">Nº Máximo de compañeros:</label>'+
+                '<select  class="form-control-sm" id="roomMatesSelect" name="roomMates">'+
+                    '<option value="1">1 persona</option> '+
+                    '<option value="2" selected>2 personas</option>'+
+                    '<option value="3+">3 o más personas</option>'+
+                '</select>'+
+                '</br>'+
+                '<div class="col">'+
+                    '<label for="genero">Precio minimo del alquiler:</label>'+
+                    '<input class="form-control-sm" type="text" size="4" placeholder="min" id="min">'+
+                '</div>'+
+                '<div class="col">'+
+                    '<label for="genero">Precio máximo del alquiler:</label>'+
+                    '<input class="form-control-sm" type="text" size="4" placeholder="max" id="max">'+
+               ' </div>'+
+                '</br>'+
+                '<div class="ui-widget" id="buscadorPreferencias">'+
+                    '<label for="tags">Búsqueda de preferencias: </label>'+
+                    '<input id="tags" class="form-control">'+
+                '</div>'+
+                '</br>'+
+                '<button type="button" class="form-control" id="botonBusqueda">Buscar</button>'+
+                '</div>';     
+        divResult.innerHTML = search;
+
+}
 //Slider de para el rango de precios
 /*
 $(function () {
@@ -528,10 +587,17 @@ function erroresUser(userError) {
     div.appendChild(span);
     span.appendChild(texto);
 }
+
+/////////////////////////////////////////////////
+//
+//Funciones esteticas de la app y la home
+//
+////////////////////////////////////////////////
+
 buttonsToggler = document.getElementsByClassName('navbar-toggler')
 buttonClose = document.getElementsByClassName('close');
-if (buttonsToggler){
-    for (i=0;i<buttonsToggler.length;i++){
+if (buttonsToggler) {
+    for (i = 0; i < buttonsToggler.length; i++) {
         buttonsToggler[i].addEventListener('click', openNav);
         buttonClose[i].addEventListener('click', closeNav);
     }
@@ -539,35 +605,35 @@ if (buttonsToggler){
 
 function openNav(event) {
     console.log(event.target.getAttribute('id'));
-    if(event.target.getAttribute('id') == 'toggler-l'){
-        
-        document.getElementById("myNav-profile").style.width = "100%";
-    }else{
-        if(chat = document.getElementById('myNav-chat')){
-            chat.style.width="100%";
-        }
-        if(home = document.getElementById('myNav')){
-            home.style.width="100%";
-        }
-    }
-  }
-  
-  /* Close when someone clicks on the "x" symbol inside the overlay */
-  function closeNav(event) {
-      
-    if(event.target.getAttribute('id') == 'toggler-close-r'){
-        document.getElementById('myNav-profile').style.width="0%";
-    }else{
-        if(chat = document.getElementById('myNav-chat')){
-            chat.style.width="0%";
-        }
-        if(home = document.getElementById('myNav')){
-            home.style.width="0%";
-        }
-    }
-  }
+    if (event.target.getAttribute('id') == 'toggler-l') {
 
-  $('#carouselExample').on('slide.bs.carousel', function (e) {
+        document.getElementById("myNav-profile").style.width = "100%";
+    } else {
+        if (chat = document.getElementById('myNav-chat')) {
+            chat.style.width = "100%";
+        }
+        if (home = document.getElementById('myNav')) {
+            home.style.width = "100%";
+        }
+    }
+}
+
+/* Close when someone clicks on the "x" symbol inside the overlay */
+function closeNav(event) {
+
+    if (event.target.getAttribute('id') == 'toggler-close-r') {
+        document.getElementById('myNav-profile').style.width = "0%";
+    } else {
+        if (chat = document.getElementById('myNav-chat')) {
+            chat.style.width = "0%";
+        }
+        if (home = document.getElementById('myNav')) {
+            home.style.width = "0%";
+        }
+    }
+}
+
+$('#carouselExample').on('slide.bs.carousel', function (e) {
 
     /*
 
@@ -577,18 +643,18 @@ function openNav(event) {
     */
 
     var $e = $(e.relatedTarget);
-    
+
     var idx = $e.index();
     console.log("IDX :  " + idx);
-    
+
     var itemsPerSlide = 3;
     var totalItems = $('.carousel-item').length;
-    
-    if (idx >= totalItems-(itemsPerSlide-1)) {
+
+    if (idx >= totalItems - (itemsPerSlide - 1)) {
         var it = itemsPerSlide - (totalItems - idx);
-        for (var i=0; i<it; i++) {
+        for (var i = 0; i < it; i++) {
             // append slides to end
-            if (e.direction=="left") {
+            if (e.direction == "left") {
                 $('.carousel-item').eq(i).appendTo('.carousel-inner');
             }
             else {
@@ -604,19 +670,19 @@ function openNav(event) {
     * Copyright 2013-2020 Start Bootstrap
     * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-sb-admin/blob/master/LICENSE)
     */
-   (function($) {
+(function ($) {
     "use strict";
 
     // Add active state to sidbar nav links
     var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
-        $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function() {
-            if (this.href === path) {
-                $(this).addClass("active");
-            }
-        });
+    $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function () {
+        if (this.href === path) {
+            $(this).addClass("active");
+        }
+    });
 
     // Toggle the side navigation
-    $("#sidebarToggle").on("click", function(e) {
+    $("#sidebarToggle").on("click", function (e) {
         e.preventDefault();
         $("body").toggleClass("sb-sidenav-toggled");
     });

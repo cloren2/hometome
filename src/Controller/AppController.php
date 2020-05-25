@@ -188,42 +188,40 @@ class AppController extends AbstractController
         $roomMates = $request->get('roomMates');
         $min = $request->get('min');
         $max = $request->get('max');
-        $arrayPreferencias = explode(',',$request->get('preferencias'));
+        $arrayPreferencias = explode(',', $request->get('preferencias'));
 
         $resultadosBusqueda = $userRepository->filtradoUsuarios($ciudad, $arrayPreferencias, $gender, $roomMates, $min, $max, $idUserActivo);
-    
-        
+
+
         if (!$resultadosBusqueda) {
             $preferencias = "No se han encontrado resultados con esos parámetros";
         } else {
             //foreach ($resultadosBusqueda as $clave => $results) {
-                for ($i=0;$i<count($resultadosBusqueda);$i++){
+            for ($i = 0; $i < count($resultadosBusqueda); $i++) {
                 $campo = [
                     'Id' => $resultadosBusqueda[$i]->getId(),
                     'Nombre' => $resultadosBusqueda[$i]->getNombre(),
                     'Ciudad' => $resultadosBusqueda[$i]->getCiudad()->getNombre(),
-                 ];
-            
-                
-                 $arrayPref=[];
-            foreach ($resultadosBusqueda[$i]->getPreferencias()  as $key => $resultados){
-                 
-                if (!in_array($resultados->getNombre(),$arrayPref)){
-                    $arrayPref[$key]=$resultados->getNombre();
+                ];
+
+
+                $arrayPref = [];
+
+                foreach ($resultadosBusqueda[$i]->getPreferencias()  as $key => $resultados) {
+
+                    if (!in_array($resultados->getNombre(), $arrayPref)) {
+                        $arrayPref[$key] = $resultados->getNombre();
+                    }
+                    $campo['Preferencias'] = $arrayPref;
                 }
-                $campo ['Preferencias'] = $arrayPref;
+
+                foreach ($resultadosBusqueda[$i]->getFoto() as $key2 => $resultados2) {
+                    $arrayFoto = $resultados2->getNombre();
+                    $campo['Foto'] = $arrayFoto;
+                }
+                $preferencias[$i] = $campo;
             }
-           
-            foreach ($resultadosBusqueda[$i]->getFoto() as $key2 => $resultados2) {
-                $arrayFoto= $resultados2->getNombre();
-                 $campo ['Foto'] = $arrayFoto;
-                }$preferencias[$i] = $campo;
-       }
-    
         }
-
-
-
         return new JsonResponse($preferencias);
     }
     /**
@@ -238,16 +236,28 @@ class AppController extends AbstractController
             $idChat['id'] = $objMensaje->getRecieverName();
             $users[$clave] = $userRepository->findBy($idChat);
         }
-       if(isset($users)){
-               foreach ($users as $clave => $objUser) {
-            $campo = [
-                'Id' => $objUser[0]->getId(),
-                'Nombre' => $objUser[0]->getNombre(),
-            ];
-            $idUsuarios[$clave] = $campo;
+        if (isset($users)) {
+            foreach ($users as $clave => $objUser) {
+                $campo = [
+                    'Id' => $objUser[0]->getId(),
+                    'Nombre' => $objUser[0]->getNombre().' '.$objUser[0]->getApellidos(),
+                ];
+
+                foreach($objUser[0]->getFoto() as $resultados2){
+                    $arrayFoto = $resultados2->getNombre();
+                    $campo['Foto'] = $arrayFoto;
+                }
+
+
+                $idUsuarios[$clave] = $campo;
+            }
+
+
+            
+        } else {
+            $idUsuarios = "No tienes mensajes";
         }
-        } else {$idUsuarios="No tienes mensajes";}
-     
+
         return new JsonResponse($idUsuarios);
     }
     /**

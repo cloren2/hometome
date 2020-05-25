@@ -478,6 +478,24 @@ textarea {
   height: 3.5em;
   width: 80%;
 }
+.msn-prev{
+  color: #818181;
+}
+.conversation-prev{
+  background-color: #fbfbfe;
+  border: none;
+  width: 100%;
+  padding: 0.5em;
+}
+.button-cpanel{
+  background-color: #fbfbfe;
+  border: none;
+  margin-top: 0.5rem;
+  padding-bottom: 1rem;
+}
+#col-fix{
+  max-width: 75%;
+}
 .enviados{
   background-color: rgb(127, 219, 255);
   margin:0.5em;
@@ -499,7 +517,9 @@ textarea {
     border: solid 1px black;
   }
   .app-img{
-    width: 10em;
+    width: 50px;
+    height: 46px;
+    object-fit: cover;
   }
 
   #title-section{

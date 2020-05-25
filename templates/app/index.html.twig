@@ -43,51 +43,64 @@
                 <img src="users/user1/img1-6.png" class="rounded-circle img-profile">
                 <a href="home/perfil">
                     <div class="d-inline app-subt">Mi perfil</div>
-                </a>
-                <a href="#!" id="buttonMessages">
-                    <img src="img/app/mail.png">
-                </a>       
+                </a>    
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-sm" id="search">
-            <div class="app-subtB">Buscador</div>
-            <div class="separator"></div>
+    <div class="form-row">
+        <div class="col" id="control-panel">
+            <button type="button" class="button-cpanel">
+                <span class="app-subtB" id="buttonSearch">Buscador</span>
+                <div class="separator"></div>
+            </button>
+            <button type="button" class="button-cpanel">
+                <span class="app-subtB" id="buttonMessages">Mensajes</span>
+                <div class="separator"></div>
+            </button>
             </br>
-            <select id="ciudadSelect" name="ciudad" class="form-control">
-            {% for ciudades in nombre %}
-                <option value="{{ ciudades.id }}">{{ ciudades.nombre }}</option> 
-            {% else %}
-                <option value="N">No hay ciudades</option> 
-            {% endfor %}
-            </select>
-            </br>
-            <select  class="form-control" id="genderSelect" name="genero">
-                <option value="H">Hombre</option> 
-                <option value="M">Mujer</option>
-                <option value="N" selected>No me importa</option>
-            </select>
-            </br>
-            <select  class="form-control" id="roomMatesSelect" name="roomMates">
-                <option value="1">1 persona</option> 
-                <option value="2" selected>2 personas</option>
-                <option value="3+">3 o más personas</option>
-            </select>
-            </br>
-            <div class="col-xs">
-                <input class="form-control" type="text" size="4" placeholder="min" id="min">
+            <div id="child-cpanel">
+                <div id="search-panel">
+                <label for="ciudad">Ciudad:</label>
+                <select id="ciudadSelect" name="ciudad" class="form-control-sm">
+                {% for ciudades in nombre %}
+                    <option value="{{ ciudades.id }}">{{ ciudades.nombre }}</option> 
+                {% else %}
+                    <option value="N">No hay ciudades</option> 
+                {% endfor %}
+                </select>
+                </br>
+                <label for="genero">¿Chicos, chicas?:</label>
+                <select  class="form-control-sm" id="genderSelect" name="genero">
+                    <option value="H">Hombre</option> 
+                    <option value="M">Mujer</option>
+                    <option value="N" selected>No me importa</option>
+                </select>
+                </br>
+                <label for="genero">Nº Máximo de compañeros:</label>
+                <select  class="form-control-sm" id="roomMatesSelect" name="roomMates">
+                    <option value="1">1 persona</option> 
+                    <option value="2" selected>2 personas</option>
+                    <option value="3+">3 o más personas</option>
+                </select>
+                </br>
+                <div class="col">
+                    <label for="genero">Precio minimo del alquiler:</label>
+                    <input class="form-control-sm" type="text" size="4" placeholder="min" id="min">
+                </div>
+                <div class="col">
+                    <label for="genero">Precio máximo del alquiler:</label>
+                    <input class="form-control-sm" type="text" size="4" placeholder="max" id="max">
+                </div>
+                </br>
+                <div class="ui-widget" id="buscadorPreferencias">
+                    <label for="tags">Búsqueda de preferencias: </label>
+                    <input id="tags" class="form-control">
+                </div>
+                </br>
+                <button type="button" class="form-control" id="botonBusqueda">Buscar</button>
+                </div>
             </div>
-            <div class="col-xs">
-                <input class="form-control" type="text" size="4" placeholder="max" id="max">
-            </div>
-            </br>
-            <div class="ui-widget" id="buscadorPreferencias">
-                <label for="tags">Búsqueda de preferencias: </label>
-                <input id="tags" class="form-control">
-            </div>
-            <button type="button" class="form-control" id="botonBusqueda">Buscar</button>
         </div>
     </div>
 </div>
