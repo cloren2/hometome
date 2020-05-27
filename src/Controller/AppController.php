@@ -231,28 +231,35 @@ class AppController extends AbstractController
     {
         $idUserActivo = $this->getUser();
         $enviados = $mensajeRepository->chatConversation($idUserActivo->getId());
-
+      
         foreach ($enviados as $clave => $objMensaje) {
             $idChat['id'] = $objMensaje->getRecieverName();
             $users[$clave] = $userRepository->findBy($idChat);
+            
         }
         if (isset($users)) {
+            $cont=0;
             foreach ($users as $clave => $objUser) {
+                if($objUser[0]->getId() != $idUserActivo->getId()){
+
+                    $msn = $mensajeRepository->lastMessage($idUserActivo,$objUser[0]->getId());
+                    
                 $campo = [
                     'Id' => $objUser[0]->getId(),
                     'Nombre' => $objUser[0]->getNombre().' '.$objUser[0]->getApellidos(),
+                    'msn'=>$msn[0]->getMessage()
                 ];
-
+               
                 foreach($objUser[0]->getFoto() as $resultados2){
                     $arrayFoto = $resultados2->getNombre();
                     $campo['Foto'] = $arrayFoto;
                 }
 
-
-                $idUsuarios[$clave] = $campo;
+                
+                $idUsuarios[$cont] = $campo;
+                $cont++;
             }
-
-
+}
             
         } else {
             $idUsuarios = "No tienes mensajes";

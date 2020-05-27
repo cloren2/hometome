@@ -137,7 +137,7 @@ function removePreferences(event) {
 //Funcion para pintar la preferencia en el template
 function paintPreference(preference, preferenciaId) {
 
-    buscador = document.getElementById('search');
+    buscador = document.getElementById('search-panel');
 
     tag = document.getElementById('tags');
     divContTag.setAttribute('id', 'contenedorPref');
@@ -441,10 +441,11 @@ function createUserList(objeto) {
 
 function createUserConversationList(objeto){
     limpiarDiv();
+   
     divResult = document.getElementById('child-cpanel');
     div = document.createElement('div');
     div.setAttribute('id', 'parrafo');
-
+    
     if (objeto[0].Id == undefined) {
 
         texto = document.createTextNode(objeto);
@@ -455,7 +456,6 @@ function createUserConversationList(objeto){
         divResult.appendChild(div);
 
     } else {
-
         resultados =
             '<div class="container" id="conversation-box">';
         for (i = 0; i < objeto.length; i++) {
@@ -467,7 +467,7 @@ function createUserConversationList(objeto){
                         '</div>'+
                         '<div class="col-sm" id="col-fix">'+
                             `<div>${objeto[i].Nombre}</div>` +
-                            '<div class="msn-prev">Hola que pasa guapo kieres...</div>'+  
+                            `<div class="msn-prev">${objeto[i].msn}</div>`+  
                         '</div>'+
                     '</div>'+
                 '</button>'+
@@ -483,7 +483,7 @@ function createUserConversationList(objeto){
 }
 
 function createSearchElements(params) {
-    console.log('hola');
+   
     divResult = document.getElementById('child-cpanel');
     var search = '<div id="child-cpanel">'+
                 '<div id="search-panel">'+
