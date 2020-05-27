@@ -242,18 +242,12 @@ class AppController extends AbstractController
                     'Id' => $objUser[0]->getId(),
                     'Nombre' => $objUser[0]->getNombre().' '.$objUser[0]->getApellidos(),
                 ];
-
                 foreach($objUser[0]->getFoto() as $resultados2){
                     $arrayFoto = $resultados2->getNombre();
                     $campo['Foto'] = $arrayFoto;
                 }
-
-
                 $idUsuarios[$clave] = $campo;
             }
-
-
-            
         } else {
             $idUsuarios = "No tienes mensajes";
         }

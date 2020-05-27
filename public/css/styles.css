@@ -357,7 +357,7 @@ body{
 }
 /*Para tablets*/
 @media screen and (min-width: 768px) {
-  #r-app{
+  #c-app{
     float: right;
     max-width: 65%;
   }
@@ -374,7 +374,7 @@ body{
 }
 /* Para escritorioy*/
 @media screen and (min-width: 1024px) {
-  #r-app{
+  #c-app{
     float: right;
     max-width: 70%;
   }
@@ -491,7 +491,7 @@ textarea {
   background-color: #fbfbfe;
   border: none;
   margin-top: 0.5rem;
-  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 #col-fix{
   max-width: 75%;

@@ -182,13 +182,69 @@ if (viewMessagesButton = document.getElementById('buttonMessages')) {
     viewSearchButton.addEventListener('click', createSearchElements);
 }
 
+function createUserConversationList(objeto){
+
+    ciudadSelect = document.getElementById("ciudadSelect").options;
+
+    limpiarDiv();
+
+    divResult = document.getElementById('child-cpanel');
+    div = document.createElement('div');
+    div.setAttribute('id', 'parrafo');
+
+    if (objeto[0].Id == undefined) {
+
+        texto = document.createTextNode(objeto);
+
+        p = document.createElement('p');
+        p.appendChild(texto);
+        div.appendChild(p);
+        divResult.appendChild(div);
+
+    } else {
+
+        resultados =
+            '<div class="container" id="conversation-box">';
+        for (i = 0; i < objeto.length; i++) {
+            resultados = resultados + 
+                '<button type="button" class="conversation-prev">'+
+                    '<div class="row d-flex justify-content-center">' +
+                        '<div class="col-xs">' +
+                            `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                        '</div>'+
+                        '<div class="col-sm" id="col-fix">'+
+                            `<div>${objeto[i].Nombre}</div>` +
+                            '<div class="msn-prev">Hola que pasa guapo kieres...</div>'+  
+                        '</div>'+
+                    '</div>'+
+                '</button>'+
+                '<div>'+
+                '<hr>'+
+                '</div>';
+        }
+        resultados = resultados + '</div>';
+        divResult.innerHTML = resultados;
+
+        chatPrevs = document.getElementsByClassName('conversation-prev');
+        for (let i = 0; i < chatPrevs.length; i++) {
+            chatPrevs[i].addEventListener('click', messagesRequest);
+            
+        }
+
+
+
+    }
+
+}
+
 //Crea los elementos necesarios para renderizar el chat
 function printChatElements(event) {
 
     //Limpiamos el div y obtenemos el id del receptor
-    limpiarDiv();
-    idPasivo = event.target.value;
+    //limpiarDiv();
+    //idPasivo = event.target.value;
 
+    /*
     //Creando el contenedor del chat
     buscador = document.getElementById('container-msn');
     contenedor = document.createElement('div');
@@ -219,7 +275,86 @@ function printChatElements(event) {
 
     enviar.appendChild(textoBoton);
     contenedor.appendChild(enviar);
-    messagesRequest()
+    */
+    rpanel = document.getElementById('results-panel');
+
+    rpanel.innerHTML="";
+
+    chat = '<div class="container overflow-auto" id="chat-box">'+
+    '<div class="row justify-content-end">'+
+        '<div class="col-7 enviados">'+
+            'esto es un mensaje enviado'+
+        '</div>'+
+    '</div>'+
+    '<div class="row">'+
+        '<div class="col-7 recibidos">'+
+            'esto es un mensaje recibido'+
+        '</div>'+
+    '</div>'+
+    '<div class="row justify-content-end">'+
+        '<div class="col-7 enviados">'+
+            'esto es un mensaje enviado'+
+        '</div>'+
+    '</div>'+
+    '<div class="row justify-content-end">'+
+        '<div class="col-7 enviados">'+
+            'esto es un mensaje enviado'+
+        '</div>'+
+    '</div>'+
+    '<div class="row">'+
+        '<div class="col-7 recibidos">'+
+            'esto es un mensaje recibido'+
+        '</div>'+
+    '</div>'+
+    '<div class="row justify-content-end">'+
+        '<div class="col-7 enviados">'+
+            'esto es un mensaje enviado'+
+        '</div>'+
+    '</div>'+
+    '<div class="row">'+
+        '<div class="col-7 recibidos">'+
+            'esto es un mensaje recibido'+
+        '</div>'+
+    '</div>'+
+    '<div class="row justify-content-end">'+
+        '<div class="col-7 enviados">'+
+            'esto es un mensaje enviado'+
+        '</div>'+
+    '</div>'+
+    '<div class="row">'+
+        '<div class="col-7 recibidos">'+
+            'esto es un mensaje recibido'+
+        '</div>'+
+    '</div>'+
+    '<div class="row justify-content-end">'+
+        '<div class="col-7 enviados">'+
+            'esto es un mensaje enviado'+
+        '</div>'+
+    '</div>'+
+    '<div class="row">'+
+        '<div class="col-7 recibidos">'+
+            'esto es un mensaje recibido'+
+        '</div>'+
+    '</div>'+
+    '<div class="row justify-content-end">'+
+        '<div class="col-7 enviados">'+
+            'esto es un mensaje enviado'+
+        '</div>'+
+    '</div>'+
+    '<div class="row">'+
+        '<div class="col-7 recibidos">'+
+            'esto es un mensaje recibido'+
+        '</div>'+
+    '</div>'+
+'</div>'+
+'<div class="container" id="textArea">'+
+    '<div class="row">'+
+        '<input type="text"></input>'+
+        '<button type="button">Enviar</button>'+
+    '</div>'+
+'</div>'
+
+    rpanel.innerHTML=chat;
     //Llamada a peticion de mensajes de forma regular
     // intervalo = setInterval(, 5000);
 }
@@ -250,14 +385,15 @@ function printNewMessages(objeto) {
 
 //Solicitud de todos los mensajes asincrona
 function messagesRequest() {
-
+    console.log('hola');
     ruta = Routing.generate('chat');
-
+    printChatElements();
+    /*
     xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', messagesResponse);
     xhr.open('POST', ruta);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('value=' + idPasivo);
+    xhr.send('value=' + idPasivo);*/
 }
 
 //Respuesta de todos los mensajes asincrona
@@ -329,6 +465,7 @@ function userConversationsResponse(event) {
 //Variables globales de este modulo
 var resultados;
 var divResult;
+var ciudadSelect;
 
 //Comprobamos que estamos en la home de usuarios
 if (searhUserButton = document.getElementById('botonBusqueda')) {
@@ -439,61 +576,28 @@ function createUserList(objeto) {
     }
 }
 
-function createUserConversationList(objeto){
-    limpiarDiv();
-    divResult = document.getElementById('child-cpanel');
-    div = document.createElement('div');
-    div.setAttribute('id', 'parrafo');
-
-    if (objeto[0].Id == undefined) {
-
-        texto = document.createTextNode(objeto);
-
-        p = document.createElement('p');
-        p.appendChild(texto);
-        div.appendChild(p);
-        divResult.appendChild(div);
-
-    } else {
-
-        resultados =
-            '<div class="container" id="conversation-box">';
-        for (i = 0; i < objeto.length; i++) {
-            resultados = resultados + 
-                '<button type="button" class="conversation-prev">'+
-                    '<div class="row d-flex justify-content-center">' +
-                        '<div class="col-xs">' +
-                            `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
-                        '</div>'+
-                        '<div class="col-sm" id="col-fix">'+
-                            `<div>${objeto[i].Nombre}</div>` +
-                            '<div class="msn-prev">Hola que pasa guapo kieres...</div>'+  
-                        '</div>'+
-                    '</div>'+
-                '</button>'+
-                '<div>'+
-                '<hr>'+
-                '</div>';
-        }
-        resultados = resultados + '</div>';
-        divResult.innerHTML = resultados;
-
-    }
-
-}
 
 function createSearchElements(params) {
-    console.log('hola');
+
+    if(ciudadSelect == undefined){
+        ciudadSelect = document.getElementById('ciudadSelect');
+    }
     divResult = document.getElementById('child-cpanel');
+
     var search = '<div id="child-cpanel">'+
                 '<div id="search-panel">'+
                 '<label for="ciudad">Ciudad:</label>'+
-                '<select id="ciudadSelect" name="ciudad" class="form-control-sm">'+
-                '{% for ciudades in nombre %}'+
-                    '<option value="{{ ciudades.id }}">{{ ciudades.nombre }}</option> '+
-                '{% else %}'+
-                    '<option value="N">No hay ciudades</option> '+
-                '{% endfor %}'+
+                '<select id="ciudadSelect" name="ciudad" class="form-control-sm">';
+                if(ciudadSelect.length>0){
+                    for (i = 0; i < ciudadSelect.length; i++) {
+    search = search +
+                `<option value=${ciudadSelect[i].value} >${ciudadSelect[i].text}</option> `;
+                    }
+                }else{
+    search = search +                
+                    '<option value="N">No hay ciudades</option> ';
+                }
+    search = search +             
                 '</select>'+
                 '</br>'+
                 '<label for="genero">¿Chicos, chicas?:</label>'+
