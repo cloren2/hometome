@@ -48,11 +48,11 @@ divContTag = document.createElement('div');
 if (search = document.getElementById('tags')) {
     search.addEventListener('keyup', searchPreferenceRequest);
 }
-
+console.log(document.getElementById('tags'))
 //Peticion de preferencias al servidor que se produce
 //cuando el usuario escribe sobre el input 'tags'
 function searchPreferenceRequest() {
-
+console.log('hola')
     valor = document.getElementById('tags').value;
     ruta = Routing.generate('search');
 
@@ -182,63 +182,10 @@ if (viewMessagesButton = document.getElementById('buttonMessages')) {
     viewSearchButton.addEventListener('click', createSearchElements);
 }
 
-function createUserConversationList(objeto){
 
-    ciudadSelect = document.getElementById("ciudadSelect").options;
-
-    limpiarDiv();
-
-    divResult = document.getElementById('child-cpanel');
-    div = document.createElement('div');
-    div.setAttribute('id', 'parrafo');
-
-    if (objeto[0].Id == undefined) {
-
-        texto = document.createTextNode(objeto);
-
-        p = document.createElement('p');
-        p.appendChild(texto);
-        div.appendChild(p);
-        divResult.appendChild(div);
-
-    } else {
-
-        resultados =
-            '<div class="container" id="conversation-box">';
-        for (i = 0; i < objeto.length; i++) {
-            resultados = resultados + 
-                '<button type="button" class="conversation-prev">'+
-                    '<div class="row d-flex justify-content-center">' +
-                        '<div class="col-xs">' +
-                            `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
-                        '</div>'+
-                        '<div class="col-sm" id="col-fix">'+
-                            `<div>${objeto[i].Nombre}</div>` +
-                            '<div class="msn-prev">Hola que pasa guapo kieres...</div>'+  
-                        '</div>'+
-                    '</div>'+
-                '</button>'+
-                '<div>'+
-                '<hr>'+
-                '</div>';
-        }
-        resultados = resultados + '</div>';
-        divResult.innerHTML = resultados;
-
-        chatPrevs = document.getElementsByClassName('conversation-prev');
-        for (let i = 0; i < chatPrevs.length; i++) {
-            chatPrevs[i].addEventListener('click', messagesRequest);
-            
-        }
-
-
-
-    }
-
-}
 
 //Crea los elementos necesarios para renderizar el chat
-function printChatElements(event) {
+function printChatElements(objeto) {
 
     //Limpiamos el div y obtenemos el id del receptor
     //limpiarDiv();
@@ -280,81 +227,37 @@ function printChatElements(event) {
 
     rpanel.innerHTML="";
 
-    chat = '<div class="container overflow-auto" id="chat-box">'+
-    '<div class="row justify-content-end">'+
+    chat = '<div class="container overflow-auto" id="chat-box">';
+   for (i=0;i<objeto.length;i++){
+    if (objeto[i].usuarioActivo==objeto[i].Emisor){
+        chat=chat+'<div class="row justify-content-end">'+
         '<div class="col-7 enviados">'+
-            'esto es un mensaje enviado'+
+        objeto[i].Mensaje+
         '</div>'+
-    '</div>'+
-    '<div class="row">'+
+    '</div>'
+    } else{
+        chat=chat+   '<div class="row">'+
         '<div class="col-7 recibidos">'+
-            'esto es un mensaje recibido'+
+        objeto[i].Mensaje+
         '</div>'+
-    '</div>'+
-    '<div class="row justify-content-end">'+
-        '<div class="col-7 enviados">'+
-            'esto es un mensaje enviado'+
-        '</div>'+
-    '</div>'+
-    '<div class="row justify-content-end">'+
-        '<div class="col-7 enviados">'+
-            'esto es un mensaje enviado'+
-        '</div>'+
-    '</div>'+
-    '<div class="row">'+
-        '<div class="col-7 recibidos">'+
-            'esto es un mensaje recibido'+
-        '</div>'+
-    '</div>'+
-    '<div class="row justify-content-end">'+
-        '<div class="col-7 enviados">'+
-            'esto es un mensaje enviado'+
-        '</div>'+
-    '</div>'+
-    '<div class="row">'+
-        '<div class="col-7 recibidos">'+
-            'esto es un mensaje recibido'+
-        '</div>'+
-    '</div>'+
-    '<div class="row justify-content-end">'+
-        '<div class="col-7 enviados">'+
-            'esto es un mensaje enviado'+
-        '</div>'+
-    '</div>'+
-    '<div class="row">'+
-        '<div class="col-7 recibidos">'+
-            'esto es un mensaje recibido'+
-        '</div>'+
-    '</div>'+
-    '<div class="row justify-content-end">'+
-        '<div class="col-7 enviados">'+
-            'esto es un mensaje enviado'+
-        '</div>'+
-    '</div>'+
-    '<div class="row">'+
-        '<div class="col-7 recibidos">'+
-            'esto es un mensaje recibido'+
-        '</div>'+
-    '</div>'+
-    '<div class="row justify-content-end">'+
-        '<div class="col-7 enviados">'+
-            'esto es un mensaje enviado'+
-        '</div>'+
-    '</div>'+
-    '<div class="row">'+
-        '<div class="col-7 recibidos">'+
-            'esto es un mensaje recibido'+
-        '</div>'+
-    '</div>'+
-'</div>'+
+    '</div>'
+    }
+
+    
+    
+     
+} 
+chat=chat+'</div>'+
 '<div class="container" id="textArea">'+
     '<div class="row">'+
-        '<input type="text"></input>'+
-        '<button type="button">Enviar</button>'+
+        '<input id="mensaje" type="text"></input>'+
+        '<button id="btn-send" type="button">Enviar</button>'+
     '</div>'+
-'</div>'
+'</div>';
 
     rpanel.innerHTML=chat;
+   var btnsend =document.getElementById('btn-send');
+   btnsend.addEventListener('click',sendMessageRequest)
     //Llamada a peticion de mensajes de forma regular
     // intervalo = setInterval(, 5000);
 }
@@ -384,34 +287,55 @@ function printNewMessages(objeto) {
 }
 
 //Solicitud de todos los mensajes asincrona
-function messagesRequest() {
-    console.log('hola');
+var idPasivo;
+function messagesRequest(event) {
+    console.log('estoy cargando mensajes')
+    if(event.target)
+     idPasivo=event.target.value
     ruta = Routing.generate('chat');
-    printChatElements();
-    /*
+
     xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', messagesResponse);
     xhr.open('POST', ruta);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('value=' + idPasivo);*/
+    xhr.send('value=' + idPasivo);
+    panelUserRequest(idPasivo);
 }
 
 //Respuesta de todos los mensajes asincrona
 function messagesResponse(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
+        console.log('respuesta todos mensajes');
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
-        printNewMessages(objeto);
+        //printNewMessages(objeto);
+        printChatElements(objeto);
     }
 }
 
+function panelUserRequest(idPasivo){
+    ruta = Routing.generate('panel_user');
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', panelUserResponse);
+    xhr.open('POST', ruta);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('value=' + idPasivo);
+}
+function panelUserResponse(event){
+    if (event.target.readyState == 4 && event.target.status == 200) {
+        console.log('respuesta todos mensajes');
+        objeto_vuelta = event.target.responseText;
+        objeto = JSON.parse(objeto_vuelta);
+       console.log(objeto)
+    }
+}
 //Solicitud asincrona para enviar un nuevo mensaje
 function sendMessageRequest(event) {
-    idPasivo = event.target.id;
+    console.log('estoy enviando mensajes')
+    //idPasivo = event.target.value;
     mensaje = document.getElementById('mensaje').value;
     ruta = Routing.generate('sendMessage');
-
     xhr = new XMLHttpRequest();
     xhr.id = idPasivo;
     xhr.addEventListener('readystatechange', sendMessageResponse);
@@ -424,7 +348,8 @@ function sendMessageRequest(event) {
 function sendMessageResponse(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
-        idPasivo = event.target.id;
+        //idPasivo = event.target.id;
+        console.log('ENVIO IDPASIVO '+idPasivo)
         messagesRequest(idPasivo);
     }
 }
@@ -468,8 +393,9 @@ var divResult;
 var ciudadSelect;
 
 //Comprobamos que estamos en la home de usuarios
-if (searhUserButton = document.getElementById('botonBusqueda')) {
-    searhUserButton.addEventListener('click', searchUserRequest);
+if (searchUserButton = document.getElementById('botonBusqueda')) {
+    searchUserButton.addEventListener('click', searchUserRequest);
+    ciudadSelect = document.getElementById("ciudadSelect").options;
 }
 
 
@@ -519,7 +445,7 @@ function createUserList(objeto) {
 
     limpiarDiv();
 
-    divResult = document.getElementById('results');
+    divResult = document.getElementById('results-panel');
     div = document.createElement('div');
     div.setAttribute('id', 'parrafo');
 
@@ -563,7 +489,7 @@ function createUserList(objeto) {
             if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
             resultados = resultados + '<br>'
             resultados = resultados + '<br>'
-            resultados = resultados + '<button type="button">Chat</button>' +
+            resultados = resultados + `<button class="btn-chatSearchUser" value="${objeto[i].Id}" type="button">Chat</button>` +
                 '</div>' +
                 '</div>' +
                 '<div>' +
@@ -572,6 +498,12 @@ function createUserList(objeto) {
         }
         resultados = resultados + '</div>';
         divResult.innerHTML = resultados;
+        btnSearchUser = document.getElementsByClassName('btn-chatSearchUser');
+        for (let i = 0; i< btnSearchUser.length; i++) {
+            btnSearchUser[i].addEventListener('click',messagesRequest)
+           
+        }
+        
 
     }
 }
@@ -597,17 +529,19 @@ function createUserConversationList(objeto){
             '<div class="container" id="conversation-box">';
         for (i = 0; i < objeto.length; i++) {
             resultados = resultados + 
-                '<button type="button" class="conversation-prev">'+
+                //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
                     '<div class="row d-flex justify-content-center">' +
                         '<div class="col-xs">' +
                             `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
                         '</div>'+
                         '<div class="col-sm" id="col-fix">'+
-                            `<div>${objeto[i].Nombre}</div>` +
-                            `<div class="msn-prev">${objeto[i].msn}</div>`+  
+                        //nombre iba en div normal
+                            `<button type="button" class="conversation-prev" value="${objeto[i].Id}">${objeto[i].Nombre}</button>` +
+                            `<div class="msn-prev">${objeto[i].msn}</div>`+ 
+                           
                         '</div>'+
                     '</div>'+
-                '</button>'+
+               // '</button>'+
                 '<div>'+
                 '<hr>'+
                 '</div>';
@@ -615,12 +549,14 @@ function createUserConversationList(objeto){
         resultados = resultados + '</div>';
         divResult.innerHTML = resultados;
 
-    if(ciudadSelect == undefined){
-        ciudadSelect = document.getElementById('ciudadSelect');
-    }
+        chatPrevs = document.getElementsByClassName('conversation-prev');
+        
+        for (let i = 0; i < chatPrevs.length; i++) {
+        chatPrevs[i].addEventListener('click', messagesRequest);
+        }
 
 }
-
+}
 function createSearchElements(params) {
    
     divResult = document.getElementById('child-cpanel');
@@ -672,6 +608,10 @@ function createSearchElements(params) {
                 '<button type="button" class="form-control" id="botonBusqueda">Buscar</button>'+
                 '</div>';     
         divResult.innerHTML = search;
+        search = document.getElementById('tags')
+        btnSearch = document.getElementById('botonBusqueda');
+        search.addEventListener('keyup', searchPreferenceRequest);
+        btnSearch.addEventListener('click',searchUserRequest)
 
 }
 //Slider de para el rango de precios
