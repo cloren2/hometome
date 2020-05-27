@@ -137,7 +137,7 @@ function removePreferences(event) {
 //Funcion para pintar la preferencia en el template
 function paintPreference(preference, preferenciaId) {
 
-    buscador = document.getElementById('search');
+    buscador = document.getElementById('search-panel');
 
     tag = document.getElementById('tags');
     divContTag.setAttribute('id', 'contenedorPref');
@@ -576,12 +576,53 @@ function createUserList(objeto) {
     }
 }
 
+function createUserConversationList(objeto){
+    limpiarDiv();
+   
+    divResult = document.getElementById('child-cpanel');
+    div = document.createElement('div');
+    div.setAttribute('id', 'parrafo');
+    
+    if (objeto[0].Id == undefined) {
 
-function createSearchElements(params) {
+        texto = document.createTextNode(objeto);
+
+        p = document.createElement('p');
+        p.appendChild(texto);
+        div.appendChild(p);
+        divResult.appendChild(div);
+
+    } else {
+        resultados =
+            '<div class="container" id="conversation-box">';
+        for (i = 0; i < objeto.length; i++) {
+            resultados = resultados + 
+                '<button type="button" class="conversation-prev">'+
+                    '<div class="row d-flex justify-content-center">' +
+                        '<div class="col-xs">' +
+                            `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                        '</div>'+
+                        '<div class="col-sm" id="col-fix">'+
+                            `<div>${objeto[i].Nombre}</div>` +
+                            `<div class="msn-prev">${objeto[i].msn}</div>`+  
+                        '</div>'+
+                    '</div>'+
+                '</button>'+
+                '<div>'+
+                '<hr>'+
+                '</div>';
+        }
+        resultados = resultados + '</div>';
+        divResult.innerHTML = resultados;
 
     if(ciudadSelect == undefined){
         ciudadSelect = document.getElementById('ciudadSelect');
     }
+
+}
+
+function createSearchElements(params) {
+   
     divResult = document.getElementById('child-cpanel');
 
     var search = '<div id="child-cpanel">'+

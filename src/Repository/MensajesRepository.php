@@ -25,7 +25,7 @@ class MensajesRepository extends ServiceEntityRepository
     public function chatConversation($sender)
     {
         return $this->createQueryBuilder('m')
-            ->where('m.sender_name=:val')
+            ->where('m.sender_name=:val or m.reciever_name=:val')
             ->groupBy('m.reciever_name')
             ->setParameter('val', $sender)
             ->orderBy('m.id', 'ASC')
@@ -35,13 +35,14 @@ class MensajesRepository extends ServiceEntityRepository
     /**
      * @return Mensajes[] Returns an array of Mensajes objects
      */
-    public function lastMessage($sender)
+    public function lastMessage($sender, $reciever)
     {
         return $this->createQueryBuilder('m')
-            ->where('m.sender_name=:val')
-            ->groupBy('m.reciever_name')
+            ->andWhere('m.sender_name = :val or m.sender_name = :val2')
+            ->andWhere('m.reciever_name= :val2 or m.reciever_name= :val')
             ->setParameter('val', $sender)
-            ->orderBy('m.id', 'DES')
+            ->setParameter('val2', $reciever)
+            ->orderBy('m.id', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
@@ -61,17 +62,6 @@ class MensajesRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function modifyStatus($idMensajes)
-    {
-        //forearch id
-        return $this->createQueryBuilder('m')
-            ->update('Mensajes')
-            ->set('status', 'false')
-            ->where('m.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult();
-    }
     /*
     public function findOneBySomeField($value): ?Mensajes
     {
