@@ -52,7 +52,6 @@ console.log(document.getElementById('tags'))
 //Peticion de preferencias al servidor que se produce
 //cuando el usuario escribe sobre el input 'tags'
 function searchPreferenceRequest() {
-console.log('hola')
     valor = document.getElementById('tags').value;
     ruta = Routing.generate('search');
 
@@ -555,7 +554,9 @@ function searchUserResponse(event) {
 
 //Metodo que pinta la lista de usuarios encontrados o un texto en el caso de que no
 function createUserList(objeto) {
-
+        containerPref = document.getElementById('contenedorPref');
+        containerPref.innerHTML="";
+        arrayPref=[];
     limpiarDiv();
 
     divResult = document.getElementById('results-panel');
@@ -563,7 +564,7 @@ function createUserList(objeto) {
     div.setAttribute('id', 'parrafo');
 
     if (objeto[0].Id == undefined) {
-
+        divResult.innerHTML="";
         texto = document.createTextNode(objeto);
 
         p = document.createElement('p');
@@ -705,11 +706,11 @@ function createSearchElements() {
                 '</select>'+
                 '</br>'+
                 '<div class="col">'+
-                    '<label for="genero">Precio minimo del alquiler:</label>'+
+                    '<label for="genero">Precio mín. del alquiler:</label>'+
                     '<input class="form-control-sm" type="text" size="4" placeholder="min" id="min">'+
                 '</div>'+
                 '<div class="col">'+
-                    '<label for="genero">Precio máximo del alquiler:</label>'+
+                    '<label for="genero">Precio máx. del alquiler:</label>'+
                     '<input class="form-control-sm" type="text" size="4" placeholder="max" id="max">'+
                ' </div>'+
                 '</br>'+
