@@ -36,7 +36,7 @@
 </nav>
 
 
-<div class="container mb-3 pb-3 border-right border-left border" id="l-app">
+<div class="container mb-3 pb-3 border-right border-left border h-100" id="l-app">
     <div class="row user-toolbar" id="userTlbr">
         <div class="col-sm" id="profile">
             <div class="">
@@ -48,8 +48,8 @@
         </div>
     </div>
 
-    <div class="form-row">
-        <div class="col" id="control-panel">
+    <div class="form-row h-100">
+        <div class="col h-100" id="control-panel">
             <button type="button" class="button-cpanel">
                 <span class="app-subtB" id="buttonSearch">Buscador</span>
                 <div class="separator"></div>
@@ -59,8 +59,8 @@
                 <div class="separator"></div>
             </button>
             </br>
-            <div id="child-cpanel">
-                <div id="search-panel">
+            <div id="child-cpanel" class="h-100">
+                <div id="search-panel" class="h-100">
                 <label for="ciudad">Ciudad:</label>
                 <select id="ciudadSelect" name="ciudad" class="form-control-sm">
                 {% for ciudades in nombre %}
@@ -105,10 +105,10 @@
     </div>
 </div>
 
-<div class="container" id="c-app">
-    <div class="row">
-        <div class="col-sm" id="results" >
-            <div id="results-panel">
+<div class="container h-100" id="c-app">
+    <div class="row h-100">
+        <div class="col-sm h-100" id="results" >
+            <div class="h-100" id="results-panel">
                 <h2>Resultados</h2>
                 <p>Aquí saldrán los resultados.</p>
             </div>
@@ -116,6 +116,15 @@
     </div>
 </div>
 
+<div class="container border-left h-100" id="r-app">
+    <div class="row h-100">
+        <div class="col-sm h-100">
+            <div class="h-100" id="profile-panel">
+
+            </div>    
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

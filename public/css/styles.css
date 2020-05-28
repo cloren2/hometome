@@ -358,12 +358,16 @@ body{
 /*Para tablets*/
 @media screen and (min-width: 768px) {
   #c-app{
-    float: right;
-    max-width: 65%;
+    float: left;
+    max-width: 45%;
   }
   #l-app{
     float: left;
-    max-width: 35%;
+    max-width: 30%;
+  }
+  #r-app{
+    float: left;
+    max-width: 25%;
   }
   #navbar-app{
     display: none;
@@ -375,19 +379,46 @@ body{
 /* Para escritorioy*/
 @media screen and (min-width: 1024px) {
   #c-app{
-    float: right;
-    max-width: 70%;
+    float: left;
+    max-width: 45%;
   }
   #l-app{
     float: left;
     max-width: 30%;
+  }
+  #r-app{
+    float: left;
+    max-width: 25%;
   }
   #navbar-app{
     display: none;
   }
   html, body {
     height: 100%;
+
   }
+}
+::-webkit-scrollbar { 
+  display: none; 
+}
+:root{ scrollbar-width: none !important } 
+
+div{scrollbar-width: none !important }
+
+.container-scroll{
+  max-width: 100%;
+  max-height: 100%;
+}
+.scroll-fit{
+  max-width: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.scroll-chat{
+  max-width: 100%;
+  max-height: 90%;
+  overflow-y: scroll;
 }
 
 #search{
@@ -396,6 +427,28 @@ body{
 #results{
   height: 100%;
 }
+#profile-img{
+  max-width: 100%;
+  max-height: 100%;
+}
+#img-panel{
+  max-width: 100%;
+  max-height: 100%;
+}
+#col-fix{
+  max-width: 75%;
+}
+#title-section{
+  color: #015989;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 2rem;
+  line-height: 2.3rem;
+  letter-spacing: -0.08em;
+  padding: 1rem;
+}
+
 
 .user-toolbar{
   padding: 1rem;
@@ -493,9 +546,7 @@ textarea {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
-#col-fix{
-  max-width: 75%;
-}
+
 .enviados{
   background-color: rgb(127, 219, 255);
   margin:0.5em;
@@ -508,9 +559,7 @@ textarea {
   padding: 0.5rem;
   border-radius: 0.5rem;
 }
-  #chat-box{
-    overflow-y: hidden;
-  }
+
   #textArea{
     background-color: #FFFFFF;
     padding: 1rem;
@@ -522,19 +571,7 @@ textarea {
     object-fit: cover;
   }
 
-  #title-section{
-    color: #015989;
-    font-family: Work Sans;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 2rem;
-    line-height: 2.3rem;
-    
-    
-    /* or 97% */
-    letter-spacing: -0.08em;
-    padding: 1rem;
-  }
+
   .tablaUsuarios{
   border-collapse: collapse;
   }
