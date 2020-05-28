@@ -48,6 +48,38 @@ class AppController extends AbstractController
 
         ]);
     }
+      /**
+     * @Route("/panelUser", name="panel_user", options={"expose"=true})
+     */
+    public function panelUser(UserRepository $userRepository,Request $request)
+    {
+        $idUserPasivo = $request->get('value');
+        $user= $userRepository->find($idUserPasivo);
+        
+        $userPanel = [
+            'Id' => $user->getId(),
+            'Nombre' => $user->getNombre(),
+            'Ciudad' => $user->getCiudad()->getNombre(),
+        ];
+
+
+        $arrayPref = [];
+
+        foreach ($user->getPreferencias()  as $key => $resultados) {
+
+            if (!in_array($resultados->getNombre(), $arrayPref)) {
+                $arrayPref[$key] = $resultados->getNombre();
+            }
+            $userPanel['Preferencias'] = $arrayPref;
+        }
+
+        foreach ($user->getFoto() as $key2 => $resultados2) {
+            $arrayFoto = $resultados2->getNombre();
+            $userPanel['Foto'] = $arrayFoto;
+        }
+       
+          return new JsonResponse($userPanel);
+    }
 
     /**
      * @Route("/home/perfil/editar", name="perfil_user")
@@ -141,9 +173,9 @@ class AppController extends AbstractController
     {
 
         $idUserPasivo = $request->get('value');
-        $idUserActivo = $this->getUser();
+        $idUserActivo = $this->getUser()->getId();
 
-        $enviados = $mensajeRepository->chatSender($idUserActivo->getId(), $idUserPasivo);
+        $enviados = $mensajeRepository->chatSender($idUserActivo, $idUserPasivo);
 
         foreach ($enviados as $clave => $results) {
             $campo = [
@@ -152,6 +184,7 @@ class AppController extends AbstractController
                 'Emisor' => $results->getSenderName()->getId(),
                 'Receptor' => $results->getRecieverName(),
                 'Fecha' => $results->getDate(),
+                'usuarioActivo'=> $idUserActivo
             ];
             $enviados[$clave] = $campo;
         }
@@ -239,9 +272,10 @@ class AppController extends AbstractController
         }
         if (isset($users)) {
             $cont=0;
+            $campo=[];
             foreach ($users as $clave => $objUser) {
                 if($objUser[0]->getId() != $idUserActivo->getId()){
-
+                    if (!in_array($objUser[0]->getId(), $campo)) {
                     $msn = $mensajeRepository->lastMessage($idUserActivo,$objUser[0]->getId());
                     
                 $campo = [
@@ -258,6 +292,7 @@ class AppController extends AbstractController
                 $idUsuarios[$cont] = $campo;
                 $cont++;
             }
+        }
 }
             
         } else {
