@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"username"}, message="Ya hay una cuenta con ese usuario")
@@ -23,6 +23,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message = "Rellene este campo")
      */
     private $username;
 
@@ -81,6 +82,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Type(
+     *     type="integer",
+     *     message="El valor {{ value }} no es del {{ type }} válido."
+     * )
      */
     private $precioMax;
 
@@ -93,6 +98,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=1, nullable=true)
      */
     private $genero;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $descripcion;
 
     public function __construct()
     {
@@ -350,6 +360,18 @@ class User implements UserInterface
     public function setGenero(?string $genero): self
     {
         $this->genero = $genero;
+
+        return $this;
+    }
+
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(?string $descripcion): self
+    {
+        $this->descripcion = $descripcion;
 
         return $this;
     }
