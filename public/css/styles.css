@@ -448,8 +448,15 @@ div{scrollbar-width: none !important }
   letter-spacing: -0.08em;
   padding: 1rem;
 }
-
-
+#textArea{
+  background-color: rgb(247, 247, 247);
+  padding-top: 1rem;
+}
+.input-chat{
+  width: 70%;
+  margin-left: 1rem;
+  margin-right: 1.5rem;
+}
 .user-toolbar{
   padding: 1rem;
   background: rgb(0,132,204);
@@ -560,11 +567,7 @@ textarea {
   border-radius: 0.5rem;
 }
 
-  #textArea{
-    background-color: #FFFFFF;
-    padding: 1rem;
-    border: solid 1px black;
-  }
+
   .app-img{
     width: 50px;
     height: 46px;

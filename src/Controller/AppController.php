@@ -17,7 +17,6 @@ use App\Repository\PreferenciasRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AppController extends AbstractController
@@ -27,9 +26,16 @@ class AppController extends AbstractController
      */
     public function home_user(UserRepository $userRepository, CiudadRepository $ciudadRepository): Response
     {
+        $user = $this->getUser();
+        $arrPhotos = $user->getFoto();
+        $photo = $arrPhotos[0]->getNombre();
+        $id = $user->getId();
+        $urlPhoto = 'users/user'.$id.'/'.$photo;
+
         return $this->render('app/index.html.twig', [
             'users' => $userRepository->findAll(),
-            'nombre' => $ciudadRepository->findAll()
+            'nombre' => $ciudadRepository->findAll(),
+            'foto' => $urlPhoto
         ]);
     }
 

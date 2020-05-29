@@ -311,7 +311,7 @@ function printChatElements(objeto) {
     rpanel.innerHTML="";*/
 
     chat = '<div class="h-100">' +
-    '<div class="container overflow-auto" id="chat-box">';
+    '<div class="container overflow-auto" id="chat-box" style="height: 89%">';
    for (i=0;i<objeto.length;i++){
     if (objeto[i].usuarioActivo==objeto[i].Emisor){
         chat=chat+'<div class="row justify-content-end">'+
@@ -332,10 +332,14 @@ function printChatElements(objeto) {
      
 } 
 chat=chat+'</div>'+
-'<div class="container" id="textArea">'+
-    '<div class="row">'+
-        '<input id="mensaje" type="text"></input>'+
-        '<button id="btn-send" type="button">Enviar</button>'+
+'<div class="container border border-secondary rounded" id="textArea">'+
+    '<div class="row d-flex justify-content-center">'+
+    '<div class="form-group mx-sm-3 ">'+
+        '<input id="mensaje"  class="form-control" type="text"></input>'+
+        '</div>'+
+        '<div class="form-group mx-sm-3">'+
+        '<button id="btn-send" class="btn btn-outline-secondary" type="button">Enviar</button>'+
+        '</div>'+
     '</div>'+
 '</div>'+
 '</div>';
@@ -348,47 +352,16 @@ chat=chat+'</div>'+
 }
 
 
-//Funcion para pintar los mensajes nuevos
-function printNewMessages(objeto) {
-
-    contenedorMsn = document.getElementById('msn');
-    contenedorMsn.innerHTML = "";
-
-    for (let i = 0; i < objeto.length; i++) {
-
-        divMensaje = document.createElement('div');
-        contenedorMsn.appendChild(divMensaje);
-        mensaje = document.createTextNode(objeto[i].Mensaje);
-        salto = document.createElement('br');
-
-        divMensaje.appendChild(salto);
-        divMensaje.appendChild(mensaje);
-
-        if (parseInt(objeto[i].Receptor) == idPasivo) {
-            divMensaje.setAttribute('class', 'enviados col-6')
-        } else {
-            divMensaje.setAttribute('class', 'recibidos col-6')
-        }
-    }
-}
-
-function createProfileElements(id) {
+function createProfileElements(objeto) {
     profPanel = document.getElementById('profile-panel');
-    profile = 
+    profile =
     '<div class="profile-panel scroll-fit">'+
                 '<div id="img-panel">'+
-                    '<img id="profile-img"src="users/user2/img2-2.png">'+
+                    `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">`+
                 '</div>'+
-                '<h2> Amadeo, 53 </h2>'+
+                `<h2> ${objeto.Nombre},${objeto.Ciudad}  </h2>`+
                 '<div>'+
-                    '<p>Me gusta la filatelia, el futbol y los chistes de bar.</p>'+
-                    '<p>Me gusta la filatelia, el futbol y los chistes de bar.</p>'+
-                    '<p>Me gusta la filatelia, el futbol y los chistes de bar.</p>'+
-                    '<p>Me gusta la filatelia, el futbol y los chistes de bar.</p>'+
-                    '<p>Me gusta la filatelia, el futbol y los chistes de bar.</p>'+
-                    '<p>Me gusta la filatelia, el futbol y los chistes de bar.</p>'+
-                    '<p>Me gusta la filatelia, el futbol y los chistes de bar.</p>'+
-                    '<p>Me gusta la filatelia, el futbol y los chistes de bar.</p>'+
+                    `<p>${objeto.Preferencias}</p>`+
                 '</div>'+
             '</div>'
 
@@ -726,6 +699,10 @@ function createSearchElements() {
         search.addEventListener('keyup', searchPreferenceRequest);
         btnSearch.addEventListener('click',searchUserRequest)
 
+        rpanel = document.getElementById('results-panel');
+        ppanel = document.getElementById('profile-panel');
+        ppanel.innerHTML="";
+        rpanel.innerHTML="";
 }
 //Slider de para el rango de precios
 /*
