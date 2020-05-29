@@ -4,19 +4,87 @@
 
 {% block body %}
 
-    <h1>Registro de usuario</h1>
-    <div id="formRegister">
+				<h1>
+					Registro de usuario
+				</h1>
+
+    
   
-{{ form_start(registrationForm) }}
-    {{ form_widget(registrationForm) }}
-      <p>
-  <label for="amount">Price range:</label>
-  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-</p>
+{{ form_start(form) }}
+   <div id="formRegister">
+    	
+                               
  
-<div id="slider-range"></div>
+         {{ form_label(form.username, 'Username', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.username, { 'attr': {'class': 'input100'} }) }}
+        <span class="focus-input100"></span>
+        </div>
+         <div class="wrap-input100 validate-input" >	
+            {{ form_label(form.plainPassword, 'Contraseña', { 'label_attr': {'class': 'label-input100'} }) }}
+            {{ form_widget(form.plainPassword, { 'label_attr': {'class': 'input100'} }) }}
+            <span class="focus-input100"></span>
+        </div>
+         <div class="wrap-input100 validate-input" >	
+            {{ form_label(form.nombre, 'Nombre', { 'label_attr': {'class': 'label-input100'} }) }}
+            {{ form_widget(form.nombre, { 'label_attr': {'class': 'input100'} }) }}
+            <span class="focus-input100"></span>
+        </div>
+         <div class="wrap-input100 validate-input" >	
+            {{ form_label(form.Apellidos, 'Apellidos', { 'label_attr': {'class': 'label-input100'} }) }}
+            {{ form_widget(form.Apellidos, { 'label_attr': {'class': 'input100'} }) }}
+            <span class="focus-input100"></span>
+        </div>
+         <div class="wrap-input100 validate-input" >	
+            {{ form_label(form.fechaNac, 'Fecha de Nacimiento', { 'label_attr': {'class': 'label-input100'} }) }}
+            {{ form_widget(form.fechaNac, { 'label_attr': {'class': 'input100'} }) }}
+            <span class="focus-input100"></span>
+        </div>                
+         <div class="wrap-input100 validate-input" >	
+            {{ form_label(form.ciudad, 'Ciudad', { 'label_attr': {'class': 'label-input100'} }) }}
+            {{ form_widget(form.ciudad, { 'label_attr': {'class': 'input100'} }) }}
+            <span class="focus-input100"></span>
+        </div>           
+         <div class="wrap-input100 validate-input" style="width:50%" >	
+            {{ form_label(form.foto, 'Foto', { 'label_attr': {'class': 'custom-fl'} }) }}
+            {{ form_widget(form.foto, { 'label_attr': {'class': 'custom-file-input'} }) }}
+            <span class="focus-input100"></span>
+        </div>       
+         <div class="wrap-input100 validate-input" style="width:50%" >	
+            {{ form_label(form.genero, 'Género', { 'label_attr': {'class': 'custom-fl'} }) }}
+            {{ form_widget(form.genero, { 'label_attr': {'class': 'custom-file-input'} }) }}
+            <span class="focus-input100"></span>
+        </div>  
+         <div class="wrap-input100 validate-input" style="width:50%" >	
+            {{ form_label(form.numRoomMates, 'Número de compañeros/as de piso que prefieres', { 'label_attr': {'class': 'custom-fl'} }) }}
+            {{ form_widget(form.numRoomMates, { 'label_attr': {'class': 'custom-file-input'} }) }}
+            <span class="focus-input100"></span>
+        </div>  
+         <div class="wrap-input100 validate-input" style="width:50%" >	
+            {{ form_label(form.precioMin, 'Precio mínimo', { 'label_attr': {'class': 'custom-fl'} }) }}
+            {{ form_widget(form.precioMin, { 'label_attr': {'class': 'custom-file-input'} }) }}
+            <span class="focus-input100"></span>
+        </div>  
+         <div class="wrap-input100 validate-input" style="width:50%" >	
+            {{ form_label(form.precioMax, 'Precio máximo', { 'label_attr': {'class': 'custom-fl'} }) }}
+            {{ form_widget(form.precioMax, { 'label_attr': {'class': 'custom-file-input'} }) }}
+            <span class="focus-input100"></span>
+        </div>  
+
+          <div class="wrap-input100 validate-input" style="width:50%" >	
+            {{ form_label(form.preferencias, 'Preferencias', { 'label_attr': {'class': 'custom-fl'} }) }}
+            {{ form_widget(form.preferencias, { 'label_attr': {'class': 'custom-file-input'} }) }}
+            <span class="focus-input100"></span>
+        </div> 
+
+          <div class="wrap-input100 validate-input" style="width:50%" >	
+            {{ form_label(form.descripcion, 'Descripción', { 'label_attr': {'class': 'custom-fl'} }) }}
+              {{ form_help(form.descripcion) }}
+            {{ form_widget(form.descripcion, { 'label_attr': {'class': 'custom-file-input'} }) }}
+            <span class="focus-input100"></span>
+        </div> 
         <button class="btn" id="botonRegistro">Registro</button>
         <a href="/">Volver</a>
-    {{ form_end(registrationForm) }}
+    {{ form_end(form) }}
  </div>
+   
 {% endblock %}

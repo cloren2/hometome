@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"username"}, message="Ya hay una cuenta con ese usuario")
@@ -23,6 +23,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message = "Rellene este campo")
      */
     private $username;
 
@@ -81,6 +82,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Type(
+     *     type="integer",
+     *     message="El valor {{ value }} no es del {{ type }} válido."
+     * )
      */
     private $precioMax;
 

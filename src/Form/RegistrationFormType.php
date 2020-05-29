@@ -34,7 +34,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('fechaNac',DateType::class, array(
                 'widget' => 'choice',
-                'years' => range(date('Y'), date('Y')-80),
+                'years' => range(date('Y'), date('Y')-100),
                 'label' => 'Fecha de nacimiento'
               ))
             ->add('ciudad', EntityType::class, [
@@ -70,6 +70,9 @@ class RegistrationFormType extends AbstractType
                 'expanded' => true
             
             ])
+            ->add('descripcion', null, [
+                'help' => '¡Cuéntanos algo sobre ti!',
+            ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -81,9 +84,9 @@ class RegistrationFormType extends AbstractType
                    
                     new Length([
                         'min' => 4,
-                        'minMessage' => 'La contraseña debe inlcuir al menos 4 caracteres',
+                        'minMessage' => 'La contraseña debe incluir al menos 4 caracteres',
                         // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+                        'max' => 255,
                     ]),
                 ],
             ])
