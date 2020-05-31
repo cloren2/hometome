@@ -1,3 +1,5 @@
+
+
 /**************************
 **
 **Estilos de la home - HomeToMe 2020
@@ -606,12 +608,31 @@ textarea {
 * Registration Form
 */
 
+.form-top{
+  background-color: white;
+  margin-top: 6rem;
+  border-radius: 2rem;
+  -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+  box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+}
+.form-tit{
+  color: #015989;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 2.2rem;
+  line-height: 2.5rem;
+  padding: 2rem;
+  
+  /* or 97% */
+  letter-spacing: -0.08em;
+}
 .wrap-input100 {
-  width: 100%;
   position: relative;
   border-bottom: 2px solid #d9d9d9;
-  padding-bottom: 13px;
-  margin-bottom: 27px;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 
 .input100 {
@@ -625,6 +646,9 @@ textarea {
   padding: 0 5px;
   outline: none;
   border: none;
+}
+.fix-input{
+  width: 40px;
 }
 .focus-input100 {
   position: absolute;

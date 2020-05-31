@@ -6,90 +6,144 @@
 <header>
 <!-- Nav -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navbar">
-  <a class="navbar-brand" href="/">
+  <a class="navbar-brand" href="#">
   <img src="img/home/HomeToMe_Color.png" alt="Logo" id="logo">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-     <a class="navbar-brand" href="/"><span class="fas fa-home"></span></a>
+    <span class="navbar-toggler-icon"></span>
   </button>
     
+  <ul class="navbar-nav ml-auto" id="menuMedia">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#!">Servicios</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Ayuda
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li>
+        <a href="/home">
+        <button type="button" class="butBlu">Iniciar sesión</button>
+        </a>
+      </li>
+    </ul>  
+  <div id="myNav" class="overlay-r">
+  <!-- Button to close the overlay navigation -->
+    <a href="javascript:void(0)" class="close closebtn">&times;</a>
+    <!-- Overlay content -->
+    <div class="overlay-content">
+      <a href="/">Home</a>
+      <a href="#">Servicios</a>
+      <a href="#">Ayuda</a>
+      <a href="/home">Iniciar sesión</a>
+    </div>
+  </div>
 </nav>
 </header>
+
 <main>
-	<div id="formRegister" class=" container">
-    <h3>Registro de usuario</h3>
+	<div id="" class="container form-top">
+    <div class="row">
+      <h3 class="form-tit">Registro de usuario</h3>
+    </div>
 
 {{ form_start(form) }}
    
-    	
-     <div class="row wrap-input100" >
+    <div class="row">
+      <div class="wrap-input100" >
         {{ form_label(form.username, 'Username', { 'label_attr': {'class': 'label-input100'} }) }}
         {{ form_widget(form.username, { 'attr': {'class': 'input100'} }) }}
         <span class="focus-input100"></span>
-     </div>
+      </div>
+    </div>
 
-    <div class="wrap-input100 row">	
-    
-        <div class="form-group input-pass">
-            {{ form_label(form.plainPassword, 'Contraseña', { 'label_attr': {'class': 'label-input100'} }) }}
-            <div class="input-group" id="show_hide_password">
-           
-                <div class="input-group-addon align-content-start pass-align" class="hide_pass_div">
-                {{ form_widget(form.plainPassword, { 'attr': {'class': 'input100'} }) }}
-                </div>
-                <div class="align-content-end">
-                     <a id="show-pass"href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
-                </div>
+    <div class="row" >
+      <div class="wrap-input100">	
+          {{ form_label(form.plainPassword, 'Contraseña', { 'label_attr': {'class': 'label-input100'} }) }}
+          <div class="input-group" id="show_hide_password">
+            <div class="input-group-addon align-content-start pass-align" class="hide_pass_div">
+              {{ form_widget(form.plainPassword, { 'attr': {'class': 'pass input100'} }) }}
             </div>
-        </div>   
-     </div>
+            <div class="align-content-end">
+              <a id="show-pass"href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="row" >
+      <div class="wrap-input100" >	
+          {{ form_label(form.nombre, 'Nombre', { 'label_attr': {'class': 'label-input100'} }) }}
+          {{ form_widget(form.nombre, { 'attr': {'class': 'input100'} }) }}
+          <span class="focus-input100"></span>
+      </div>
+    </div>
 
-         <div class="wrap-input100 row" >	
-            {{ form_label(form.nombre, 'Nombre', { 'label_attr': {'class': 'label-input100'} }) }}
-            {{ form_widget(form.nombre, { 'attr': {'class': 'input100'} }) }}
-            <span class="focus-input100"></span>
-        </div>
-         <div class="wrap-input100 row" >	
-            {{ form_label(form.Apellidos, 'Apellidos', { 'label_attr': {'class': 'label-input100'} }) }}
-            {{ form_widget(form.Apellidos, { 'attr': {'class': 'input100'} }) }}
-            <span class="focus-input100"></span>
-        </div>
-         <div class="wrap-input100 row" >	
-            {{ form_label(form.fechaNac, 'Fecha de Nacimiento', { 'label_attr': {'class': 'label-input100 '} }) }}
-            {{ form_widget(form.fechaNac, { 'attr': {'class': 'input100 justify-content-center'} }) }}
-            <span class="focus-input100"></span>
-        </div> 
-                       
-         <div class="wrap-input100 row" >	
-            {{ form_label(form.ciudad, 'Ciudad', { 'label_attr': {'class': 'label-input100'} }) }}
-            {{ form_widget(form.ciudad, { 'attr': {'class': 'browser-default custom-select'} }) }}
-            <span class="focus-input100"></span>
-        </div>           
-     
-         <div class="wrap-input100 row" >	
-            {{ form_label(form.genero, 'Género', { 'label_attr': {'class': 'label-input100'} }) }}
-            {{ form_widget(form.genero, { 'attr': {'class': 'browser-default custom-select'} }) }}
-            <span class="focus-input100"></span>
-        </div>  
-         <div class="wrap-input100 row" >	
-            {{ form_label(form.numRoomMates, 'Número de compañeros/as de piso que prefieres', { 'label_attr': {'class': 'label-input100'} }) }}
-            {{ form_widget(form.numRoomMates, { 'attr': {'class': 'browser-default custom-select'} }) }}
-            <span class="focus-input100"></span>
-        </div>  
-         <div class="wrap-input100 validate-input d-flex flex-column row"  >	
+    <div class="row" >
+      <div class="wrap-input100" >	
+        {{ form_label(form.Apellidos, 'Apellidos', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.Apellidos, { 'attr': {'class': 'input100'} }) }}
+        <span class="focus-input100"></span>
+      </div>
+    </div>
+
+
+    <div class="row" >                   
+     <div class="wrap-input100" >	
+        {{ form_label(form.ciudad, 'Ciudad', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.ciudad, { 'attr': {'class': 'browser-default custom-select'} }) }}
+        <span class="focus-input100"></span>
+      </div>           
+    </div>  
+
+    <div class="row" > 
+      <div class="wrap-input100" >	
+        {{ form_label(form.genero, 'Género', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.genero, { 'attr': {'class': 'browser-default custom-select'} }) }}
+        <span class="focus-input100"></span>
+      </div>  
+    </div> 
+
+    <div class="row" > 
+      <div class="wrap-input100" >	
+        {{ form_label(form.numRoomMates, 'Número de compañeros/as de piso que prefieres', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.numRoomMates, { 'attr': {'class': 'browser-default custom-select'} }) }}
+        <span class="focus-input100"></span>
+      </div>  
+    </div> 
+    
+    <div class="row" >
+      <div class="wrap-input100 " >	
+        {{ form_label(form.fechaNac, 'Fecha de Nacimiento', { 'label_attr': {'class': 'label-input100 '} }) }}
+        {{ form_widget(form.fechaNac, { 'attr': {'class': 'input100 d-flex justify-content-center'} }) }}
+        <span class="focus-input100"></span>
+      </div> 
+    </div>
+    <div class="row"> 
+         <div class="wrap-input100 validate-input d-flex flex-column"  >	
             <div class=" justify-content-center num-div">
             {{ form_label(form.precioMin, 'Precio mínimo', { 'label_attr': {'class': 'label-input100'} }) }}
             {{ form_widget(form.precioMin) }}
             </div>
+   
             <div class="align-content-end num-div">
             {{ form_label(form.precioMax, 'Precio máximo', { 'label_attr': {'class': 'label-input100'} }) }}
             {{ form_widget(form.precioMax) }}
              </div>
             <span class="focus-input100"></span>
         </div>  
-
+     </div>
             <div id="msg"></div>
-                 {{ form_widget(form.foto, { 'attr': {'class': 'file'} }) }}
+                 {{ form_widget(form.foto, { 'attr': {'class': 'file fileImg'} }) }}
                  <span class="focus-input100"></span>
                 
             <div class="input-group my-3">
