@@ -268,11 +268,16 @@ class AppController extends AbstractController
      */
     public function searchConversation(Request $request, MensajesRepository $mensajeRepository, UserRepository $userRepository)
     {
-        $idUserActivo = $this->getUser();
-        $enviados = $mensajeRepository->chatConversation($idUserActivo->getId());
+        $idUserActivo = $this->getUser()->getId();
+        $enviados = $mensajeRepository->chatConversation($idUserActivo);
       
         foreach ($enviados as $clave => $objMensaje) {
-            $idChat['id'] = $objMensaje->getRecieverName();
+            if ($objMensaje->getRecieverName()==$idUserActivo){
+                $idChat['id'] = $objMensaje->getSenderName();
+            }else{
+                   $idChat['id'] = $objMensaje->getRecieverName();
+            }
+         
             $users[$clave] = $userRepository->findBy($idChat);
             
         }
@@ -280,7 +285,6 @@ class AppController extends AbstractController
             $cont=0;
             $campo=[];
             foreach ($users as $clave => $objUser) {
-                if($objUser[0]->getId() != $idUserActivo->getId()){
                     if (!in_array($objUser[0]->getId(), $campo)) {
                     $msn = $mensajeRepository->lastMessage($idUserActivo,$objUser[0]->getId());
                     
@@ -298,7 +302,7 @@ class AppController extends AbstractController
                 $idUsuarios[$cont] = $campo;
                 $cont++;
             }
-        }
+        
 }
             
         } else {
