@@ -66,6 +66,7 @@ class AppController extends AbstractController
             'Id' => $user->getId(),
             'Nombre' => $user->getNombre(),
             'Ciudad' => $user->getCiudad()->getNombre(),
+            'Descripcion' =>$user->getDescripcion()
         ];
 
 
@@ -285,7 +286,7 @@ class AppController extends AbstractController
             $cont=0;
             $campo=[];
             foreach ($users as $clave => $objUser) {
-                    if (!in_array($objUser[0]->getId(), $campo)) {
+            if (!in_array($objUser[0]->getId(), $campo)) {
                     $msn = $mensajeRepository->lastMessage($idUserActivo,$objUser[0]->getId());
                     
                 $campo = [
@@ -303,7 +304,7 @@ class AppController extends AbstractController
                 $cont++;
             }
         
-}
+        }
             
         } else {
             $idUsuarios = "No tienes mensajes";

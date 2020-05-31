@@ -30,36 +30,36 @@ function limpiarDiv() {
 //funcion input number 
 $("input[type='number']").inputSpinner()
 //funcion foto registratiob form
-$(document).on("click", ".browse", function() {
+$(document).on("click", ".browse", function () {
     var file = $(this).parents().find(".file");
     file.trigger("click");
-  });
-  $('input[type="file"]').change(function(e) {
+});
+$('input[type="file"]').change(function (e) {
     var fileName = e.target.files[0].name;
     $("#file").val(fileName);
-  
+
     var reader = new FileReader();
-    reader.onload = function(e) {
-      // get loaded data and render thumbnail.
-      document.getElementById("preview").src = e.target.result;
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("preview").src = e.target.result;
     };
     // read the image file as a data URL.
     reader.readAsDataURL(this.files[0]);
-  });
-  
- //Mostrar/ocultar contraseña registration form
- 
- $(document).ready(function() {
-    $("#show_hide_password a").on('click', function(event) {
+});
+
+//Mostrar/ocultar contraseña registration form
+
+$(document).ready(function () {
+    $("#show_hide_password a").on('click', function (event) {
         event.preventDefault();
-        if($('#show_hide_password input').attr("type") == "text"){
+        if ($('#show_hide_password input').attr("type") == "text") {
             $('#show_hide_password input').attr('type', 'password');
-            $('#show_hide_password i').addClass( "fa-eye-slash" );
-            $('#show_hide_password i').removeClass( "fa-eye" );
-        }else if($('#show_hide_password input').attr("type") == "password"){
+            $('#show_hide_password i').addClass("fa-eye-slash");
+            $('#show_hide_password i').removeClass("fa-eye");
+        } else if ($('#show_hide_password input').attr("type") == "password") {
             $('#show_hide_password input').attr('type', 'text');
-            $('#show_hide_password i').removeClass( "fa-eye-slash" );
-            $('#show_hide_password i').addClass( "fa-eye" );
+            $('#show_hide_password i').removeClass("fa-eye-slash");
+            $('#show_hide_password i').addClass("fa-eye");
         }
     });
 });
@@ -212,16 +212,19 @@ var intervalo;
 var makeButton = false;
 
 if (viewMessagesButton = document.getElementById('buttonMessages')) {
-    viewSearchButton = document.getElementById('buttonSearch')
+    viewSearchButton = document.getElementById('buttonSearch');
+    viewMessagesMobileButton = document.getElementById('toggler-r');
     viewMessagesButton.addEventListener('click', userConversationsRequest);
+    viewMessagesMobileButton.addEventListener('click', userConversationsRequest)
     viewSearchButton.addEventListener('click', createSearchElements);
 }
 
 
 //Solicitud de todos los mensajes asincrona
 var idPasivo;
-function messagesRequest(idPasivo) {
+function messagesRequest(idParameter) {
     ruta = Routing.generate('chat');
+    idPasivo=idParameter;
     console.log(idPasivo);
     xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', messagesResponse);
@@ -239,6 +242,7 @@ function messagesResponse(event) {
         objeto = JSON.parse(objeto_vuelta);
         //printNewMessages(objeto);
         printChatElements(objeto);
+        console.log(objeto);
     }
 }
 
@@ -251,25 +255,28 @@ function printChatElements(objeto) {
 
     chat = '<div class="h-100">' +
         '<div class="container overflow-auto" id="chat-box" style="height: 89%">';
-    if(typeof objeto === 'object'){    
-    for (i = 0; i < objeto.length; i++) {
-        if (objeto[i].usuarioActivo == objeto[i].Emisor) {
-            chat = chat + '<div class="row justify-content-end">' +
-                '<div class="col-7 enviados">' +
-                objeto[i].Mensaje +
-                '</div>' +
-                '</div>'
-        } else {
-            chat = chat + '<div class="row">' +
-                '<div class="col-7 recibidos">' +
-                objeto[i].Mensaje +
-                '</div>' +
-                '</div>'
+    if (typeof objeto === 'object') {
+        for (i = 0; i < objeto.length; i++) {
+            console.log(objeto[i].Emisor)
+            if (objeto[i].usuarioActivo == objeto[i].Emisor) {
+                chat = chat + '<div class="row justify-content-end">' +
+                    '<div class="col-7 enviados">' +
+                    objeto[i].Mensaje +
+                    '</div>' +
+                    '</div>'
+                    
+            } else {
+                chat = chat + '<div class="row">' +
+                    '<div class="col-7 recibidos">' +
+                    objeto[i].Mensaje +
+                    '</div>' +
+                    '</div>'
+            }
+            
         }
+    } else {
+        idPasivo = objeto;
     }
-}else{
-    idPasivo = objeto;
-}
 
     chat = chat + '</div>' +
         '<div class="container border border-secondary rounded" id="textArea">' +
@@ -278,7 +285,7 @@ function printChatElements(objeto) {
         '<input id="mensaje"  class="form-control" type="text"></input>' +
         '</div>' +
         '<div class="form-group mx-sm-3">' +
-        `<button id="btn-send" class="btn btn-outline-secondary" value=${idPasivo} type="button">Enviar</button>` +
+        `<button id="btn-send" class="btn btn-outline-secondary" onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
         '</div>' +
         '</div>' +
         '</div>' +
@@ -286,18 +293,16 @@ function printChatElements(objeto) {
 
     rpanel.innerHTML = chat;
     var btnsend = document.getElementById('btn-send');
-    btnsend.addEventListener('click', sendMessageRequest)
     //Llamada a peticion de mensajes de forma regular
     // intervalo = setInterval(, 5000);
 }
 
 //Solicitud asincrona para enviar un nuevo mensaje
-function sendMessageRequest(event) {
+function sendMessageRequest(idPasivo) {
     //idPasivo = event.target.value;
     mensaje = document.getElementById('mensaje').value;
     ruta = Routing.generate('sendMessage');
     xhr = new XMLHttpRequest();
-    xhr.id = idPasivo;
 
     console.log(idPasivo);
     xhr.addEventListener('readystatechange', sendMessageResponse);
@@ -319,11 +324,8 @@ function sendMessageResponse(event) {
 function panelUserRequest(idPasivo) {
 
     console.log(idPasivo);
-    if(idPasivo.target != undefined){
-        idPasivo = idPasivo.target.value;
-        makeButton = true;
-        console.log('hola');
-    }
+
+    makeButton = true;
 
     ruta = Routing.generate('panel_user');
     xhr = new XMLHttpRequest();
@@ -342,29 +344,35 @@ function panelUserResponse(event) {
 
 function createProfileElements(objeto) {
     profPanel = document.getElementById('profile-panel');
-
+    console.log(objeto)
     profile =
         '<div class="profile-panel scroll-fit">' +
         '<div id="img-panel">' +
         `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">` +
         '</div>';
-        if(makeButton){
-            profile = profile + `<button type="button" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>`
-        }
-    profile = profile + 
+    if (makeButton) {
+        profile = profile + `<button type="button" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>`
+    }
+    profile = profile +
         `<h2> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
-        '<hr>'+
-        '<div>'+
-        `<p>${objeto.Descripcion}</p>`+
-        '</div>';
-        '<div class="w-100">';
-        for(var i=0; i<objeto.Preferencias.length; i++){
-    profile = profile +  
-            ' <div class="chip">'+
-            '#'+objeto.Preferencias[i]+
-           ' </div>'
+        '<hr>'
+    if (objeto.Descripcion != undefined) {
+        console.log('hola')
+        profile = profile + '<div>' +
+            `<p>${objeto.Descripcion}</p>` +
+            '</div>';
+    }
+    '<div class="w-100">';
+    if (objeto.Preferencias != undefined) {
+        for (var i = 0; i < objeto.Preferencias.length; i++) {
+            profile = profile +
+                ' <div class="chip">' +
+                '#' + objeto.Preferencias[i] +
+                ' </div>'
         }
-    profile = profile +    
+    }
+
+    profile = profile +
         '</div>' +
         '</div>'
     profPanel.innerHTML = profile;
@@ -399,13 +407,14 @@ function createUserConversationList(objeto) {
     limpiarDiv();
 
     divResult = document.getElementById('child-cpanel');
+    divMobile = document.getElementById('mobile-msn');
     div = document.createElement('div');
     div.setAttribute('id', 'parrafo');
 
     if (objeto[0].Id == undefined) {
 
         divResult.innerHTML = "No tienes mensajes";
-
+        divMobile.innerHTML = "No tienes mensajes";
     } else {
         resultados =
             '<div class="container scroll-fit" id="conversation-box">';
@@ -430,7 +439,7 @@ function createUserConversationList(objeto) {
         }
         resultados = resultados + '</div>';
         divResult.innerHTML = resultados;
-
+        divMobile.innerHTML = resultados;
 
     }
 }
@@ -549,7 +558,7 @@ function createUserList(objeto) {
             if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
             resultados = resultados + '<br>'
             resultados = resultados + '<br>'
-            resultados = resultados + `<button class="btn-chatSearchUser" value="${objeto[i].Id}" type="button">Ver perfil</button>` +
+            resultados = resultados + `<button class="btn-chatSearchUser" onClick="panelUserRequest(${objeto[i].Id})" type="button">Ver perfil</button>` +
                 '</div>' +
                 '</div>' +
                 '<div>' +
@@ -558,11 +567,6 @@ function createUserList(objeto) {
         }
         resultados = resultados + '</div>';
         divResult.innerHTML = resultados;
-        btnSearchUser = document.getElementsByClassName('btn-chatSearchUser');
-        for (let i = 0; i < btnSearchUser.length; i++) {
-            btnSearchUser[i].addEventListener('click', panelUserRequest)
-
-        }
     }
 }
 
