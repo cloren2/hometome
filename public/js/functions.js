@@ -27,6 +27,42 @@ function limpiarDiv() {
     }
 }
 
+//funcion input number 
+$("input[type='number']").inputSpinner()
+//funcion foto registratiob form
+$(document).on("click", ".browse", function() {
+    var file = $(this).parents().find(".file");
+    file.trigger("click");
+  });
+  $('input[type="file"]').change(function(e) {
+    var fileName = e.target.files[0].name;
+    $("#file").val(fileName);
+  
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      // get loaded data and render thumbnail.
+      document.getElementById("preview").src = e.target.result;
+    };
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+  });
+  
+ //Mostrar/ocultar contraseña registration form
+ 
+ $(document).ready(function() {
+    $("#show_hide_password a").on('click', function(event) {
+        event.preventDefault();
+        if($('#show_hide_password input').attr("type") == "text"){
+            $('#show_hide_password input').attr('type', 'password');
+            $('#show_hide_password i').addClass( "fa-eye-slash" );
+            $('#show_hide_password i').removeClass( "fa-eye" );
+        }else if($('#show_hide_password input').attr("type") == "password"){
+            $('#show_hide_password input').attr('type', 'text');
+            $('#show_hide_password i').removeClass( "fa-eye-slash" );
+            $('#show_hide_password i').addClass( "fa-eye" );
+        }
+    });
+});
 
 /////////////////////////////////////////////////
 //
