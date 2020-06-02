@@ -795,27 +795,29 @@ function validacion(event) {
     var input = document.getElementsByClassName('pass');
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
+  
+    if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
+        text = '- No has introducido una foto o la extensión no está permitida';
+        erroresUser(text);
+    } 
     if (input[0].value == '') {
         event.preventDefault();
         text = '- Introduzca una contraseña';
         erroresUser(text);
-
-    }
-    if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
-        text = '- No has introducido una foto o la extensión no está permitida';
-        erroresUser(text)
     }
 }
 
 function erroresUser(userError) {
     var div = document.getElementById('errorDiv');
+    var fileInput = document.getElementsByClassName('fileImg');
     if (div == null) {
-        parentNode = document.getElementById('formRegister')
+        parentNode = fileInput[0].parentNode
         div = document.createElement('div');
         div.setAttribute('class', 'error');
         div.setAttribute('id', 'errorDiv');
         parentNode.appendChild(div)
     } else { div = document.getElementById('errorDiv'); div.innerHTML = "" }
+    $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
     event.preventDefault();
     span = document.createElement('div')
     texto = document.createTextNode(userError);

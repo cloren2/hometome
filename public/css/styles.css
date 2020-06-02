@@ -595,6 +595,7 @@ textarea {
   }
   .error{
     color: red;
+    padding:.5rem;
   }
   
   #container-msn{
