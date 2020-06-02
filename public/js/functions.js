@@ -251,6 +251,7 @@ var nameChat;
 function printChatElements(objeto) {
 
     if (screen.width < 768) {
+        document.body.setAttribute('class', 'overflow-hidden');
         rmobilepanel = document.getElementById('mobile-chat');
         chatbox = document.getElementById('chat-box');
         document.getElementById('name-chat').innerHTML = nameChat;
@@ -285,19 +286,24 @@ function printChatElements(objeto) {
             '<div class="container border border-secondary rounded" id="textArea">' +
             '<div class="row d-flex justify-content-center">' +
             '<div class="form-group mx-sm-3 ">' +
-            '<input id="mensaje"  class="form-control" type="text"></input>' +
+            `<input id="mensaje" onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
             '</div>' +
             '<div class="form-group mx-sm-3">' +
-            `<button id="btn-send" class="btn btn-outline-secondary" onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
+            `<button id="btn-send" class="btn btn-outline-secondary"  onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
             '</div>' +
             '</div>' +
             '</div>' +
             '</div>';
-
         rmobilepanel.innerHTML = chat;
+
+
+        var objDiv = document.getElementById("chat-box");
+        objDiv.scrollTop = objDiv.scrollHeight;
         //Llamada a peticion de mensajes de forma regular
         // intervalo = setInterval(, 5000);
     } else {
+        var element = document.getElementById("c-app");
+        element.classList.remove("d-none");
         rpanel = document.getElementById('results-panel');
 
         rpanel.innerHTML = "";
@@ -347,18 +353,38 @@ function printChatElements(objeto) {
 }
 
 //Solicitud asincrona para enviar un nuevo mensaje
-function sendMessageRequest(idPasivo) {
+function sendMessageRequest(event, idPasivo) {
     //idPasivo = event.target.value;
+
     mensaje = document.getElementById('mensaje').value;
     ruta = Routing.generate('sendMessage');
     xhr = new XMLHttpRequest();
 
-    console.log(idPasivo);
+    console.log(event);
     xhr.addEventListener('readystatechange', sendMessageResponse);
     xhr.open('POST', ruta);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
 }
+
+function sendMessageRequestKey(e, idPasivo) {
+    //idPasivo = event.target.value;
+    console.log(e);
+    e.which = e.which || e.keyCode;
+    if(e.which == 13) {
+        mensaje = document.getElementById('mensaje').value;
+        ruta = Routing.generate('sendMessage');
+        xhr = new XMLHttpRequest();
+    
+       
+        xhr.addEventListener('readystatechange', sendMessageResponse);
+        xhr.open('POST', ruta);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
+    }
+
+}
+
 
 //Respuesta de envio de mensaje
 function sendMessageResponse(event) {
@@ -437,7 +463,7 @@ function createProfileElements(objeto) {
             '</div>';
         if (makeButton) {
             profile = profile + '<div class="m-2 d-flex justify-content-center">'+
-             `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>`+
+             `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id});openChat()">Chatear</button>`+
              '</div>';
         }
         profile = profile +
@@ -534,7 +560,6 @@ function createUserConversationList(objeto) {
             buttons[i].addEventListener('click', function () {
                 nameChat = buttons[i].innerHTML; console.log(nameChat);
             })
-
         }
     } else {
         if (objeto[0].Id == undefined) {
@@ -596,6 +621,7 @@ function searchUserRequest() {
     limpiarDiv();
     var element = document.getElementById("c-app");
     element.classList.remove("d-none");
+
     //Recogemos los datos que vamos a enviar al servidor
     gender = document.getElementById('genderSelect').value;
     rooMates = document.getElementById('roomMatesSelect').value;
@@ -705,7 +731,7 @@ function createUserList(objeto) {
                     '</div>' +
                     '<div class="col-8">' +
                     '<div class="col-xs">' +
-                    `<span>${objeto[i].Nombre}</span>` +
+                    `<span class="name-prevs">${objeto[i].Nombre}</span>` +
                     '</div>' +
                     '<div class="col-xs">'
                 for (j = 0; j < 3; j++) {
@@ -717,7 +743,6 @@ function createUserList(objeto) {
                         resultados = resultados + `<span>#${objeto[i].Preferencias[j]}</span>` +
                             '</div>'
                     }
-
                 }
                 if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
                 resultados = resultados + '<br>'
@@ -732,6 +757,12 @@ function createUserList(objeto) {
             }
             resultados = resultados + '</div>';
             divResult.innerHTML = resultados;
+            buttons = document.getElementsByClassName('name-prevs');
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', function () {
+                    nameChat = buttons[i].innerHTML; console.log(nameChat);
+                })
+            }
         }
     }
 
@@ -905,9 +936,11 @@ function closeUser() {
 }
 function openMsn() {
     document.getElementById('myNav-msn').style.width = "100%";
+   
 }
 function closeMsn() {
     document.getElementById('myNav-msn').style.width = "0%";
+    document.body.setAttribute('class', 'overflow-auto');
 }
 function openChat() {
     document.getElementById("myNav-chat").style.width = "100%";
