@@ -6,26 +6,27 @@
 
 <nav class="navbar navbar-expand-lg navbar-light" id="navbar-app">
 
-  <button class="navbar-toggler" id="toggler-l" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" id="toggler-l" onClick="openUser()" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <img src="img/app/profile.png"  id="toggler-l" class="toggler-profile">
   </button>
 
   <img src="img/favicon.ico" style="width:2em">
 
-  <button class="navbar-toggler"  id="toggler-r" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler"  id="toggler-r" onClick="openMsn()" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <img src="img/app/msn.png" id="toggler-r" class="toggler-profile">
   </button>
 
   <div id="myNav-msn" class="overlay-r">
   <!-- Button to close the overlay navigation -->
-    <a href="javascript:void(0)" id="toggler-close-l"class="closebtn close" >&times;</a>
+    <a href="javascript:void(0)" id="toggler-close-l"class="closebtn close" onClick="closeMsn()" >&times;</a>
     <!-- Overlay content -->
     <div id="mobile-msn"></div>
+    
   </div>
   
   <div id="myNav-profile" class="overlay-l">
   <!-- Button to close the overlay navigation -->
-    <a href="javascript:void(0)" id="toggler-close-r" class="closebtn close">&times;</a>
+    <a href="javascript:void(0)" id="toggler-close-r" onClick="closeUser()" class="closebtn close">&times;</a>
     <!-- Overlay content -->
     <div class="overlay-content">
         <a href="home/perfil"> Editar tu perfil</a>
@@ -43,7 +44,6 @@
         </button>
 
         <span id="name-chat">
-        Nombre
         </span>
         
         <a href="javascript:void(0)" id="toggler-close-chat"class="invisible" ><</a>
@@ -52,8 +52,21 @@
     <div class="h-100" id="mobile-chat"></div>
 </div>
 
+<div id="myNav-user" class="overlay-user">
+    <nav class="navbar navbar-expand-lg navbar-light" id="navbar-app">
 
-<div class="container mb-3 pb-3 border-right border-left border h-100" id="l-app">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <a href="javascript:void(0)" onClick="closeProfile()"id="toggler-close-user"class="md-p" ><</a>
+        </button>
+        
+        <a href="javascript:void(0)" id="toggler-close-user"class="invisible" ><</a>
+
+    </nav>
+    <div class="h-100" id="mobile-profile"></div>
+
+</div>
+
+<div class="container mb-3 pb-3 border-right border-left border resp-h" id="l-app">
     <div class="row user-toolbar" id="userTlbr">
         <div class="col-sm" id="profile">
             <div class="">
@@ -65,8 +78,8 @@
         </div>
     </div>
 
-    <div class="form-row h-100">
-        <div class="col h-100" id="control-panel">
+    <div class="form-row resp-h">
+        <div class="col resp-h" id="control-panel">
             <button type="button" class="button-cpanel">
                 <span class="app-subtB" id="buttonSearch">Buscador</span>
                 <div class="separator"></div>
@@ -76,8 +89,8 @@
                 <div class="separator" id="separatorMessages"></div>
             </button>
             </br>
-            <div id="child-cpanel" class="h-100">
-                <div id="search-panel" class="h-100">
+            <div id="child-cpanel" class="resp-h">
+                <div id="search-panel" class="resp-h">
                 <label for="ciudad">Ciudad:</label>
                 <select id="ciudadSelect" name="ciudad" class="form-control-sm">
                 {% for ciudades in nombre %}
@@ -122,21 +135,21 @@
     </div>
 </div>
 
-<div class="container h-100" id="c-app">
-    <div class="row h-100">
-        <div class="col-sm h-100" id="results" >
-            <div class="h-100" id="results-panel">
-                <h2>Resultados</h2>
+<div class="container resp-h d-none" id="c-app">
+    <div class="row resp-h">
+        <div class="col-sm resp-h" id="results" >
+            <div class="resp-h" id="results-panel">
+                <h2 class="top-tit">Resultados</h2>
                 <p>Aquí saldrán los resultados.</p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container border-left h-100" id="r-app">
-    <div class="row h-100">
-        <div class="col-sm h-100">
-            <div class="h-100" id="profile-panel">
+<div class="container border-left resp-h" id="r-app">
+    <div class="row resp-h">
+        <div class="col-sm resp-h">
+            <div class="resp-h" id="profile-panel">
 
             </div>    
         </div>

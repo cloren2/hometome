@@ -196,6 +196,19 @@
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
 }
+.overlay-user {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  right: 0;
+  top: 0;
+  background-color: rgb(255, 255, 255); /* Black fallback color */
+  background-color: rgb(255, 255, 255); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
 .overlay-chat {
   /* Height & width depends on how you want to reveal the overlay (see JS below) */   
   height: 100%;
@@ -407,6 +420,26 @@ body{
     height: 60%;
     padding-top: 5rem;
   }
+  #userlist{
+    width: 100%;
+    height: 60%;
+  }
+  #mobile-tit{
+    position: sticky;
+    top: 25px;
+    left: 50px;
+    color: #015989;
+    font-family: Work Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 2.3rem;
+    letter-spacing: -0.08em;
+    padding: 1rem;
+  }
+  .resp-h{
+    height: auto;
+  }
 
   html, body {
     height: 100%;
@@ -451,7 +484,9 @@ body{
   #navbar-app{
     display: none;
   }
-
+  .resp-h{
+    height: 100% !important;
+  }
   html, body {
     height: 100%;
 
@@ -501,7 +536,18 @@ div{scrollbar-width: none !important }
   background-color: rgb(247, 247, 247);
   padding-top: 1rem;
 }
-
+.mw-60{
+  max-width: 60%;
+}
+.chip {
+  display: inline-block;
+  padding: 0 25px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+}
 .container-scroll{
   max-width: 100%;
   max-height: 100%;

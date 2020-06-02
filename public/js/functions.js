@@ -246,12 +246,14 @@ function messagesResponse(event) {
     }
 }
 
+var nameChat;
 //Crea los elementos necesarios para renderizar el chat
 function printChatElements(objeto) {
 
     if (screen.width < 768) {
         rmobilepanel = document.getElementById('mobile-chat');
         chatbox = document.getElementById('chat-box');
+        document.getElementById('name-chat').innerHTML = nameChat;
         chat = '<div class="h-100">' +
             '<div class="container overflow-auto" id="chat-box" style="height: 81%">';
         //Si lo entregado por parametro es un objeto
@@ -261,20 +263,20 @@ function printChatElements(objeto) {
                 console.log(objeto[i].Emisor)
                 if (objeto[i].usuarioActivo == objeto[i].Emisor) {
                     chat = chat + '<div class="row justify-content-end">' +
-                        '<div class="col-7 enviados">' +
+                        '<div class="mw-60 enviados">' +
                         objeto[i].Mensaje +
                         '</div>' +
                         '</div>'
 
                 } else {
                     chat = chat + '<div class="row">' +
-                        '<div class="col-7 recibidos">' +
+                        '<div class="recibidos">' +
                         objeto[i].Mensaje +
                         '</div>' +
                         '</div>'
                 }
             }
-        //Si lo entregado por parametro es un int
+            //Si lo entregado por parametro es un int
         } else {
             idPasivo = objeto;
         }
@@ -307,14 +309,14 @@ function printChatElements(objeto) {
                 console.log(objeto[i].Emisor)
                 if (objeto[i].usuarioActivo == objeto[i].Emisor) {
                     chat = chat + '<div class="row justify-content-end">' +
-                        '<div class="col-7 enviados">' +
+                        '<div class="enviados">' +
                         objeto[i].Mensaje +
                         '</div>' +
                         '</div>'
 
                 } else {
                     chat = chat + '<div class="row">' +
-                        '<div class="col-7 recibidos">' +
+                        '<div class="recibidos">' +
                         objeto[i].Mensaje +
                         '</div>' +
                         '</div>'
@@ -391,7 +393,7 @@ function panelUserResponse(event) {
 
 function createProfileElements(objeto) {
 
-    if(screen.width>768){
+    if (screen.width > 768) {
         profPanel = document.getElementById('profile-panel');
         console.log(objeto)
         profile =
@@ -420,11 +422,48 @@ function createProfileElements(objeto) {
                     ' </div>'
             }
         }
-    
+
         profile = profile +
             '</div>' +
             '</div>'
         profPanel.innerHTML = profile;
+    } else {
+        profPanel = document.getElementById('mobile-profile');
+        console.log(objeto)
+        profile =
+            '<div class="profile-panel scroll-fit">' +
+            '<div id="img-panel">' +
+            `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">` +
+            '</div>';
+        if (makeButton) {
+            profile = profile + '<div class="m-2 d-flex justify-content-center">'+
+             `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>`+
+             '</div>';
+        }
+        profile = profile +
+            `<h2> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
+            '<hr>'
+        if (objeto.Descripcion != undefined) {
+            console.log('hola')
+            profile = profile + '<div>' +
+                `<p>${objeto.Descripcion}</p>` +
+                '</div>';
+        }
+        '<div class="w-100">';
+        if (objeto.Preferencias != undefined) {
+            for (var i = 0; i < objeto.Preferencias.length; i++) {
+                profile = profile +
+                    ' <div class="chip">' +
+                    '#' + objeto.Preferencias[i] +
+                    ' </div>'
+            }
+        }
+        profile = profile +
+            '</div>' +
+            '</div>'
+        profPanel.innerHTML = profile;
+
+
     }
 
 }
@@ -463,11 +502,12 @@ function createUserConversationList(objeto) {
 
     if (screen.width < 768) {
         document.body.setAttribute('class', 'overflow-hidden');
+        resultados = '<span id="mobile-tit">Mensajes</span>';
         if (objeto[0].Id == undefined) {
-
-            divMobile.innerHTML = "No tienes mensajes";
+            resultados = resultados + "No tienes mensajes";
+            divMobile.innerHTML = resultados;
         } else {
-            resultados =
+            resultados = resultados +
                 '<div class="container d-flex justify-content-center" id="conversation-box">';
             for (i = 0; i < objeto.length; i++) {
 
@@ -489,6 +529,13 @@ function createUserConversationList(objeto) {
             resultados = resultados + '</div>';
         }
         divMobile.innerHTML = resultados;
+        buttons = document.getElementsByClassName('conversation-prev');
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', function () {
+                nameChat = buttons[i].innerHTML; console.log(nameChat);
+            })
+
+        }
     } else {
         if (objeto[0].Id == undefined) {
 
@@ -547,7 +594,8 @@ if (searchUserButton = document.getElementById('botonBusqueda')) {
 function searchUserRequest() {
 
     limpiarDiv();
-
+    var element = document.getElementById("c-app");
+    element.classList.remove("d-none");
     //Recogemos los datos que vamos a enviar al servidor
     gender = document.getElementById('genderSelect').value;
     rooMates = document.getElementById('roomMatesSelect').value;
@@ -593,59 +641,100 @@ function createUserList(objeto) {
     limpiarDiv();
 
     divResult = document.getElementById('results-panel');
-    div = document.createElement('div');
-    div.setAttribute('id', 'parrafo');
 
-    if (objeto[0].Id == undefined) {
-        divResult.innerHTML = "";
-        texto = document.createTextNode(objeto);
+    if (screen.width > 768) {
+        if (objeto[0].Id == undefined) {
+            resultados = '<h2 class="top-tit">Resultados</h2>';
+            divResult.innerHTML = resultados + "No se encontraron resultados con esos parámetros";
 
-        p = document.createElement('p');
-        p.appendChild(texto);
-        div.appendChild(p);
-        divResult.appendChild(div);
+        } else {
 
+            resultados = '<h2 class="top-tit">Resultados</h2>' +
+                '<div class="container" id="user-list">' +
+                '<div class="row" id="title-section">' +
+                '</div>';
+            for (i = 0; i < objeto.length; i++) {
+                resultados = resultados + '<div class="row">' +
+                    '<div class="col-4">' +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                    '</div>' +
+                    '<div class="col-8">' +
+                    '<div class="col-xs">' +
+                    `<span>${objeto[i].Nombre}</span>` +
+                    '</div>' +
+                    '<div class="col-xs">'
+                for (j = 0; j < 3; j++) {
+                    if (objeto[i].Preferencias[j] != undefined) {
+                        resultados = resultados + `<span>#${objeto[i].Preferencias[j]} </span>`;
+                    }
+                    ++j;
+                    if (objeto[i].Preferencias[j] != undefined) {
+                        resultados = resultados + `<span>#${objeto[i].Preferencias[j]}</span>` +
+                            '</div>'
+                    }
+
+                }
+                if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
+                resultados = resultados + '<br>'
+                resultados = resultados + '<br>'
+                resultados = resultados + `<button class="btn-chatSearchUser" onClick="panelUserRequest(${objeto[i].Id})" type="button">Ver perfil</button>` +
+                    '</div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<hr>' +
+                    '</div>';
+            }
+            resultados = resultados + '</div>';
+            divResult.innerHTML = resultados;
+        }
     } else {
+        if (objeto[0].Id == undefined) {
+            resultados = '<h2 class="top-tit">Resultados</h2>';
+            divResult.innerHTML = resultados + "No se encontraron resultados con esos parámetros";
 
-        resultados =
-            '<div class="container" id="conversation-box">' +
-            '<div class="row" id="title-section">' +
-            '<h5>Resultados</h5>' +
-            '</div>';
-        for (i = 0; i < objeto.length; i++) {
-            resultados = resultados + '<div class="row">' +
-                '<div class="col-4">' +
-                `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
-                '</div>' +
-                '<div class="col-8">' +
-                '<div class="col-xs">' +
-                `<span>${objeto[i].Nombre}</span>` +
-                '</div>' +
-                '<div class="col-xs">'
-            for (j = 0; j < 3; j++) {
-                if (objeto[i].Preferencias[j] != undefined) {
-                    resultados = resultados + `<span>#${objeto[i].Preferencias[j]} </span>`;
+        } else {
+
+            resultados = '<h2 class="top-tit">Resultados</h2>' +
+                '<div class="container" id="user-list">' +
+                '<div class="row" id="title-section">' +
+                '</div>';
+            for (i = 0; i < objeto.length; i++) {
+                resultados = resultados + '<div class="row">' +
+                    '<div class="col-4">' +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                    '</div>' +
+                    '<div class="col-8">' +
+                    '<div class="col-xs">' +
+                    `<span>${objeto[i].Nombre}</span>` +
+                    '</div>' +
+                    '<div class="col-xs">'
+                for (j = 0; j < 3; j++) {
+                    if (objeto[i].Preferencias[j] != undefined) {
+                        resultados = resultados + `<span>#${objeto[i].Preferencias[j]} </span>`;
+                    }
+                    ++j;
+                    if (objeto[i].Preferencias[j] != undefined) {
+                        resultados = resultados + `<span>#${objeto[i].Preferencias[j]}</span>` +
+                            '</div>'
+                    }
+
                 }
-                ++j;
-                if (objeto[i].Preferencias[j] != undefined) {
-                    resultados = resultados + `<span>#${objeto[i].Preferencias[j]}</span>` +
-                        '</div>'
-                }
+                if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
+                resultados = resultados + '<br>'
+                resultados = resultados + '<br>'
+                resultados = resultados + `<button class="btn-chatSearchUser" onClick="panelUserRequest(${objeto[i].Id});openProfile()" type="button">Ver perfil</button>` +
+                    '</div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<hr>' +
+                    '</div>';
 
             }
-            if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
-            resultados = resultados + '<br>'
-            resultados = resultados + '<br>'
-            resultados = resultados + `<button class="btn-chatSearchUser" onClick="panelUserRequest(${objeto[i].Id})" type="button">Ver perfil</button>` +
-                '</div>' +
-                '</div>' +
-                '<div>' +
-                '<hr>' +
-                '</div>';
+            resultados = resultados + '</div>';
+            divResult.innerHTML = resultados;
         }
-        resultados = resultados + '</div>';
-        divResult.innerHTML = resultados;
     }
+
 }
 
 function createSearchElements() {
@@ -725,11 +814,11 @@ function validacion(event) {
     var input = document.getElementsByClassName('pass');
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
-  
+
     if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
         text = '- No has introducido una foto o la extensión no está permitida';
         erroresUser(text);
-    } 
+    }
     if (input[0].value == '') {
         event.preventDefault();
         text = '- Introduzca una contraseña';
@@ -747,7 +836,7 @@ function erroresUser(userError) {
         div.setAttribute('id', 'errorDiv');
         parentNode.appendChild(div)
     } else { div = document.getElementById('errorDiv'); div.innerHTML = "" }
-    $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
+    $('html,body').animate({ scrollTop: document.body.scrollHeight }, "fast");
     event.preventDefault();
     span = document.createElement('div')
     texto = document.createTextNode(userError);
@@ -761,11 +850,15 @@ function erroresUser(userError) {
 //
 ////////////////////////////////////////////////
 
+/*
 buttonsToggler = document.getElementsByClassName('navbar-toggler')
 buttonClose = document.getElementsByClassName('close');
-if (buttonsToggler) {
-    for (i = 0; i < buttonsToggler.length; i++) {
+console.log(buttonsToggler);
+if (buttonsToggler ) {
+    for (let i = 0; i < buttonsToggler.length; i++) {
         buttonsToggler[i].addEventListener('click', openNav);
+    }
+    for (let i = 0; i < buttonClose.length; i++) {
         buttonClose[i].addEventListener('click', closeNav);
     }
 }
@@ -785,26 +878,49 @@ function openNav(event) {
     }
 }
 
-/* Close when someone clicks on the "x" symbol inside the overlay */
+/* Close when someone clicks on the "x" symbol inside the overlay *//*
 function closeNav(event) {
     document.body.setAttribute('class', 'overflow-auto')
-    if (event.target.getAttribute('id') == 'toggler-close-r') {
-        document.getElementById('myNav-profile').style.width = "0%";
-    } else {
-        if (chat = document.getElementById('myNav-msn')) {
-            chat.style.width = "0%";
-        }
-        if (home = document.getElementById('myNav')) {
-            home.style.width = "0%";
+    if(event != undefined){
+        if (event.target.getAttribute('id') == 'toggler-close-r') {
+            document.getElementById('myNav-profile').style.width = "0%";
+        } else {
+            if (chat = document.getElementById('myNav-msn')) {
+                chat.style.width = "0%";
+            }
+            if (home = document.getElementById('myNav')) {
+                home.style.width = "0%";
+            }
         }
     }
-}
 
+}
+*/
+
+function openUser() {
+    document.getElementById("myNav-profile").style.width = "100%";
+}
+function closeUser() {
+    document.getElementById("myNav-profile").style.width = "0%";
+}
+function openMsn() {
+    document.getElementById('myNav-msn').style.width = "100%";
+}
+function closeMsn() {
+    document.getElementById('myNav-msn').style.width = "0%";
+}
 function openChat() {
     document.getElementById("myNav-chat").style.width = "100%";
 }
 function closeChat() {
     document.getElementById("myNav-chat").style.width = "0%";
+}
+function openProfile() {
+    console.log('hola');
+    document.getElementById("myNav-user").style.width = "100%";
+}
+function closeProfile() {
+    document.getElementById("myNav-user").style.width = "0%";
 }
 
 $('#carouselExample').on('slide.bs.carousel', function (e) {
