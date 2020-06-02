@@ -94,9 +94,9 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
             return new RedirectResponse($targetPath);
         }
         $user = $token->getUser();
-        $admin='ROLE_ADMIN';
+        $admin="ROLE_ADMIN";
         if(in_array($admin,$user->getRoles())){
-            return new RedirectResponse($this->urlGenerator->generate('user_index'));
+            return new RedirectResponse($this->urlGenerator->generate('admin_panel'));
         }else{
             return new RedirectResponse($this->urlGenerator->generate('home_user')); 
         }

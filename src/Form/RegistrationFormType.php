@@ -74,6 +74,7 @@ class RegistrationFormType extends AbstractType
             ->add('descripcion', TextareaType::class, [
                 'attr' => [
                         'placeholder' => '¡Cuéntanos algo sobre ti'],
+                'required'=> false
                 
             ])
             ->add('plainPassword', PasswordType::class, [

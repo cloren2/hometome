@@ -81,7 +81,8 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             $foto = $form->get('foto')->getData();
-            self::renamePic($user, $foto);
+            if (!empty($foto)){self::renamePic($user, $foto);}
+            
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
@@ -92,7 +93,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
     private function renamePic(User $user, $fotoFile)
