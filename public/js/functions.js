@@ -155,7 +155,7 @@ function addPreferences(preferenciaId) {
 //Eliminar del arry de preferencias una de ellas
 function removePreferences(event) {
 
-    remove = parseInt(event.target.value);
+    remove = parseInt(event.target.getAttribute('value'));
     var indice = arrayPref.indexOf(remove);
 
     //Si no hay elementos entonces se vacia el array
@@ -174,19 +174,24 @@ function paintPreference(preference, preferenciaId) {
     buscador = document.getElementById('search-panel');
 
     tag = document.getElementById('tags');
+
     divContTag.setAttribute('id', 'contenedorPref');
+    divContTag.setAttribute('class', 'border preference-box');
     nodoBuscador = document.getElementById('botonBusqueda');
     buscador.insertBefore(divContTag, nodoBuscador);
 
     divTag = document.createElement('span');
     texto = document.createTextNode(preference);
-    boton = document.createElement('button');
+    boton = document.createElement('div');
 
     divTag.setAttribute('id', preferenciaId);
     divTag.setAttribute('name', preferencia);
+    divTag.setAttribute('class', 'chip-preference');
+
 
     boton.setAttribute('value', preferenciaId);
-    boton.innerHTML = 'X';
+    boton.setAttribute('class', 'closechip');
+    boton.innerHTML = '&times';
     boton.addEventListener('click', removePreferences);
 
     divTag.appendChild(texto);
@@ -371,12 +376,12 @@ function sendMessageRequestKey(e, idPasivo) {
     //idPasivo = event.target.value;
     console.log(e);
     e.which = e.which || e.keyCode;
-    if(e.which == 13) {
+    if (e.which == 13) {
         mensaje = document.getElementById('mensaje').value;
         ruta = Routing.generate('sendMessage');
         xhr = new XMLHttpRequest();
-    
-       
+
+
         xhr.addEventListener('readystatechange', sendMessageResponse);
         xhr.open('POST', ruta);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -462,33 +467,36 @@ function createProfileElements(objeto) {
             `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">` +
             '</div>';
         if (makeButton) {
-            profile = profile + '<div class="m-2 d-flex justify-content-center">'+
-             `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id});openChat()">Chatear</button>`+
-             '</div>';
+            profile = profile + '<div class="m-2 d-flex justify-content-center">' +
+                `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id});openChat()">Chatear</button>` +
+                '</div>';
         }
         profile = profile +
-            `<h2> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
+            `<h2 class="overlay-margin"> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
             '<hr>'
         if (objeto.Descripcion != undefined) {
             console.log('hola')
-            profile = profile + '<div>' +
+            profile = profile + '<div class="overlay-margin">' +
                 `<p>${objeto.Descripcion}</p>` +
                 '</div>';
         }
         '<div class="w-100">';
         if (objeto.Preferencias != undefined) {
+            profile = profile +
+                '<div class="overlay-margin">';
             for (var i = 0; i < objeto.Preferencias.length; i++) {
                 profile = profile +
                     ' <div class="chip">' +
                     '#' + objeto.Preferencias[i] +
-                    ' </div>'
+                    ' </div>';
             }
+            profile = profile + '</div>';
         }
         profile = profile +
             '</div>' +
             '</div>'
         profPanel.innerHTML = profile;
-
+        nameChat = objeto.Nombre;
 
     }
 
@@ -715,47 +723,47 @@ function createUserList(objeto) {
         }
     } else {
         if (objeto[0].Id == undefined) {
+
             resultados = '<h2 class="top-tit">Resultados</h2>';
             divResult.innerHTML = resultados + "No se encontraron resultados con esos parámetros";
 
         } else {
-
+            console.log(objeto);
             resultados = '<h2 class="top-tit">Resultados</h2>' +
-                '<div class="container" id="user-list">' +
-                '<div class="row" id="title-section">' +
-                '</div>';
+                '<div class="container" id="user-list">'
             for (i = 0; i < objeto.length; i++) {
                 resultados = resultados + '<div class="row">' +
                     '<div class="col-4">' +
-                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid list-img" style="margin-top: 3.5rem;">` +
                     '</div>' +
                     '<div class="col-8">' +
-                    '<div class="col-xs">' +
-                    `<span class="name-prevs">${objeto[i].Nombre}</span>` +
+                    '<div class="row d-flex justify-content-center">' +
+                    `<span class="name-prevs md-p">${objeto[i].Nombre}</span>` +
                     '</div>' +
-                    '<div class="col-xs">'
+                    '<div class="row">'
                 for (j = 0; j < 3; j++) {
                     if (objeto[i].Preferencias[j] != undefined) {
-                        resultados = resultados + `<span>#${objeto[i].Preferencias[j]} </span>`;
+                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
                     }
+                    console.log(objeto[i].Preferencias[j])
                     ++j;
                     if (objeto[i].Preferencias[j] != undefined) {
-                        resultados = resultados + `<span>#${objeto[i].Preferencias[j]}</span>` +
-                            '</div>'
+                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`
                     }
+                    console.log(objeto[i].Preferencias[j])
                 }
-                if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
-                resultados = resultados + '<br>'
-                resultados = resultados + '<br>'
-                resultados = resultados + `<button class="btn-chatSearchUser" onClick="panelUserRequest(${objeto[i].Id});openProfile()" type="button">Ver perfil</button>` +
+                if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span class="chip-list">#...</span>' }
+                resultados = resultados + '</div></div>' +
+                    '<div class="w-100 justify-content-center d-flex pt-2">' +
+                    `<button class="btn-chatSearchUser btn btn-primary" onClick="panelUserRequest(${objeto[i].Id});openProfile()" type="button">Ver perfil</button>` +
                     '</div>' +
                     '</div>' +
                     '<div>' +
-                    '<hr>' +
+                    '<hr class="bt-2">' +
                     '</div>';
 
             }
-            resultados = resultados + '</div>';
+            resultados = resultados + '</div></div>';
             divResult.innerHTML = resultados;
             buttons = document.getElementsByClassName('name-prevs');
             for (let i = 0; i < buttons.length; i++) {
@@ -936,7 +944,7 @@ function closeUser() {
 }
 function openMsn() {
     document.getElementById('myNav-msn').style.width = "100%";
-   
+
 }
 function closeMsn() {
     document.getElementById('myNav-msn').style.width = "0%";

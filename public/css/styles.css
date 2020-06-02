@@ -222,6 +222,10 @@
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
 }
+.overlay-margin{
+  margin-left: 15px;
+  margin-right: 15px;
+}
 /* Position the content inside the overlay */
 .overlay-content {
   position: relative;
@@ -539,14 +543,48 @@ div{scrollbar-width: none !important }
 .mw-60{
   max-width: 60%;
 }
+
+.preference-box{
+  overflow-y: scroll;
+  height: 4rem;
+}
 .chip {
   display: inline-block;
-  padding: 0 25px;
+  padding: 0 20px;
   height: 50px;
   font-size: 16px;
   line-height: 50px;
   border-radius: 25px;
   background-color: #f1f1f1;
+}
+.chip-preference {
+  display: inline-block;
+  padding: 0 10px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+}
+.chip-list {
+  display: inline-block;
+  padding: 0 2px;
+  height: 35px;
+  font-size: 16px;
+  line-height: 31px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+}
+.closechip {
+  padding-left: 10px;
+  color: #888;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+.closechip:hover {
+  color: #000;
 }
 .container-scroll{
   max-width: 100%;
@@ -682,6 +720,11 @@ textarea {
   .app-img{
     width: 50px;
     height: 46px;
+    object-fit: cover;
+  }
+  .list-img{
+    width: 60px;
+    height: 56px;
     object-fit: cover;
   }
 
