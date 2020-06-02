@@ -224,7 +224,7 @@ if (viewMessagesButton = document.getElementById('buttonMessages')) {
 var idPasivo;
 function messagesRequest(idParameter) {
     ruta = Routing.generate('chat');
-    idPasivo=idParameter;
+    idPasivo = idParameter;
     console.log(idPasivo);
     xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', messagesResponse);
@@ -249,52 +249,99 @@ function messagesResponse(event) {
 //Crea los elementos necesarios para renderizar el chat
 function printChatElements(objeto) {
 
-    rpanel = document.getElementById('results-panel');
+    if (screen.width < 768) {
+        rmobilepanel = document.getElementById('mobile-chat');
+        chatbox = document.getElementById('chat-box');
+        chat = '<div class="h-100">' +
+            '<div class="container overflow-auto" id="chat-box" style="height: 81%">';
+        //Si lo entregado por parametro es un objeto
+        if (typeof objeto === 'object') {
+            console.log(objeto);
+            for (i = 0; i < objeto.length; i++) {
+                console.log(objeto[i].Emisor)
+                if (objeto[i].usuarioActivo == objeto[i].Emisor) {
+                    chat = chat + '<div class="row justify-content-end">' +
+                        '<div class="col-7 enviados">' +
+                        objeto[i].Mensaje +
+                        '</div>' +
+                        '</div>'
 
-    rpanel.innerHTML = "";
-
-    chat = '<div class="h-100">' +
-        '<div class="container overflow-auto" id="chat-box" style="height: 89%">';
-    if (typeof objeto === 'object') {
-        for (i = 0; i < objeto.length; i++) {
-            console.log(objeto[i].Emisor)
-            if (objeto[i].usuarioActivo == objeto[i].Emisor) {
-                chat = chat + '<div class="row justify-content-end">' +
-                    '<div class="col-7 enviados">' +
-                    objeto[i].Mensaje +
-                    '</div>' +
-                    '</div>'
-                    
-            } else {
-                chat = chat + '<div class="row">' +
-                    '<div class="col-7 recibidos">' +
-                    objeto[i].Mensaje +
-                    '</div>' +
-                    '</div>'
+                } else {
+                    chat = chat + '<div class="row">' +
+                        '<div class="col-7 recibidos">' +
+                        objeto[i].Mensaje +
+                        '</div>' +
+                        '</div>'
+                }
             }
-            
+        //Si lo entregado por parametro es un int
+        } else {
+            idPasivo = objeto;
         }
+
+        chat = chat + '</div>' +
+            '<div class="container border border-secondary rounded" id="textArea">' +
+            '<div class="row d-flex justify-content-center">' +
+            '<div class="form-group mx-sm-3 ">' +
+            '<input id="mensaje"  class="form-control" type="text"></input>' +
+            '</div>' +
+            '<div class="form-group mx-sm-3">' +
+            `<button id="btn-send" class="btn btn-outline-secondary" onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        rmobilepanel.innerHTML = chat;
+        //Llamada a peticion de mensajes de forma regular
+        // intervalo = setInterval(, 5000);
     } else {
-        idPasivo = objeto;
+        rpanel = document.getElementById('results-panel');
+
+        rpanel.innerHTML = "";
+
+        chat = '<div class="h-100">' +
+            '<div class="container overflow-auto" id="chat-box" style="height: 89%">';
+        if (typeof objeto === 'object') {
+            for (i = 0; i < objeto.length; i++) {
+                console.log(objeto[i].Emisor)
+                if (objeto[i].usuarioActivo == objeto[i].Emisor) {
+                    chat = chat + '<div class="row justify-content-end">' +
+                        '<div class="col-7 enviados">' +
+                        objeto[i].Mensaje +
+                        '</div>' +
+                        '</div>'
+
+                } else {
+                    chat = chat + '<div class="row">' +
+                        '<div class="col-7 recibidos">' +
+                        objeto[i].Mensaje +
+                        '</div>' +
+                        '</div>'
+                }
+            }
+        } else {
+            idPasivo = objeto;
+        }
+
+        chat = chat + '</div>' +
+            '<div class="container border border-secondary rounded" id="textArea">' +
+            '<div class="row d-flex justify-content-center">' +
+            '<div class="form-group mx-sm-3 ">' +
+            '<input id="mensaje"  class="form-control" type="text"></input>' +
+            '</div>' +
+            '<div class="form-group mx-sm-3">' +
+            `<button id="btn-send" class="btn btn-outline-secondary" onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        rpanel.innerHTML = chat;
+        //Llamada a peticion de mensajes de forma regular
+        // intervalo = setInterval(, 5000);
     }
 
-    chat = chat + '</div>' +
-        '<div class="container border border-secondary rounded" id="textArea">' +
-        '<div class="row d-flex justify-content-center">' +
-        '<div class="form-group mx-sm-3 ">' +
-        '<input id="mensaje"  class="form-control" type="text"></input>' +
-        '</div>' +
-        '<div class="form-group mx-sm-3">' +
-        `<button id="btn-send" class="btn btn-outline-secondary" onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>';
-
-    rpanel.innerHTML = chat;
-    var btnsend = document.getElementById('btn-send');
-    //Llamada a peticion de mensajes de forma regular
-    // intervalo = setInterval(, 5000);
 }
 
 //Solicitud asincrona para enviar un nuevo mensaje
@@ -343,39 +390,43 @@ function panelUserResponse(event) {
 }
 
 function createProfileElements(objeto) {
-    profPanel = document.getElementById('profile-panel');
-    console.log(objeto)
-    profile =
-        '<div class="profile-panel scroll-fit">' +
-        '<div id="img-panel">' +
-        `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">` +
-        '</div>';
-    if (makeButton) {
-        profile = profile + `<button type="button" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>`
-    }
-    profile = profile +
-        `<h2> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
-        '<hr>'
-    if (objeto.Descripcion != undefined) {
-        console.log('hola')
-        profile = profile + '<div>' +
-            `<p>${objeto.Descripcion}</p>` +
+
+    if(screen.width>768){
+        profPanel = document.getElementById('profile-panel');
+        console.log(objeto)
+        profile =
+            '<div class="profile-panel scroll-fit">' +
+            '<div id="img-panel">' +
+            `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">` +
             '</div>';
-    }
-    '<div class="w-100">';
-    if (objeto.Preferencias != undefined) {
-        for (var i = 0; i < objeto.Preferencias.length; i++) {
-            profile = profile +
-                ' <div class="chip">' +
-                '#' + objeto.Preferencias[i] +
-                ' </div>'
+        if (makeButton) {
+            profile = profile + `<button type="button" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>`
         }
+        profile = profile +
+            `<h2> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
+            '<hr>'
+        if (objeto.Descripcion != undefined) {
+            console.log('hola')
+            profile = profile + '<div>' +
+                `<p>${objeto.Descripcion}</p>` +
+                '</div>';
+        }
+        '<div class="w-100">';
+        if (objeto.Preferencias != undefined) {
+            for (var i = 0; i < objeto.Preferencias.length; i++) {
+                profile = profile +
+                    ' <div class="chip">' +
+                    '#' + objeto.Preferencias[i] +
+                    ' </div>'
+            }
+        }
+    
+        profile = profile +
+            '</div>' +
+            '</div>'
+        profPanel.innerHTML = profile;
     }
 
-    profile = profile +
-        '</div>' +
-        '</div>'
-    profPanel.innerHTML = profile;
 }
 
 function userConversationsRequest(params) {
@@ -408,39 +459,66 @@ function createUserConversationList(objeto) {
 
     divResult = document.getElementById('child-cpanel');
     divMobile = document.getElementById('mobile-msn');
-    div = document.createElement('div');
-    div.setAttribute('id', 'parrafo');
 
-    if (objeto[0].Id == undefined) {
 
-        divResult.innerHTML = "No tienes mensajes";
-        divMobile.innerHTML = "No tienes mensajes";
-    } else {
-        resultados =
-            '<div class="container scroll-fit" id="conversation-box">';
-        for (i = 0; i < objeto.length; i++) {
-            resultados = resultados +
-                //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
-                '<div class="row d-flex justify-content-center">' +
-                '<div class="col-xs">' +
-                `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
-                '</div>' +
-                '<div class="col-sm" id="col-fix">' +
-                //nombre iba en div normal
-                `<button type="button" class="conversation-prev" onClick="messagesRequest(${objeto[i].Id})" >${objeto[i].Nombre}</button>` +
-                `<div class="msn-prev">${objeto[i].msn}</div>` +
+    if (screen.width < 768) {
+        document.body.setAttribute('class', 'overflow-hidden');
+        if (objeto[0].Id == undefined) {
 
-                '</div>' +
-                '</div>' +
-                // '</button>'+
-                '<div>' +
-                '<hr>' +
-                '</div>';
+            divMobile.innerHTML = "No tienes mensajes";
+        } else {
+            resultados =
+                '<div class="container d-flex justify-content-center" id="conversation-box">';
+            for (i = 0; i < objeto.length; i++) {
+
+                resultados = resultados +
+                    //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
+                    '<div class="row d-flex justify-content-center border-bottom w-100">' +
+                    '<div class="col-xs pt-2">' +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                    '</div>' +
+                    '<div class="col-sm" id="col-fix">' +
+                    //nombre iba en div normal
+                    `<button type="button" class="conversation-prev" onClick="messagesRequest(${objeto[i].Id});openChat()" >${objeto[i].Nombre}</button>` +
+                    `<div class="msn-prev text-center">${objeto[i].msn}` +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+            }
+            resultados = resultados + '</div>';
         }
-        resultados = resultados + '</div>';
-        divResult.innerHTML = resultados;
         divMobile.innerHTML = resultados;
+    } else {
+        if (objeto[0].Id == undefined) {
 
+            divResult.innerHTML = "No tienes mensajes";
+        } else {
+            resultados =
+                '<div class="container scroll-fit" id="conversation-box">';
+
+            for (i = 0; i < objeto.length; i++) {
+                resultados = resultados +
+                    //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
+                    '<div class="row d-flex justify-content-center">' +
+                    '<div class="col-xs">' +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                    '</div>' +
+                    '<div class="col-sm" id="col-fix">' +
+                    //nombre iba en div normal
+                    `<button type="button" class="conversation-prev" onClick="messagesRequest(${objeto[i].Id})" >${objeto[i].Nombre}</button>` +
+                    `<div class="msn-prev">${objeto[i].msn}</div>` +
+
+                    '</div>' +
+                    '</div>' +
+                    // '</button>'+
+                    '<div>' +
+                    '<hr>' +
+                    '</div>';
+            }
+            resultados = resultados + '</div>';
+        }
+        divResult.innerHTML = resultados;
     }
 }
 /////////////////////////////////////////////////
@@ -620,6 +698,7 @@ function createSearchElements() {
         '</br>' +
         '<button type="button" class="form-control" id="botonBusqueda">Buscar</button>' +
         '</div>';
+
     divResult.innerHTML = search;
     search = document.getElementById('tags')
     btnSearch = document.getElementById('botonBusqueda');
@@ -631,23 +710,7 @@ function createSearchElements() {
     ppanel.innerHTML = "";
     rpanel.innerHTML = "";
 }
-//Slider de para el rango de precios
-/*
-$(function () {
-    $("#slider-range").slider({
-        range: true,
-        min: 0,
-        max: 500,
-        values: [75, 300],
-        slide: function (event, ui) {
-            $("#amount").val(ui.values[0] + "€ - " + ui.values[1] + "€");
-        }
 
-    });
-    $("#amount").val($("#slider-range").slider("values", 0) + "€ - " + $("#slider-range").slider("values", 1) + "€");
-});
-
-*/
 /////////////////////////////////////////////////
 //
 //Validacion del formulario de registro
@@ -711,7 +774,7 @@ function openNav(event) {
 
         document.getElementById("myNav-profile").style.width = "100%";
     } else {
-        if (chat = document.getElementById('myNav-chat')) {
+        if (chat = document.getElementById('myNav-msn')) {
             chat.style.width = "100%";
         }
         if (home = document.getElementById('myNav')) {
@@ -722,17 +785,24 @@ function openNav(event) {
 
 /* Close when someone clicks on the "x" symbol inside the overlay */
 function closeNav(event) {
-
+    document.body.setAttribute('class', 'overflow-auto')
     if (event.target.getAttribute('id') == 'toggler-close-r') {
         document.getElementById('myNav-profile').style.width = "0%";
     } else {
-        if (chat = document.getElementById('myNav-chat')) {
+        if (chat = document.getElementById('myNav-msn')) {
             chat.style.width = "0%";
         }
         if (home = document.getElementById('myNav')) {
             home.style.width = "0%";
         }
     }
+}
+
+function openChat() {
+    document.getElementById("myNav-chat").style.width = "100%";
+}
+function closeChat() {
+    document.getElementById("myNav-chat").style.width = "0%";
 }
 
 $('#carouselExample').on('slide.bs.carousel', function (e) {

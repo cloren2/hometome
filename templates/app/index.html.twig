@@ -16,12 +16,11 @@
     <img src="img/app/msn.png" id="toggler-r" class="toggler-profile">
   </button>
 
-  <div id="myNav-chat" class="overlay-r">
+  <div id="myNav-msn" class="overlay-r">
   <!-- Button to close the overlay navigation -->
     <a href="javascript:void(0)" id="toggler-close-l"class="closebtn close" >&times;</a>
     <!-- Overlay content -->
     <div id="mobile-msn"></div>
-
   </div>
   
   <div id="myNav-profile" class="overlay-l">
@@ -33,7 +32,25 @@
         <a href="/logout"> Logout</a>
     </div>
   </div>
+
 </nav>
+
+<div id="myNav-chat" class="overlay-chat">
+    <nav class="navbar navbar-expand-lg navbar-light" id="navbar-app">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+             <a href="javascript:void(0)" onClick="closeChat()"id="toggler-close-chat"class="md-p" ><</a>
+        </button>
+
+        <span id="name-chat">
+        Nombre
+        </span>
+        
+        <a href="javascript:void(0)" id="toggler-close-chat"class="invisible" ><</a>
+
+    </nav>
+    <div class="h-100" id="mobile-chat"></div>
+</div>
 
 
 <div class="container mb-3 pb-3 border-right border-left border h-100" id="l-app">
@@ -56,7 +73,7 @@
             </button>
             <button type="button" class="button-cpanel">
                 <span class="app-subtB" id="buttonMessages">Mensajes</span>
-                <div class="separator"></div>
+                <div class="separator" id="separatorMessages"></div>
             </button>
             </br>
             <div id="child-cpanel" class="h-100">
