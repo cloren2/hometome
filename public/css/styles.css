@@ -421,7 +421,6 @@ body{
   }
   #conversation-box{
     width: 100%;
-    height: 60%;
     padding-top: 5rem;
   }
   #userlist{
@@ -724,7 +723,12 @@ textarea {
   }
   .list-img{
     width: 60px;
-    height: 56px;
+    height: 60px;
+    object-fit: cover;
+  }
+  .list-dtimg{
+    width: 100px;
+    height: 100px;
     object-fit: cover;
   }
 

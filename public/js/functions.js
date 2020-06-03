@@ -341,7 +341,7 @@ function printChatElements(objeto) {
             '<div class="container border border-secondary rounded" id="textArea">' +
             '<div class="row d-flex justify-content-center">' +
             '<div class="form-group mx-sm-3 ">' +
-            '<input id="mensaje"  class="form-control" type="text"></input>' +
+            `<input id="mensaje" onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
             '</div>' +
             '<div class="form-group mx-sm-3">' +
             `<button id="btn-send" class="btn btn-outline-secondary" onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
@@ -358,18 +358,21 @@ function printChatElements(objeto) {
 }
 
 //Solicitud asincrona para enviar un nuevo mensaje
-function sendMessageRequest(event, idPasivo) {
+function sendMessageRequest(idPasivo) {
     //idPasivo = event.target.value;
 
     mensaje = document.getElementById('mensaje').value;
-    ruta = Routing.generate('sendMessage');
-    xhr = new XMLHttpRequest();
+    if(mensaje != ''){
+        ruta = Routing.generate('sendMessage');
+        xhr = new XMLHttpRequest();
+    
+        console.log(event);
+        xhr.addEventListener('readystatechange', sendMessageResponse);
+        xhr.open('POST', ruta);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
+    }
 
-    console.log(event);
-    xhr.addEventListener('readystatechange', sendMessageResponse);
-    xhr.open('POST', ruta);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
 }
 
 function sendMessageRequestKey(e, idPasivo) {
@@ -378,14 +381,17 @@ function sendMessageRequestKey(e, idPasivo) {
     e.which = e.which || e.keyCode;
     if (e.which == 13) {
         mensaje = document.getElementById('mensaje').value;
-        ruta = Routing.generate('sendMessage');
-        xhr = new XMLHttpRequest();
+        if (mensaje != ''){
+            ruta = Routing.generate('sendMessage');
+            xhr = new XMLHttpRequest();
+    
+    
+            xhr.addEventListener('readystatechange', sendMessageResponse);
+            xhr.open('POST', ruta);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
+        }
 
-
-        xhr.addEventListener('readystatechange', sendMessageResponse);
-        xhr.open('POST', ruta);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
     }
 
 }
@@ -538,7 +544,12 @@ function createUserConversationList(objeto) {
         document.body.setAttribute('class', 'overflow-hidden');
         resultados = '<span id="mobile-tit">Mensajes</span>';
         if (objeto[0].Id == undefined) {
-            resultados = resultados + "No tienes mensajes";
+            resultados = resultados + 
+            '<div class="container">'+
+            '<div class="row">'+
+            '<div class="md-p ml-2" id="conversation-box">No tienes mensajes, cuando alguien te escriba aparecera aquí.</div>'+
+            '</div>'+
+            '</div>';
             divMobile.innerHTML = resultados;
         } else {
             resultados = resultados +
@@ -684,41 +695,40 @@ function createUserList(objeto) {
         } else {
 
             resultados = '<h2 class="top-tit">Resultados</h2>' +
-                '<div class="container" id="user-list">' +
-                '<div class="row" id="title-section">' +
-                '</div>';
+                '<div class="container" id="user-list">';
             for (i = 0; i < objeto.length; i++) {
                 resultados = resultados + '<div class="row">' +
                     '<div class="col-4">' +
-                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid list-dtimg mt-5">` +
                     '</div>' +
                     '<div class="col-8">' +
-                    '<div class="col-xs">' +
+                    '<div class="row justify-content-center md-p mb-1">' +
                     `<span>${objeto[i].Nombre}</span>` +
                     '</div>' +
-                    '<div class="col-xs">'
+                    '<div class="row">'
                 for (j = 0; j < 3; j++) {
                     if (objeto[i].Preferencias[j] != undefined) {
-                        resultados = resultados + `<span>#${objeto[i].Preferencias[j]} </span>`;
+                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
                     }
                     ++j;
                     if (objeto[i].Preferencias[j] != undefined) {
-                        resultados = resultados + `<span>#${objeto[i].Preferencias[j]}</span>` +
-                            '</div>'
+                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]}</span>`;
                     }
 
                 }
-                if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
-                resultados = resultados + '<br>'
-                resultados = resultados + '<br>'
-                resultados = resultados + `<button class="btn-chatSearchUser" onClick="panelUserRequest(${objeto[i].Id})" type="button">Ver perfil</button>` +
-                    '</div>' +
+                if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span class="chip-list">#...</span>' }
+                resultados = resultados + '</div>'+
+                '<div class="row d-flex justify-content-center">' +
+                `<button class="btn-chatSearchUser btn btn-primary" onClick="panelUserRequest(${objeto[i].Id});openProfile()" type="button">Ver perfil</button>`+
+                '</div>' +
+                '</div>' +
                     '</div>' +
                     '<div>' +
-                    '<hr>' +
+                    '<hr class="bt-2">' +
                     '</div>';
+
             }
-            resultados = resultados + '</div>';
+            resultados = resultados + '</div></div>';
             divResult.innerHTML = resultados;
         }
     } else {
@@ -737,10 +747,10 @@ function createUserList(objeto) {
                     `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid list-img" style="margin-top: 3.5rem;">` +
                     '</div>' +
                     '<div class="col-8">' +
-                    '<div class="row d-flex justify-content-center">' +
-                    `<span class="name-prevs md-p">${objeto[i].Nombre}</span>` +
+                    '<div class="col-xs">' +
+                    `<span>${objeto[i].Nombre}</span>` +
                     '</div>' +
-                    '<div class="row">'
+                    '<div class="col-xs">'
                 for (j = 0; j < 3; j++) {
                     if (objeto[i].Preferencias[j] != undefined) {
                         resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
@@ -748,7 +758,7 @@ function createUserList(objeto) {
                     console.log(objeto[i].Preferencias[j])
                     ++j;
                     if (objeto[i].Preferencias[j] != undefined) {
-                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`
+                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
                     }
                     console.log(objeto[i].Preferencias[j])
                 }
@@ -962,6 +972,7 @@ function openProfile() {
 }
 function closeProfile() {
     document.getElementById("myNav-user").style.width = "0%";
+    document.body.setAttribute('class', 'overflow-auto');
 }
 
 $('#carouselExample').on('slide.bs.carousel', function (e) {

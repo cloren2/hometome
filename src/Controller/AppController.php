@@ -241,6 +241,7 @@ class AppController extends AbstractController
                 $campo = [
                     'Id' => $resultadosBusqueda[$i]->getId(),
                     'Nombre' => $resultadosBusqueda[$i]->getNombre(),
+                    'Apellidos' =>$resultadosBusqueda[$i]->getApellidos(),
                     'Ciudad' => $resultadosBusqueda[$i]->getCiudad()->getNombre(),
                 ];
 
