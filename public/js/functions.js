@@ -28,7 +28,9 @@ function limpiarDiv() {
 }
 
 //funcion input number 
-$("input[type='number']").inputSpinner()
+
+
+
 //funcion foto registratiob form
 $(document).on("click", ".browse", function () {
     var file = $(this).parents().find(".file");
@@ -868,9 +870,9 @@ function validacion(event) {
         text = '- No has introducido una foto o la extensión no está permitida';
         erroresUser(text);
     }
-    if (input[0].value == '') {
+    if (input[0].value == ''||input[0].value.length<4 ) {
         event.preventDefault();
-        text = '- Introduzca una contraseña';
+        text = '- Introduzca una contraseña, esta debe tener al menos 4 caracteres';
         erroresUser(text);
     }
 }

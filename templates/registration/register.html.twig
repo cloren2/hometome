@@ -131,13 +131,14 @@
     <div class="row"> 
          <div class="wrap-input100 validate-input d-flex flex-column"  >	
             <div class=" justify-content-center num-div">
-            {{ form_label(form.precioMin, 'Precio mínimo', { 'label_attr': {'class': 'label-input100'} }) }}
-            {{ form_widget(form.precioMin) }}
+               <span class="label-input100"> Precio mínimo</span>
+            {{ form_widget(form.precioMin, { 'attr': {'class': 'inp-min'} })  }}
             </div>
    
             <div class="align-content-end num-div">
-            {{ form_label(form.precioMax, 'Precio máximo', { 'label_attr': {'class': 'label-input100'} }) }}
-            {{ form_widget(form.precioMax) }}
+          
+            <span class="label-input100"> Precio máximo</span>
+            {{ form_widget(form.precioMax, { 'attr': {'class': 'inp-max'} }) }}
              </div>
             <span class="focus-input100"></span>
         </div>  
