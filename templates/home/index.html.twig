@@ -3,14 +3,14 @@
 {% block title %}HomeToMe | Tu compañero de piso ideal{% endblock %}
 
 {% block body %}
-
+{% block body_class %}homepage{% endblock %}
 <header>
 <!-- Nav -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navbar">
   <a class="navbar-brand" href="#">
   <img src="img/home/HomeToMe_Color.png" alt="Logo" id="logo">
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" onClick="openHomeNav()"data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
     
@@ -40,7 +40,7 @@
     </ul>  
   <div id="myNav" class="overlay-r">
   <!-- Button to close the overlay navigation -->
-    <a href="javascript:void(0)" class="close closebtn">&times;</a>
+    <a href="javascript:void(0)" class="close closebtn" onClick="closeHomeNav()">&times;</a>
     <!-- Overlay content -->
     <div class="overlay-content">
       <a href="/">Home</a>

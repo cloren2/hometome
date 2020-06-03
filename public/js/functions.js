@@ -198,6 +198,9 @@ function paintPreference(preference, preferenciaId) {
     divTag.appendChild(boton);
     divContTag.appendChild(divTag);
 
+    var objDiv = document.getElementById("contenedorPref");
+    objDiv.scrollTop = objDiv.scrollHeight;
+
 }
 
 /////////////////////////////////////////////////
@@ -214,7 +217,7 @@ function paintPreference(preference, preferenciaId) {
 var idPasivo = "";
 var objetoPref = "";
 var intervalo;
-var makeButton = false;
+var makeButton = true;
 
 if (viewMessagesButton = document.getElementById('buttonMessages')) {
     viewSearchButton = document.getElementById('buttonSearch');
@@ -291,7 +294,7 @@ function printChatElements(objeto) {
             '<div class="container border border-secondary rounded" id="textArea">' +
             '<div class="row d-flex justify-content-center">' +
             '<div class="form-group mx-sm-3 ">' +
-            `<input id="mensaje" onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
+            `<input id="mensaje" placeholder="Di ¡Hola!"onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
             '</div>' +
             '<div class="form-group mx-sm-3">' +
             `<button id="btn-send" class="btn btn-outline-secondary"  onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
@@ -341,7 +344,7 @@ function printChatElements(objeto) {
             '<div class="container border border-secondary rounded" id="textArea">' +
             '<div class="row d-flex justify-content-center">' +
             '<div class="form-group mx-sm-3 ">' +
-            `<input id="mensaje" onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
+            `<input id="mensaje" placeholder="Di ¡Hola!" onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
             '</div>' +
             '<div class="form-group mx-sm-3">' +
             `<button id="btn-send" class="btn btn-outline-secondary" onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
@@ -351,6 +354,8 @@ function printChatElements(objeto) {
             '</div>';
 
         rpanel.innerHTML = chat;
+        var objDiv = document.getElementById("chat-box");
+        objDiv.scrollTop = objDiv.scrollHeight;
         //Llamada a peticion de mensajes de forma regular
         // intervalo = setInterval(, 5000);
     }
@@ -362,6 +367,7 @@ function sendMessageRequest(idPasivo) {
     //idPasivo = event.target.value;
 
     mensaje = document.getElementById('mensaje').value;
+    document.getElementById('mensaje').focus();
     if(mensaje != ''){
         ruta = Routing.generate('sendMessage');
         xhr = new XMLHttpRequest();
@@ -378,9 +384,12 @@ function sendMessageRequest(idPasivo) {
 function sendMessageRequestKey(e, idPasivo) {
     //idPasivo = event.target.value;
     console.log(e);
+    
     e.which = e.which || e.keyCode;
     if (e.which == 13) {
+        document.getElementById('mensaje').focus();
         mensaje = document.getElementById('mensaje').value;
+        
         if (mensaje != ''){
             ruta = Routing.generate('sendMessage');
             xhr = new XMLHttpRequest();
@@ -411,8 +420,6 @@ function panelUserRequest(idPasivo) {
 
     console.log(idPasivo);
 
-    makeButton = true;
-
     ruta = Routing.generate('panel_user');
     xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', panelUserResponse);
@@ -439,7 +446,9 @@ function createProfileElements(objeto) {
             `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">` +
             '</div>';
         if (makeButton) {
-            profile = profile + `<button type="button" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>`
+            profile = profile + '<div class="m-2 d-flex justify-content-center">' +
+                `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>` +
+                '</div>';
         }
         profile = profile +
             `<h2> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
@@ -539,7 +548,7 @@ function createUserConversationList(objeto) {
     divResult = document.getElementById('child-cpanel');
     divMobile = document.getElementById('mobile-msn');
 
-
+    makeButton = false;
     if (screen.width < 768) {
         document.body.setAttribute('class', 'overflow-hidden');
         resultados = '<span id="mobile-tit">Mensajes</span>';
@@ -593,16 +602,13 @@ function createUserConversationList(objeto) {
                     //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
                     '<div class="row d-flex justify-content-center">' +
                     '<div class="col-xs">' +
-                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="mt-1 rounded-circle img-fluid app-img">` +
                     '</div>' +
                     '<div class="col-sm" id="col-fix">' +
-                    //nombre iba en div normal
                     `<button type="button" class="conversation-prev" onClick="messagesRequest(${objeto[i].Id})" >${objeto[i].Nombre}</button>` +
-                    `<div class="msn-prev">${objeto[i].msn}</div>` +
-
+                    `<div class="msn-prev d-flex justify-content-center">${objeto[i].msn}</div>` +
                     '</div>' +
                     '</div>' +
-                    // '</button>'+
                     '<div>' +
                     '<hr>' +
                     '</div>';
@@ -678,6 +684,8 @@ function searchUserResponse(event) {
 //Metodo que pinta la lista de usuarios encontrados o un texto en el caso de que no
 function createUserList(objeto) {
 
+    makeButton = true; 
+    
     if (containerPref = document.getElementById('contenedorPref')) {
         containerPref.innerHTML = "";
         arrayPref = [];
@@ -695,17 +703,17 @@ function createUserList(objeto) {
         } else {
 
             resultados = '<h2 class="top-tit">Resultados</h2>' +
-                '<div class="container" id="user-list">';
+                '<div class="container scroll-fit" style="height: 90%" id="user-list">';
             for (i = 0; i < objeto.length; i++) {
                 resultados = resultados + '<div class="row">' +
                     '<div class="col-4">' +
-                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid list-dtimg mt-5">` +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid list-dtimg mt-4">` +
                     '</div>' +
                     '<div class="col-8">' +
-                    '<div class="row justify-content-center md-p mb-1">' +
-                    `<span>${objeto[i].Nombre}</span>` +
+                    '<div class="row justify-content-center ">' +
+                    `<span class="app-subp mb-2">${objeto[i].Nombre} ${objeto[i].Apellidos}</span>` +
                     '</div>' +
-                    '<div class="row">'
+                    '<div class="row justify-content-center">'
                 for (j = 0; j < 3; j++) {
                     if (objeto[i].Preferencias[j] != undefined) {
                         resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
@@ -718,8 +726,8 @@ function createUserList(objeto) {
                 }
                 if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span class="chip-list">#...</span>' }
                 resultados = resultados + '</div>'+
-                '<div class="row d-flex justify-content-center">' +
-                `<button class="btn-chatSearchUser btn btn-primary" onClick="panelUserRequest(${objeto[i].Id});openProfile()" type="button">Ver perfil</button>`+
+                '<div class="row d-flex mt-2 justify-content-center">' +
+                `<button class="btn-chatSearchUser btn btn-primary" onClick="panelUserRequest(${objeto[i].Id})" type="button">Ver perfil</button>`+
                 '</div>' +
                 '</div>' +
                     '</div>' +
@@ -747,10 +755,10 @@ function createUserList(objeto) {
                     `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid list-img" style="margin-top: 3.5rem;">` +
                     '</div>' +
                     '<div class="col-8">' +
-                    '<div class="col-xs">' +
-                    `<span>${objeto[i].Nombre}</span>` +
+                    '<div class="row ">' +
+                    `<span class="app-subp mb-2">${objeto[i].Nombre} ${objeto[i].Apellidos}</span>` +
                     '</div>' +
-                    '<div class="col-xs">'
+                    '<div class="row">'
                 for (j = 0; j < 3; j++) {
                     if (objeto[i].Preferencias[j] != undefined) {
                         resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
@@ -790,8 +798,7 @@ function createSearchElements() {
 
     divResult = document.getElementById('child-cpanel');
 
-    var search = '<div id="child-cpanel">' +
-        '<div id="search-panel">' +
+    var search = '<div id="search-panel">' +
         '<label for="ciudad">Ciudad: </label>' +
         '<select id="ciudadSelect" name="ciudad" class="form-control-sm">';
     if (ciudadSelect.length > 0) {
@@ -834,8 +841,7 @@ function createSearchElements() {
         '<input id="tags" class="form-control">' +
         '</div>' +
         '</br>' +
-        '<button type="button" class="form-control" id="botonBusqueda">Buscar</button>' +
-        '</div>';
+        '<button type="button" class="form-control" id="botonBusqueda">Buscar</button>';
 
     divResult.innerHTML = search;
     search = document.getElementById('tags')
@@ -899,53 +905,12 @@ function erroresUser(userError) {
 //
 ////////////////////////////////////////////////
 
-/*
-buttonsToggler = document.getElementsByClassName('navbar-toggler')
-buttonClose = document.getElementsByClassName('close');
-console.log(buttonsToggler);
-if (buttonsToggler ) {
-    for (let i = 0; i < buttonsToggler.length; i++) {
-        buttonsToggler[i].addEventListener('click', openNav);
-    }
-    for (let i = 0; i < buttonClose.length; i++) {
-        buttonClose[i].addEventListener('click', closeNav);
-    }
+function openHomeNav(){
+    document.getElementById("myNav").style.width = "100%";
 }
-
-function openNav(event) {
-    console.log(event.target.getAttribute('id'));
-    if (event.target.getAttribute('id') == 'toggler-l') {
-
-        document.getElementById("myNav-profile").style.width = "100%";
-    } else {
-        if (chat = document.getElementById('myNav-msn')) {
-            chat.style.width = "100%";
-        }
-        if (home = document.getElementById('myNav')) {
-            home.style.width = "100%";
-        }
-    }
+function closeHomeNav(){
+    document.getElementById("myNav").style.width = "0%";
 }
-
-/* Close when someone clicks on the "x" symbol inside the overlay *//*
-function closeNav(event) {
-    document.body.setAttribute('class', 'overflow-auto')
-    if(event != undefined){
-        if (event.target.getAttribute('id') == 'toggler-close-r') {
-            document.getElementById('myNav-profile').style.width = "0%";
-        } else {
-            if (chat = document.getElementById('myNav-msn')) {
-                chat.style.width = "0%";
-            }
-            if (home = document.getElementById('myNav')) {
-                home.style.width = "0%";
-            }
-        }
-    }
-
-}
-*/
-
 function openUser() {
     document.getElementById("myNav-profile").style.width = "100%";
 }
@@ -954,7 +919,6 @@ function closeUser() {
 }
 function openMsn() {
     document.getElementById('myNav-msn').style.width = "100%";
-
 }
 function closeMsn() {
     document.getElementById('myNav-msn').style.width = "0%";

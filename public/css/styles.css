@@ -141,7 +141,8 @@
 .butBlu {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
   background-blend-mode: overlay, normal;
-  border-radius: 1.5em;
+  border-radius: 1em;
+  border-color: #FFFFFF;
   padding: 0.7em;
   font-family: Montserrat;
   font-style: normal;
@@ -156,9 +157,11 @@
 .butWhit {
     
   background-blend-mode: overlay, normal;
-  border-radius: 1.5em;
+  border-radius: 1em;
   padding: 0.7em;
   font-family: Montserrat;
+
+  border-color: #FFFFFF;
   font-style: normal;
   font-weight: bold;
   font-size: 1rem;
@@ -453,21 +456,32 @@ body{
 @media screen and (min-width: 768px) {
   #c-app{
     float: left;
-    max-width: 45%;
+    max-width: 40%;
   }
   #l-app{
     float: left;
-    max-width: 30%;
+    max-width: 40%;
   }
   #r-app{
     float: left;
-    max-width: 25%;
+    max-width: 20%;
   }
   #navbar-app{
     display: none;
   }
+  #conversation-box{
+    height: 80%;
+  }
+  .resp-h{
+    height: 100% !important;
+  }
   html, body {
     height: 100%;
+    overflow: hidden;
+  }
+  .homepage{
+    height: 100%;
+    overflow: scroll;
   }
 }
 /* Para escritorioy*/
@@ -487,12 +501,19 @@ body{
   #navbar-app{
     display: none;
   }
+  #conversation-box{
+    height: 80%;
+  }
   .resp-h{
     height: 100% !important;
   }
   html, body {
     height: 100%;
-
+    overflow: hidden;
+  }
+  .homepage{
+    height: 100%;
+    overflow: scroll;
   }
 }
 ::-webkit-scrollbar { 
@@ -542,7 +563,17 @@ div{scrollbar-width: none !important }
 .mw-60{
   max-width: 60%;
 }
+.app-subp{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 2em;
+  padding-top: 1em;
+  /* or 142% */
 
+  color: #0d0dd4;
+}
 .preference-box{
   overflow-y: scroll;
   height: 4rem;
