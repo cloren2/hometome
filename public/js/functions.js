@@ -368,10 +368,10 @@ function sendMessageRequest(idPasivo) {
 
     mensaje = document.getElementById('mensaje').value;
     document.getElementById('mensaje').focus();
-    if(mensaje != ''){
+    if (mensaje != '') {
         ruta = Routing.generate('sendMessage');
         xhr = new XMLHttpRequest();
-    
+
         console.log(event);
         xhr.addEventListener('readystatechange', sendMessageResponse);
         xhr.open('POST', ruta);
@@ -384,17 +384,17 @@ function sendMessageRequest(idPasivo) {
 function sendMessageRequestKey(e, idPasivo) {
     //idPasivo = event.target.value;
     console.log(e);
-    
+
     e.which = e.which || e.keyCode;
     if (e.which == 13) {
         document.getElementById('mensaje').focus();
         mensaje = document.getElementById('mensaje').value;
-        
-        if (mensaje != ''){
+
+        if (mensaje != '') {
             ruta = Routing.generate('sendMessage');
             xhr = new XMLHttpRequest();
-    
-    
+
+
             xhr.addEventListener('readystatechange', sendMessageResponse);
             xhr.open('POST', ruta);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -543,7 +543,7 @@ function userConversationsResponse(event) {
 }
 
 function createUserConversationList(objeto) {
-    limpiarDiv();
+    //limpiarDiv();
 
     divResult = document.getElementById('child-cpanel');
     divMobile = document.getElementById('mobile-msn');
@@ -553,12 +553,12 @@ function createUserConversationList(objeto) {
         document.body.setAttribute('class', 'overflow-hidden');
         resultados = '<span id="mobile-tit">Mensajes</span>';
         if (objeto[0].Id == undefined) {
-            resultados = resultados + 
-            '<div class="container">'+
-            '<div class="row">'+
-            '<div class="md-p ml-2" id="conversation-box">No tienes mensajes, cuando alguien te escriba aparecera aquí.</div>'+
-            '</div>'+
-            '</div>';
+            resultados = resultados +
+                '<div class="container">' +
+                '<div class="row">' +
+                '<div class="md-p ml-2" id="conversation-box">No tienes mensajes, cuando alguien te escriba aparecera aquí.</div>' +
+                '</div>' +
+                '</div>';
             divMobile.innerHTML = resultados;
         } else {
             resultados = resultados +
@@ -591,7 +591,7 @@ function createUserConversationList(objeto) {
         }
     } else {
         if (objeto[0].Id == undefined) {
-
+            console.log('hola');
             divResult.innerHTML = "No tienes mensajes";
         } else {
             resultados =
@@ -614,8 +614,9 @@ function createUserConversationList(objeto) {
                     '</div>';
             }
             resultados = resultados + '</div>';
+            divResult.innerHTML = resultados;
         }
-        divResult.innerHTML = resultados;
+        
     }
 }
 /////////////////////////////////////////////////
@@ -684,8 +685,8 @@ function searchUserResponse(event) {
 //Metodo que pinta la lista de usuarios encontrados o un texto en el caso de que no
 function createUserList(objeto) {
 
-    makeButton = true; 
-    
+    makeButton = true;
+
     if (containerPref = document.getElementById('contenedorPref')) {
         containerPref.innerHTML = "";
         arrayPref = [];
@@ -725,11 +726,11 @@ function createUserList(objeto) {
 
                 }
                 if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span class="chip-list">#...</span>' }
-                resultados = resultados + '</div>'+
-                '<div class="row d-flex mt-2 justify-content-center">' +
-                `<button class="btn-chatSearchUser btn btn-primary" onClick="panelUserRequest(${objeto[i].Id})" type="button">Ver perfil</button>`+
-                '</div>' +
-                '</div>' +
+                resultados = resultados + '</div>' +
+                    '<div class="row d-flex mt-2 justify-content-center">' +
+                    `<button class="btn-chatSearchUser btn btn-primary" onClick="panelUserRequest(${objeto[i].Id})" type="button">Ver perfil</button>` +
+                    '</div>' +
+                    '</div>' +
                     '</div>' +
                     '<div>' +
                     '<hr class="bt-2">' +
@@ -891,7 +892,7 @@ function erroresUser(userError) {
         div.setAttribute('id', 'errorDiv');
         parentNode.appendChild(div)
     } else { div = document.getElementById('errorDiv'); div.innerHTML = "" }
-    $('html,body').animate({ scrollTop: document.body.scrollHeight }, "fast");
+    $('body').animate({ scrollTop: document.body.scrollHeight }, "fast");
     event.preventDefault();
     span = document.createElement('div')
     texto = document.createTextNode(userError);
@@ -905,10 +906,10 @@ function erroresUser(userError) {
 //
 ////////////////////////////////////////////////
 
-function openHomeNav(){
+function openHomeNav() {
     document.getElementById("myNav").style.width = "100%";
 }
-function closeHomeNav(){
+function closeHomeNav() {
     document.getElementById("myNav").style.width = "0%";
 }
 function openUser() {
