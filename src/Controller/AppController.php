@@ -396,9 +396,11 @@ class AppController extends AbstractController
     function elementosUnicos($array)
     { 
     $arraySinDuplicados = [];
+    $cont=0;
     foreach($array as $indice => $elemento) {
         if (!in_array($elemento, $arraySinDuplicados)) {
-            $arraySinDuplicados[$indice] = $elemento;
+            $arraySinDuplicados[$cont] = $elemento;
+            $cont++;
         }
     }
     return $arraySinDuplicados;
