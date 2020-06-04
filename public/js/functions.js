@@ -433,9 +433,9 @@ function panelUserResponse(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
-       console.log(objeto)
-       createProfileElements(objeto);
-        
+        console.log(objeto)
+        createProfileElements(objeto);
+
     }
 }
 
@@ -446,33 +446,28 @@ function createProfileElements(objeto) {
         console.log(objeto)
         profile =
             '<div class="profile-panel scroll-fit">' +
-            '<div id="img-panel">';
+            '<div id="img-panel">' +
             //AÑADIDO INICIO
-            for (i=0;i<objeto.Foto.length;i++){
+            `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">`
+        for (i = 0; i < objeto.Foto.length; i++) {
+            profile = profile +
+                `    <div class="carousel-item ${(i == 0) ? 'active' : ''}">
+            <img class="" src="users/user${objeto.Id}/${objeto.Foto[i]}" alt="First slide">
+            </div>
+       `
 
-                profile = profile +
-         `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                <img class="d-block w-100" src="users/user${objeto.Id}/${objeto.Foto[i]}" alt="First slide">
-                </div>
-               
-            </div>`
-         
         }
-        profile = profile +    `   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-        </div>`;
-
-        //añadido fin
-
-        profile = profile +  '</div>';
+        profile = profile + `  </div>  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    </div>`;
+        profile = profile + '</div>';
         if (makeButton) {
             profile = profile + '<div class="m-2 d-flex justify-content-center">' +
                 `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>` +
@@ -510,15 +505,15 @@ function createProfileElements(objeto) {
             //AÑADIDO INICIO
             `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">`
-            for (i=0;i<objeto.Foto.length;i++){
-                profile = profile +
-         `    <div class="carousel-item ${(i==0)?'active':''}">
+        for (i = 0; i < objeto.Foto.length; i++) {
+            profile = profile +
+                `    <div class="carousel-item ${(i == 0) ? 'active' : ''}">
                 <img class="d-block w-100 profile-img" src="users/user${objeto.Id}/${objeto.Foto[i]}" alt="First slide">
                 </div>
            `
-         
+
         }
-        profile = profile +    `  </div>  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        profile = profile + `  </div>  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
@@ -529,7 +524,7 @@ function createProfileElements(objeto) {
         </div>`;
 
         //AÑADIDO FIN
-        profile = profile +   '</div>';
+        profile = profile + '</div>';
         if (makeButton) {
             profile = profile + '<div class="m-2 d-flex justify-content-center">' +
                 `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id});openChat()">Chatear</button>` +
@@ -665,7 +660,7 @@ function createUserConversationList(objeto) {
             resultados = resultados + '</div>';
             divResult.innerHTML = resultados;
         }
-        
+
     }
 }
 /////////////////////////////////////////////////
@@ -911,11 +906,15 @@ function createSearchElements() {
 //
 ////////////////////////////////////////////////
 
-if (form = document.getElementById('botonRegistro')) {
-   
+if (form=document.getElementById('botonRegistro') ) {
     document.addEventListener('DOMContentLoaded', userUniqueVal);
     form.addEventListener('click', validacion);
 }
+if (form = document.getElementById('botonEdit')) {
+    document.addEventListener('DOMContentLoaded', userUniqueVal);
+    form.addEventListener('click', validacion);
+}
+
 var check=[];
 
 function userUniqueVal(){
@@ -936,41 +935,62 @@ function userUniqueResponse(event){
     }
 }
 function validacion(event) {
+    
     var input = document.getElementsByClassName('pass');
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
     var fileSize=0;
     var userUnique = document.getElementsByClassName('userUnique');
-   
-    console.log(check)
-   
-    if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
-        text = '- No has introducido una foto o la extensión no está permitida';
-        erroresUser(text);
-        
-    } else {
-         fileSize = fileInput[0].files[0].size;
-         if ( fileSize > 200000) {
-            text = "Te has excedido del tamaño de imagen permitido, máximo 2 Mb"
-            erroresUser(text);
-         } 
-    } 
-   
-   
-    if (input[0].value == ''||input[0].value.length<4 ) {
-        event.preventDefault();
-        text = '- Introduzca una contraseña, esta debe tener al menos 4 caracteres';
-        erroresUser(text);
-    }
     if (check.includes(userUnique[0].value)){
         text ='Este usuario ya existe, pruebe con otro';
         erroresUser(text);
     }
+   if (botonEdit=document.getElementById('botonEdit')){
+    if (filePath !=""){
+        if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
+            console.log('hola')
+            event.preventDefault();
+            text = '- No has introducido una foto o la extensión no está permitida';
+            erroresUser(text);
+            
+        } else {
+             fileSize = fileInput[0].files[0].size;
+             if ( fileSize > 200000) {
+                text = "Te has excedido del tamaño de imagen permitido, máximo 2 Mb"
+                erroresUser(text);
+             } 
+        } 
+    }
+   }
+  
+   
+    if (botonRegistro=document.getElementById('botonRegistro')){
+        if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
+            console.log('hola')
+            event.preventDefault();
+            text = '- No has introducido una foto o la extensión no está permitida';
+            erroresUser(text);
+            
+        } else {
+             fileSize = fileInput[0].files[0].size;
+             if ( fileSize > 200000) {
+                text = "Te has excedido del tamaño de imagen permitido, máximo 2 Mb"
+                erroresUser(text);
+             } 
+        } 
+        if (input[0].value == ''||input[0].value.length<4 ) {
+            event.preventDefault();
+            text = '- Introduzca una contraseña, esta debe tener al menos 4 caracteres';
+             erroresUser(text);
+                }
+    }
+  
+   
 }
 
 function erroresUser(userError) {
     var div = document.getElementById('errorDiv');
-    var parentNode = document.getElementById('formRegister');
+    var parentNode = document.getElementById('edit-form');
     if (div == null) {
         div = document.createElement('div');
         div.setAttribute('class', 'error');
@@ -985,6 +1005,16 @@ function erroresUser(userError) {
     span.appendChild(texto);
 }
 
+if (numImg= document.getElementById('numImg')){
+    numImg= numImg.innerHTML
+    if (parseInt(numImg)>=3){
+        divHide=document.getElementById('img-div');
+        divHide.innerHTML='<div class="mb-4 mt-4"><i class="fas fa-heart-broken"></i>'
+        +" No puedes añadir más imágenes, borra una para subir una nueva</div>"
+
+    }
+
+}
 /////////////////////////////////////////////////
 //
 //Funciones esteticas de la app y la home

@@ -4,6 +4,7 @@
 
 {% block body %}
 {% include 'navAdmin.html.twig' %}
+<div id="layoutSidenav_content">
     <h1>Crear nueva ciudad</h1>
         {% if error is defined %}
              {{error}}
@@ -11,4 +12,5 @@
     {{ include('admin/ciudad/_form.html.twig') }}
 
     <a href="{{ path('ciudad_index') }}">Volver al listado</a>
+</div>
 {% endblock %}

@@ -1,5 +1,4 @@
 
-
 /**************************
 **
 **Estilos de la home - HomeToMe 2020
@@ -12,14 +11,12 @@
   #menuMedia{
     display: none;
   }
- 
 }
 
 @media screen and (min-width: 375px) {
   .photo img{
    width: 100%;
  }
- 
 }
 @media screen and (min-width: 500px) {
 
@@ -286,72 +283,7 @@
   }
 }
 
-/* Carrousel */
 
-@media (min-width: 768px) {
-
-  /* show 3 items */
-  .carousel-inner .active,
-  .carousel-inner .active + .carousel-item,
-  .carousel-inner .active + .carousel-item + .carousel-item {
-      display: block;
-  }
-  
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
-      transition: none;
-      margin-right: initial;
-  }
-  
-  .carousel-inner .carousel-item-next,
-  .carousel-inner .carousel-item-prev {
-    position: relative;
-    transform: translate3d(0, 0, 0);
-  }
-  
-  .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item {
-      position: absolute;
-      top: 0;
-      right: -33.3333%;
-      z-index: -1;
-      display: block;
-      visibility: visible;
-  }
-  
-  /* left or forward direction */
-  .active.carousel-item-left + .carousel-item-next.carousel-item-left,
-  .carousel-item-next.carousel-item-left + .carousel-item,
-  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
-  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item {
-      position: relative;
-      transform: translate3d(-100%, 0, 0);
-      visibility: visible;
-  }
-  
-  /* farthest right hidden item must be abso position for animations */
-  .carousel-inner .carousel-item-prev.carousel-item-right {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      display: block;
-      visibility: visible;
-  }
-  
-  /* right or prev direction */
-  .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
-  .carousel-item-prev.carousel-item-right + .carousel-item,
-  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
-  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item {
-      position: relative;
-      transform: translate3d(100%, 0, 0);
-      visibility: visible;
-      display: block;
-      visibility: visible;
-  }
-
-}
 
 
 /*Elementos del login*/
@@ -444,6 +376,15 @@ body{
     letter-spacing: -0.08em;
     padding: 1rem;
   }
+  #edit-form{
+    background-color: whitesmoke;
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    border-radius: 0.5rem;
+    margin-top: 50px;
+    width: 100%;
+  }
   .resp-h{
     height: auto;
   }
@@ -505,6 +446,15 @@ body{
   #conversation-box{
     height: 80%;
   }
+  #edit-form{
+    background-color: whitesmoke;
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    border-radius: 0.5rem;
+    margin-top: 50px;
+    width: 75%;
+  }
   .resp-h{
     height: 100% !important;
   }
@@ -517,18 +467,15 @@ body{
     overflow: scroll;
   }
 }
-::-webkit-scrollbar { 
-  display: none; 
-}
-:root{ scrollbar-width: none !important } 
 
+::-webkit-scrollbar { display: none; }
+:root{ scrollbar-width: none !important } 
 div{scrollbar-width: none !important }
 
 #mobile-msn{
   width: 100%;
   height: 100%;
 }
-
 
 #search{
   height: 100%;
@@ -540,14 +487,7 @@ div{scrollbar-width: none !important }
   max-width: 100%;
   max-height: 100%;
 }
-#img-panel{
-  max-width: 100%;
-  max-height: 100%;
-  height: 300px;
-  object-fit: cover;
-  display:flex;
-  justify-content: center;
-}
+
 #col-fix{
   max-width: 80%;
 }
@@ -564,6 +504,18 @@ div{scrollbar-width: none !important }
 #textArea{
   background-color: rgb(247, 247, 247);
   padding-top: 1rem;
+}
+.edit-img{
+  max-width: 100%;
+  max-height: 100%;
+  height: 300px;
+  width: 150px;
+  object-fit: cover;
+  display:flex;
+  justify-content: center;
+}
+.whitesmoke{
+  background-color: whitesmoke;
 }
 .mw-60{
   max-width: 60%;
@@ -590,7 +542,7 @@ div{scrollbar-width: none !important }
   font-size: 16px;
   line-height: 50px;
   border-radius: 25px;
-  background-color: #f1f1f1;
+  background-color: #e0e0e0;
 }
 .chip-preference {
   display: inline-block;
@@ -941,9 +893,7 @@ a#show-pass, a#show-pass:hover{
   display: flex;
   justify-content:center
 }
-#formRegister{
-  margin-top: 6rem;
-}
+
 /*------------------------------------------------------------------
 [ Button ]*/
 .container-contact100-form-btn {
@@ -1022,13 +972,13 @@ a#show-pass, a#show-pass:hover{
   transform: translateX(10px);
 }
 
-button#botonRegistro{
+button.btn-register{
 	outline: none !important;
 	border: none;
 	background: transparent;
 }
 
-button#botonRegistro:hover {
+button.btn-register:hover {
 	cursor: pointer;
 }
 .pref-list{

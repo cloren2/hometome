@@ -4,6 +4,7 @@
 
 {% block body %}
 {% include 'navAdmin.html.twig' %}
+<div id="layoutSidenav_content">
     <h1>Ciudades</h1>
 
     <table class="table">
@@ -33,4 +34,5 @@
     </table>
 
     <a href="{{ path('ciudad_new') }}">Crear nueva</a>
+</div>
 {% endblock %}

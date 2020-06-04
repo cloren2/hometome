@@ -78,7 +78,10 @@ class CiudadController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $name =  $form->get('nombre')->getData();
+            $nombre = ucfirst(strtolower($name));
+            $ciudad->setNombre($nombre);
+            $entityManager = $this->getDoctrine()->getManager();
 
             try {
                 $this->getDoctrine()->getManager()->flush();

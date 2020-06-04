@@ -3,11 +3,31 @@
 {% block title %}Editar Perfil{% endblock %}
 
 {% block body %}
-    <h1>Editar Perfil</h1>
+{% block body_class %}homepage{% endblock %}
 
+<nav class="navbar  navbar-light fixed-top" id="navbar">
+  <a class="navbar-brand" href="#">
+  <img src="{{asset('img/app/hometome_logo.png')}}" alt="Logo" id="logo">
+  </a>
+  <a href="{{ path('perfil_show') }}">Atras</a>
+</nav>    
+<div class="ml-auto mr-auto border mb-3" id="edit-form">
+<div class="container d-flex justify-content-center mt-5">
+    <h1 class="top-tit">Editar Perfil</h1>
+    
+</div>
+<hr class="w-50">
+<div class="container  d-flex justify-content-center ">
+    <p class="md-p">Los campos que no quieras editar puedes dejarlos en blanco.</p>
+    
+</div>
+<div id="numImg"style="display:none">{{numImg}}</div>
     {{ include('app/perfil/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
-    <a href="/home">Volver atrás</a>
-  {{numImg}}
-    {{ include('app/perfil/_delete_form.html.twig') }}
 {% endblock %}
+       {% block javascripts %}
+  
+	{{parent()}}
+    
+
+	{% endblock%}  

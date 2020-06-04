@@ -1,4 +1,134 @@
+<div class="container" >
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Guardar') }}</button>
-{{ form_end(form) }}
+   
+
+      <div class="wrap-input100" >
+        {{ form_label(form.username, 'Username', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.username, { 'attr': {'class': 'input100 userUnique'} }) }}
+        <span class="focus-input100"></span>
+      </div>
+
+
+
+      <div class="wrap-input100">	
+          {{ form_label(form.plainPassword, 'Contraseña', { 'label_attr': {'class': 'label-input100'} }) }}
+          <div class="input-group" id="show_hide_password">
+            <div class="input-group-addon align-content-start pass-align" class="hide_pass_div">
+              {{ form_widget(form.plainPassword, { 'attr': {'class': 'pass input100'} }) }}
+               <span class="focus-input100"></span>
+            </div>
+            <div class="align-content-end">
+              <a id="show-pass"href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+            </div>
+          </div>
+         
+      </div>
+
+
+      <div class="wrap-input100" >	
+          {{ form_label(form.nombre, 'Nombre', { 'label_attr': {'class': 'label-input100'} }) }}
+          {{ form_widget(form.nombre, { 'attr': {'class': 'input100'} }) }}
+          <span class="focus-input100"></span>
+      </div>
+
+
+
+      <div class="wrap-input100" >	
+        {{ form_label(form.Apellidos, 'Apellidos', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.Apellidos, { 'attr': {'class': 'input100'} }) }}
+        <span class="focus-input100"></span>
+      </div>
+
+
+
+                   
+     <div class="wrap-input100" >	
+        {{ form_label(form.ciudad, 'Ciudad', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.ciudad, { 'attr': {'class': 'browser-default custom-select'} }) }}
+        <span class="focus-input100"></span>
+      </div>           
+
+
+      <div class="wrap-input100" >	
+        {{ form_label(form.genero, 'Género', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.genero, { 'attr': {'class': 'browser-default custom-select'} }) }}
+        <span class="focus-input100"></span>
+      </div>  
+ 
+
+ 
+      <div class="wrap-input100" >	
+        {{ form_label(form.numRoomMates, 'Número de compañeros/as de piso que prefieres', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_widget(form.numRoomMates, { 'attr': {'class': 'browser-default custom-select'} }) }}
+        <span class="focus-input100"></span>
+      </div>  
+
+    
+
+      <div class="wrap-input100 " >	
+        {{ form_label(form.fechaNac, 'Fecha de Nacimiento', { 'label_attr': {'class': 'label-input100 '} }) }}
+        {{ form_widget(form.fechaNac, { 'attr': {'class': 'input100 d-flex justify-content-center'} }) }}
+        <span class="focus-input100"></span>
+      </div> 
+
+         <div class="wrap-input100 d-flex flex-column" >	
+            <div class="md-form justify-content-center num-div">
+               {{ form_label(form.fechaNac, 'Precio Mínimo', { 'label_attr': {'class': 'label-input100 '} }) }}
+            {{ form_widget(form.precioMin, { 'attr': {'class': 'form-control'} })  }}
+            </div>
+
+            <div class="align-content-end num-div">
+              {{ form_label(form.fechaNac, 'Precio Máximo', { 'label_attr': {'class': 'label-input100 '} }) }}
+              {{ form_widget(form.precioMax, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <span class="focus-input100"></span>
+        </div>  
+
+         <div class="wrap-input100" id="img-div" >	
+            <div id="msg"></div>
+                 {{ form_widget(form.foto, { 'attr': {'class': 'file fileImg'} }) }}
+                 <span class="focus-input100"></span>
+                
+            <div class="input-group my-3">
+                <input type="text" class="form-control" disabled placeholder="Sube una foto..." id="file">
+                <div class="input-group-append">
+                    <button type="button" class="browse btn btn-info">Subir</button>
+                </div>
+            </div>
+          
+            <div class="align-img">
+            <img src="{{asset('img/app/profile.png')}}" id="preview" class="img-thumbnail img-reg">
+            </div>
+        </div>
+
+          <div class="wrap-input100" >
+            <div class="label-input100">Preferencias</div>
+              {% for field in form.preferencias %}
+             <div class="pref-list">
+               {{ form_widget(field) }}
+              {{ form_label(field) }}
+             </div>
+              {% endfor %}
+            <span class="focus-input100"></span>
+          </div> 
+
+
+          <div class="md-form amber-textarea"  >
+           
+            {{ form_label(form.descripcion, 'Descripcion', { 'label_attr': {'class': 'label-input100'} }) }}
+             <i class="fas fa-pencil-alt prefix grey-text"></i>{{ form_widget(form.descripcion, { 'attr': {'class': 'md-textarea form-control'} }) }}
+           <span class="focus-input100"></span>
+        </div> 
+        	<div class="container-contact100-form-btn mb-4 mt-5">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button class="contact100-form-btn btn-register"id="botonEdit">
+							<span>
+								Actualizar
+								
+							</span>
+						</button>
+					</div>
+				</div>
+    {{ form_end(form) }}
+</div>
