@@ -79,9 +79,9 @@ class AppController extends AbstractController
             }
             $userPanel['Preferencias'] = $arrayPref;
         }
-
+        
         foreach ($user->getFoto() as $key2 => $resultados2) {
-            $arrayFoto = $resultados2->getNombre();
+            $arrayFoto[$key2] = $resultados2->getNombre();
             $userPanel['Foto'] = $arrayFoto;
         }
        
@@ -287,7 +287,6 @@ class AppController extends AbstractController
             $cont=0;
             $campo=[];
             foreach ($users as $clave => $objUser) {
-            if (!in_array($objUser[0]->getId(), $campo)) {
                     $msn = $mensajeRepository->lastMessage($idUserActivo,$objUser[0]->getId());
                     
                 $campo = [
@@ -303,9 +302,9 @@ class AppController extends AbstractController
 
                 $idUsuarios[$cont] = $campo;
                 $cont++;
-            }
         
         }
+                $idUsuarios= self::elementosUnicos($idUsuarios);
             
         } else {
             $idUsuarios = "No tienes mensajes";
@@ -393,5 +392,17 @@ class AppController extends AbstractController
                     rmdir($src);
         }
        
+    }
+    function elementosUnicos($array)
+    { 
+    $arraySinDuplicados = [];
+    $cont=0;
+    foreach($array as $indice => $elemento) {
+        if (!in_array($elemento, $arraySinDuplicados)) {
+            $arraySinDuplicados[$cont] = $elemento;
+            $cont++;
+        }
+    }
+    return $arraySinDuplicados;
     }
 }
