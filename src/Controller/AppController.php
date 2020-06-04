@@ -112,7 +112,7 @@ class AppController extends AbstractController
 
         return $this->render('app/perfil/perfil.html.twig', [
             'user' => $user,
-            'registrationForm' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
