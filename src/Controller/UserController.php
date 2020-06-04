@@ -78,19 +78,7 @@ class UserController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-        /**
-     * @Route("/userUnique", name="userUnique", options={"expose"=true})
-     */
-    public function userUnique(UserRepository $userRepository,Request $request)
-    {
-        $users = $userRepository->findAll();
-        $cont=0;
-        foreach ($users  as $key => $resultados) {
-            $arrayUser[$cont]= $resultados->getUsername();
-            $cont++;
-        }
-        return new JsonResponse($arrayUser);
-    }
+    
 
     /**
      * @Route("/{id}", name="user_delete", methods={"DELETE"})

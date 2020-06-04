@@ -21,6 +21,52 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AppController extends AbstractController
 {
+    
+    /**
+     * @Route("/unique", name="unique_user", options={"expose"=true})
+     */
+    public function uniqueUser(UserRepository $userRepository,Request $request)
+    {
+        $users = $userRepository->findAll();
+        $cont=0;
+        foreach ($users  as $key => $resultados) {
+            $arrayUser[$cont]= $resultados->getUsername();
+            $cont++;
+        }
+        return new JsonResponse($arrayUser);
+       
+    }
+
+    /**
+     * @Route("/home/perfil/editar", name="perfil_user")
+     */
+    public function perfilUser(Request $request): Response
+    {
+        $user = $this->getUser();
+        $num = count($user->getFoto());
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $fotoFile =  $form->get('foto')->getData();
+            if ($fotoFile != null) {
+                $this->getDoctrine()->getManager()->flush();
+
+                self::renamePic($user, $fotoFile);
+            } else {
+                $this->getDoctrine()->getManager()->flush();
+            }
+
+            return $this->redirectToRoute('perfil_show');
+        }
+
+        return $this->render('app/perfil/perfil.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+            'numImg' =>$num
+        ]);
+    }
+    
     /**
      * @Route("/home", name="home_user")
      */
