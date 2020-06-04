@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @Route("/user")
  */
@@ -28,6 +28,7 @@ class UserController extends AbstractController
             'users' => $userRepository->findAll(),
         ]);
     }
+
   /**
      * @Route("/panel", name="admin_panel", methods={"GET"})
      */
@@ -76,6 +77,19 @@ class UserController extends AbstractController
             'user' => $user,
             'registrationForm' => $form->createView(),
         ]);
+    }
+        /**
+     * @Route("/userUnique", name="userUnique", options={"expose"=true})
+     */
+    public function userUnique(UserRepository $userRepository,Request $request)
+    {
+        $users = $userRepository->findAll();
+        $cont=0;
+        foreach ($users  as $key => $resultados) {
+            $arrayUser[$cont]= $resultados->getUsername();
+            $cont++;
+        }
+        return new JsonResponse($arrayUser);
     }
 
     /**

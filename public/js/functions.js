@@ -693,7 +693,7 @@ if (searchUserButton = document.getElementById('botonBusqueda')) {
 //Peticion asincrona de busqueda de usuario
 function searchUserRequest() {
 
-    limpiarDiv();
+    //limpiarDiv();
     var element = document.getElementById("c-app");
     element.classList.remove("d-none");
 
@@ -741,7 +741,7 @@ function createUserList(objeto) {
         arrayPref = [];
     }
 
-    limpiarDiv();
+   // limpiarDiv();
 
     divResult = document.getElementById('results-panel');
 
@@ -912,30 +912,66 @@ function createSearchElements() {
 ////////////////////////////////////////////////
 
 if (form = document.getElementById('botonRegistro')) {
+   
+    document.addEventListener('DOMContentLoaded', userUniqueVal);
     form.addEventListener('click', validacion);
 }
+var check=[];
 
+function userUniqueVal(){
+    ruta = Routing.generate('userUnique');
+
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', userUniqueResponse);
+    xhr.open('POST', ruta);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+function userUniqueResponse(event){
+    if (event.target.readyState == 4 && event.target.status == 200) {
+        objeto_vuelta = event.target.responseText;
+        objeto = JSON.parse(objeto_vuelta);
+        console.log(objeto);
+        check=objeto;
+    }
+}
 function validacion(event) {
     var input = document.getElementsByClassName('pass');
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
-
+    var fileSize=0;
+    var userUnique = document.getElementsByClassName('userUnique');
+   
+    console.log(check)
+   
     if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
         text = '- No has introducido una foto o la extensión no está permitida';
         erroresUser(text);
-    }
+        
+    } else {
+         fileSize = fileInput[0].files[0].size;
+         if ( fileSize > 200000) {
+            text = "Te has excedido del tamaño de imagen permitido, máximo 2 Mb"
+            erroresUser(text);
+         } 
+    } 
+   
+   
     if (input[0].value == ''||input[0].value.length<4 ) {
         event.preventDefault();
         text = '- Introduzca una contraseña, esta debe tener al menos 4 caracteres';
+        erroresUser(text);
+    }
+    if (check.includes(userUnique[0].value)){
+        text ='Este usuario ya existe, pruebe con otro';
         erroresUser(text);
     }
 }
 
 function erroresUser(userError) {
     var div = document.getElementById('errorDiv');
-    var fileInput = document.getElementsByClassName('fileImg');
+    var parentNode = document.getElementById('formRegister');
     if (div == null) {
-        parentNode = fileInput[0].parentNode
         div = document.createElement('div');
         div.setAttribute('class', 'error');
         div.setAttribute('id', 'errorDiv');

@@ -94,6 +94,7 @@ class AppController extends AbstractController
     public function perfil_user(Request $request): Response
     {
         $user = $this->getUser();
+        $num = count($user->getFoto());
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -112,7 +113,8 @@ class AppController extends AbstractController
 
         return $this->render('app/perfil/perfil.html.twig', [
             'user' => $user,
-            'registrationForm' => $form->createView(),
+            'form' => $form->createView(),
+            'numImg' =>$num
         ]);
     }
 
