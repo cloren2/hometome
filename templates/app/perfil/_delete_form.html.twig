@@ -1,5 +1,5 @@
-<form method="post" action="{{ path('perfil_delete', {'id': user.id}) }}" onsubmit="return confirm('¿Quieres borrar el registro?');">
+<form method="post" action="{{ path('perfil_delete', {'id': user.id}) }}" onsubmit="return confirm('Estas a punto de borrar el perfil ¿Estas seguro?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
-    <button class="btn">Borrar</button>
+    <button class="btn btn-danger">Borrar perfil</button>
 </form>

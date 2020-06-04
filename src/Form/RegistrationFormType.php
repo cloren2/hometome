@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -70,8 +71,11 @@ class RegistrationFormType extends AbstractType
                 'expanded' => true
             
             ])
-            ->add('descripcion', null, [
-                'help' => '¡Cuéntanos algo sobre ti!',
+            ->add('descripcion', TextareaType::class, [
+                'attr' => [
+                        'placeholder' => '¡Cuéntanos algo sobre ti'],
+                'required'=> false
+                
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

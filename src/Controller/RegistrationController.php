@@ -81,7 +81,8 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             $foto = $form->get('foto')->getData();
-            self::renamePic($user, $foto);
+            if (!empty($foto)){self::renamePic($user, $foto);}
+            
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,

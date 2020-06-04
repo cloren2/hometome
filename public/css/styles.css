@@ -1,3 +1,4 @@
+
 /**************************
 **
 **Estilos de la home - HomeToMe 2020
@@ -17,9 +18,21 @@
    width: 100%;
  }
 }
+@media screen and (min-width: 500px) {
+
+ .num-div{
+  width:50%;
+  margin-left:25%;
+  margin-bottom:.5rem;
+  }
+}
+
+
+
 #navbar {
   background-color: rgb(255, 255, 255);
 }
+
 #logo{
   width:10rem;
   padding-top: 0.5rem;
@@ -126,7 +139,8 @@
 .butBlu {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 1e-05) 100%), #015989;
   background-blend-mode: overlay, normal;
-  border-radius: 1.5em;
+  border-radius: 1em;
+  border-color: #FFFFFF;
   padding: 0.7em;
   font-family: Montserrat;
   font-style: normal;
@@ -141,9 +155,11 @@
 .butWhit {
     
   background-blend-mode: overlay, normal;
-  border-radius: 1.5em;
+  border-radius: 1em;
   padding: 0.7em;
   font-family: Montserrat;
+
+  border-color: #FFFFFF;
   font-style: normal;
   font-weight: bold;
   font-size: 1rem;
@@ -181,6 +197,36 @@
   overflow-x: hidden; /* Disable horizontal scroll */
   transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
 }
+.overlay-user {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  right: 0;
+  top: 0;
+  background-color: rgb(255, 255, 255); /* Black fallback color */
+  background-color: rgb(255, 255, 255); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+.overlay-chat {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 3; /* Sit on top */
+  right: 0;
+  top: 0;
+  background-color: rgb(255, 255, 255); /* Black fallback color */
+  background-color: rgb(255, 255, 255); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+.overlay-margin{
+  margin-left: 15px;
+  margin-right: 15px;
+}
 /* Position the content inside the overlay */
 .overlay-content {
   position: relative;
@@ -209,6 +255,19 @@
   right: 45px;
   font-size: 60px;
 }
+.close-chat{
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+}
 /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
 @media screen and (max-height: 450px) {
   .overlay a {font-size: 20px}
@@ -217,74 +276,14 @@
     top: 15px;
     right: 35px;
   }
+  .close-chat{
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
 }
 
-/* Carrousel */
 
-@media (min-width: 768px) {
-
-  /* show 3 items */
-  .carousel-inner .active,
-  .carousel-inner .active + .carousel-item,
-  .carousel-inner .active + .carousel-item + .carousel-item {
-      display: block;
-  }
-  
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
-      transition: none;
-      margin-right: initial;
-  }
-  
-  .carousel-inner .carousel-item-next,
-  .carousel-inner .carousel-item-prev {
-    position: relative;
-    transform: translate3d(0, 0, 0);
-  }
-  
-  .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item {
-      position: absolute;
-      top: 0;
-      right: -33.3333%;
-      z-index: -1;
-      display: block;
-      visibility: visible;
-  }
-  
-  /* left or forward direction */
-  .active.carousel-item-left + .carousel-item-next.carousel-item-left,
-  .carousel-item-next.carousel-item-left + .carousel-item,
-  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
-  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item {
-      position: relative;
-      transform: translate3d(-100%, 0, 0);
-      visibility: visible;
-  }
-  
-  /* farthest right hidden item must be abso position for animations */
-  .carousel-inner .carousel-item-prev.carousel-item-right {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      display: block;
-      visibility: visible;
-  }
-  
-  /* right or prev direction */
-  .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
-  .carousel-item-prev.carousel-item-right + .carousel-item,
-  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
-  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item {
-      position: relative;
-      transform: translate3d(100%, 0, 0);
-      visibility: visible;
-      display: block;
-      visibility: visible;
-  }
-
-}
 
 
 /*Elementos del login*/
@@ -350,6 +349,46 @@ body{
     display: inline-flexbox;
     background-color: rgb(219, 232, 255);
   }
+  #buttonMessages{
+    display: none;
+  }
+  #separatorMessages{
+    display: none;
+  }
+  #conversation-box{
+    width: 100%;
+    padding-top: 5rem;
+  }
+  #userlist{
+    width: 100%;
+    height: 60%;
+  }
+  #mobile-tit{
+    position: sticky;
+    top: 25px;
+    left: 50px;
+    color: #015989;
+    font-family: Work Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 2rem;
+    line-height: 2.3rem;
+    letter-spacing: -0.08em;
+    padding: 1rem;
+  }
+  #edit-form{
+    background-color: whitesmoke;
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    border-radius: 0.5rem;
+    margin-top: 50px;
+    width: 100%;
+  }
+  .resp-h{
+    height: auto;
+  }
+
   html, body {
     height: 100%;
     overflow-y: visible;
@@ -359,21 +398,32 @@ body{
 @media screen and (min-width: 768px) {
   #c-app{
     float: left;
-    max-width: 45%;
+    max-width: 40%;
   }
   #l-app{
     float: left;
-    max-width: 30%;
+    max-width: 40%;
   }
   #r-app{
     float: left;
-    max-width: 25%;
+    max-width: 20%;
   }
   #navbar-app{
     display: none;
   }
+  #conversation-box{
+    height: 80%;
+  }
+  .resp-h{
+    height: 100% !important;
+  }
   html, body {
     height: 100%;
+    overflow: hidden;
+  }
+  .homepage{
+    height: 100%;
+    overflow: scroll;
   }
 }
 /* Para escritorioy*/
@@ -393,32 +443,38 @@ body{
   #navbar-app{
     display: none;
   }
+  #conversation-box{
+    height: 80%;
+  }
+  #edit-form{
+    background-color: whitesmoke;
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+    border-radius: 0.5rem;
+    margin-top: 50px;
+    width: 75%;
+  }
+  .resp-h{
+    height: 100% !important;
+  }
   html, body {
     height: 100%;
-
+    overflow: hidden;
+  }
+  .homepage{
+    height: 100%;
+    overflow: scroll;
   }
 }
-::-webkit-scrollbar { 
-  display: none; 
-}
-:root{ scrollbar-width: none !important } 
 
+::-webkit-scrollbar { display: none; }
+:root{ scrollbar-width: none !important } 
 div{scrollbar-width: none !important }
 
-.container-scroll{
-  max-width: 100%;
-  max-height: 100%;
-}
-.scroll-fit{
-  max-width: 100%;
-  max-height: 100%;
-  overflow-y: scroll;
-}
-
-.scroll-chat{
-  max-width: 100%;
-  max-height: 90%;
-  overflow-y: scroll;
+#mobile-msn{
+  width: 100%;
+  height: 100%;
 }
 
 #search{
@@ -431,12 +487,9 @@ div{scrollbar-width: none !important }
   max-width: 100%;
   max-height: 100%;
 }
-#img-panel{
-  max-width: 100%;
-  max-height: 100%;
-}
+
 #col-fix{
-  max-width: 75%;
+  max-width: 80%;
 }
 #title-section{
   color: #015989;
@@ -451,6 +504,89 @@ div{scrollbar-width: none !important }
 #textArea{
   background-color: rgb(247, 247, 247);
   padding-top: 1rem;
+}
+.edit-img{
+  max-width: 100%;
+  max-height: 100%;
+  height: 300px;
+  width: 150px;
+  object-fit: cover;
+  display:flex;
+  justify-content: center;
+}
+.whitesmoke{
+  background-color: whitesmoke;
+}
+.mw-60{
+  max-width: 60%;
+}
+.app-subp{
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 2em;
+  padding-top: 1em;
+  /* or 142% */
+
+  color: #0d0dd4;
+}
+.preference-box{
+  overflow-y: scroll;
+  height: 4rem;
+}
+.chip {
+  display: inline-block;
+  padding: 0 20px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #e0e0e0;
+}
+.chip-preference {
+  display: inline-block;
+  padding: 0 10px;
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+}
+.chip-list {
+  display: inline-block;
+  padding: 0 2px;
+  height: 35px;
+  font-size: 16px;
+  line-height: 31px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+}
+.closechip {
+  padding-left: 10px;
+  color: #888;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+.closechip:hover {
+  color: #000;
+}
+.container-scroll{
+  max-width: 100%;
+  max-height: 100%;
+}
+.scroll-fit{
+  max-width: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.scroll-chat{
+  max-width: 100%;
+  max-height: 90%;
+  overflow-y: scroll;
 }
 .input-chat{
   width: 70%;
@@ -573,6 +709,16 @@ textarea {
     height: 46px;
     object-fit: cover;
   }
+  .list-img{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }
+  .list-dtimg{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
 
 
   .tablaUsuarios{
@@ -583,6 +729,7 @@ textarea {
   }
   .error{
     color: red;
+    padding:.5rem;
   }
   
   #container-msn{
@@ -592,4 +739,250 @@ textarea {
     flex-basis: 30rem; 
   }
   
+/*------------------------------------------------------------------
+* Registration Form
+*/
 
+.form-top{
+  background-color: white;
+  margin-top: 6rem;
+  border-radius: 2rem;
+  -webkit-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+  box-shadow: 0px 4px 5px 0px rgba(153,153,153,1);
+}
+.form-tit{
+  color: #015989;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 2.2rem;
+  line-height: 2.5rem;
+  padding: 2rem;
+  
+  /* or 97% */
+  letter-spacing: -0.08em;
+}
+.wrap-input100 {
+  position: relative;
+  border-bottom: 2px solid #d9d9d9;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.input100 {
+  display: block;
+  width: 100%;
+  background: transparent;
+  font-family: Poppins-Medium;
+  font-size: 18px;
+  color: #333333;
+  line-height: 1.2;
+  padding: 0 5px;
+  outline: none;
+  border: none;
+}
+.fix-input{
+  width: 40px;
+}
+.focus-input100 {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.focus-input100::before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+
+  background: #7f7f7f;
+}
+
+
+/*---------------------------------------------*/
+input.input100 {
+  height: 40px;
+}
+
+
+textarea.input100 {
+  min-height: 110px;
+  padding-top: 9px;
+  padding-bottom: 13px;
+}
+
+
+.input100:focus + .focus-input100::before {
+  width: 100%;
+}
+
+.has-val.input100 + .focus-input100::before {
+  width: 100%;
+}
+
+.label-input100 {
+  font-family: Poppins-Regular;
+  font-size:1.2em;
+  color: #666666;
+  line-height: 1.5;
+  padding-left: 5px;
+}
+
+.input100:focus::-webkit-input-placeholder { color:transparent; }
+.input100:focus:-moz-placeholder { color:transparent; }
+.input100:focus::-moz-placeholder { color:transparent; }
+.input100:focus:-ms-input-placeholder { color:transparent; }
+.input100::-webkit-input-placeholder { color: #adadad;}
+.input100:-moz-placeholder { color: #adadad;}
+.input100::-moz-placeholder { color: #adadad;}
+.input100:-ms-input-placeholder { color: #adadad;}
+
+.file {
+  visibility: hidden;
+  position: absolute;
+}
+
+
+
+.active-amber-textarea.md-form label.active {
+  color: #000000;
+}
+.amber-textarea textarea.md-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #000000;
+  box-shadow: 0 1px 0 0 #000000;
+}
+.amber-textarea.md-form .prefix.active {
+  color: #000000;
+}
+.active-amber-textarea.md-form textarea.md-textarea:focus:not([readonly])+label {
+  color: #000000;
+}
+
+
+select.custom-select{
+  border: none !important;
+  }
+textarea.md-textarea{
+  border: none !important;
+  
+}
+.img-reg{
+  height: 200px;
+  width: 200px;
+}
+a#show-pass, a#show-pass:hover{
+  color:#333
+}
+.input-pass{width:100%}
+.pass-align{width:90%}
+.align-img{
+  display: flex;
+  justify-content:center
+}
+#formRegister{
+  margin-top: 6rem;
+}
+/*------------------------------------------------------------------
+[ Button ]*/
+.container-contact100-form-btn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 13px;
+}
+
+.wrap-contact100-form-btn {
+  width: 60%;
+  display: block;
+  position: relative;
+  z-index: 1;
+  border-radius: 25px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.contact100-form-bgbtn {
+  position: absolute;
+  z-index: -1;
+  width: 300%;
+  height: 100%;
+  background: rgba(250,208,0,1);
+  background: -webkit-linear-gradient(284deg, rgba(0,132,204,1) 0%, rgba(5,120,162,1) 84%, rgba(250,208,0,1) 100%);
+  background: -o-linear-gradient(284deg, rgba(0,132,204,1) 0%, rgba(5,120,162,1) 84%, rgba(250,208,0,1) 100%);
+  background: -moz-linear-gradient(284deg, rgba(0,132,204,1) 0%, rgba(5,120,162,1) 84%, rgba(250,208,0,1) 100%);
+  background: linear-gradient(284deg, rgba(0,132,204,1) 0%, rgba(5,120,162,1) 84%, rgba(250,208,0,1) 100%);
+  top: 0;
+  left: -100%;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.contact100-form-btn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 50px;
+
+  font-family: Poppins-Medium;
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.wrap-contact100-form-btn:hover .contact100-form-bgbtn {
+  left: 0;
+}
+
+.contact100-form-btn i {
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+.contact100-form-btn:hover i {
+  -webkit-transform: translateX(10px);
+  -moz-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  -o-transform: translateX(10px);
+  transform: translateX(10px);
+}
+
+button#botonRegistro{
+	outline: none !important;
+	border: none;
+	background: transparent;
+}
+
+button#botonRegistro:hover {
+	cursor: pointer;
+}
+.pref-list{
+  display: inline-block; width: 10rem;
+}

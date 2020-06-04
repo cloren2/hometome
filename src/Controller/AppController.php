@@ -66,6 +66,7 @@ class AppController extends AbstractController
             'Id' => $user->getId(),
             'Nombre' => $user->getNombre(),
             'Ciudad' => $user->getCiudad()->getNombre(),
+            'Descripcion' =>$user->getDescripcion()
         ];
 
 
@@ -78,9 +79,9 @@ class AppController extends AbstractController
             }
             $userPanel['Preferencias'] = $arrayPref;
         }
-
+        
         foreach ($user->getFoto() as $key2 => $resultados2) {
-            $arrayFoto = $resultados2->getNombre();
+            $arrayFoto[$key2] = $resultados2->getNombre();
             $userPanel['Foto'] = $arrayFoto;
         }
        
@@ -111,7 +112,7 @@ class AppController extends AbstractController
 
         return $this->render('app/perfil/perfil.html.twig', [
             'user' => $user,
-            'registrationForm' => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -240,6 +241,7 @@ class AppController extends AbstractController
                 $campo = [
                     'Id' => $resultadosBusqueda[$i]->getId(),
                     'Nombre' => $resultadosBusqueda[$i]->getNombre(),
+                    'Apellidos' =>$resultadosBusqueda[$i]->getApellidos(),
                     'Ciudad' => $resultadosBusqueda[$i]->getCiudad()->getNombre(),
                 ];
 
@@ -268,11 +270,16 @@ class AppController extends AbstractController
      */
     public function searchConversation(Request $request, MensajesRepository $mensajeRepository, UserRepository $userRepository)
     {
-        $idUserActivo = $this->getUser();
-        $enviados = $mensajeRepository->chatConversation($idUserActivo->getId());
+        $idUserActivo = $this->getUser()->getId();
+        $enviados = $mensajeRepository->chatConversation($idUserActivo);
       
         foreach ($enviados as $clave => $objMensaje) {
-            $idChat['id'] = $objMensaje->getRecieverName();
+            if ($objMensaje->getRecieverName()==$idUserActivo){
+                $idChat['id'] = $objMensaje->getSenderName();
+            }else{
+                   $idChat['id'] = $objMensaje->getRecieverName();
+            }
+         
             $users[$clave] = $userRepository->findBy($idChat);
             
         }
@@ -280,8 +287,6 @@ class AppController extends AbstractController
             $cont=0;
             $campo=[];
             foreach ($users as $clave => $objUser) {
-                if($objUser[0]->getId() != $idUserActivo->getId()){
-                    if (!in_array($objUser[0]->getId(), $campo)) {
                     $msn = $mensajeRepository->lastMessage($idUserActivo,$objUser[0]->getId());
                     
                 $campo = [
@@ -297,9 +302,9 @@ class AppController extends AbstractController
 
                 $idUsuarios[$cont] = $campo;
                 $cont++;
-            }
+        
         }
-}
+                $idUsuarios= self::elementosUnicos($idUsuarios);
             
         } else {
             $idUsuarios = "No tienes mensajes";
@@ -371,18 +376,33 @@ class AppController extends AbstractController
 
     function rrmdir($src)
     {
-        $dir = opendir($src);
-        while (false !== ($file = readdir($dir))) {
-            if (($file != '.') && ($file != '..')) {
-                $full = $src . '/' . $file;
-                if (is_dir($full)) {
-                    rrmdir($full);
-                } else {
-                    unlink($full);
-                }
-            }
+        if (file_exists ( $src ) ){
+            $dir = opendir($src);
+                    while (false !== ($file = readdir($dir))) {
+                        if (($file != '.') && ($file != '..')) {
+                            $full = $src . '/' . $file;
+                            if (is_dir($full)) {
+                                rrmdir($full);
+                            } else {
+                                unlink($full);
+                            }
+                        }
+                    }
+                    closedir($dir);
+                    rmdir($src);
         }
-        closedir($dir);
-        rmdir($src);
+       
+    }
+    function elementosUnicos($array)
+    { 
+    $arraySinDuplicados = [];
+    $cont=0;
+    foreach($array as $indice => $elemento) {
+        if (!in_array($elemento, $arraySinDuplicados)) {
+            $arraySinDuplicados[$cont] = $elemento;
+            $cont++;
+        }
+    }
+    return $arraySinDuplicados;
     }
 }

@@ -27,6 +27,44 @@ function limpiarDiv() {
     }
 }
 
+//funcion input number 
+
+
+
+//funcion foto registratiob form
+$(document).on("click", ".browse", function () {
+    var file = $(this).parents().find(".file");
+    file.trigger("click");
+});
+$('input[type="file"]').change(function (e) {
+    var fileName = e.target.files[0].name;
+    $("#file").val(fileName);
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("preview").src = e.target.result;
+    };
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+});
+
+//Mostrar/ocultar contraseña registration form
+
+$(document).ready(function () {
+    $("#show_hide_password a").on('click', function (event) {
+        event.preventDefault();
+        if ($('#show_hide_password input').attr("type") == "text") {
+            $('#show_hide_password input').attr('type', 'password');
+            $('#show_hide_password i').addClass("fa-eye-slash");
+            $('#show_hide_password i').removeClass("fa-eye");
+        } else if ($('#show_hide_password input').attr("type") == "password") {
+            $('#show_hide_password input').attr('type', 'text');
+            $('#show_hide_password i').removeClass("fa-eye-slash");
+            $('#show_hide_password i').addClass("fa-eye");
+        }
+    });
+});
 
 /////////////////////////////////////////////////
 //
@@ -48,7 +86,6 @@ divContTag = document.createElement('div');
 if (search = document.getElementById('tags')) {
     search.addEventListener('keyup', searchPreferenceRequest);
 }
-console.log(document.getElementById('tags'))
 //Peticion de preferencias al servidor que se produce
 //cuando el usuario escribe sobre el input 'tags'
 function searchPreferenceRequest() {
@@ -120,7 +157,7 @@ function addPreferences(preferenciaId) {
 //Eliminar del arry de preferencias una de ellas
 function removePreferences(event) {
 
-    remove = parseInt(event.target.value);
+    remove = parseInt(event.target.getAttribute('value'));
     var indice = arrayPref.indexOf(remove);
 
     //Si no hay elementos entonces se vacia el array
@@ -139,24 +176,32 @@ function paintPreference(preference, preferenciaId) {
     buscador = document.getElementById('search-panel');
 
     tag = document.getElementById('tags');
+
     divContTag.setAttribute('id', 'contenedorPref');
+    divContTag.setAttribute('class', 'border preference-box');
     nodoBuscador = document.getElementById('botonBusqueda');
     buscador.insertBefore(divContTag, nodoBuscador);
 
     divTag = document.createElement('span');
     texto = document.createTextNode(preference);
-    boton = document.createElement('button');
+    boton = document.createElement('div');
 
     divTag.setAttribute('id', preferenciaId);
     divTag.setAttribute('name', preferencia);
+    divTag.setAttribute('class', 'chip-preference');
+
 
     boton.setAttribute('value', preferenciaId);
-    boton.innerHTML = 'X';
+    boton.setAttribute('class', 'closechip');
+    boton.innerHTML = '&times';
     boton.addEventListener('click', removePreferences);
 
     divTag.appendChild(texto);
     divTag.appendChild(boton);
     divContTag.appendChild(divTag);
+
+    var objDiv = document.getElementById("contenedorPref");
+    objDiv.scrollTop = objDiv.scrollHeight;
 
 }
 
@@ -174,210 +219,23 @@ function paintPreference(preference, preferenciaId) {
 var idPasivo = "";
 var objetoPref = "";
 var intervalo;
+var makeButton = true;
 
 if (viewMessagesButton = document.getElementById('buttonMessages')) {
-    viewSearchButton = document.getElementById('buttonSearch')
+    viewSearchButton = document.getElementById('buttonSearch');
+    viewMessagesMobileButton = document.getElementById('toggler-r');
     viewMessagesButton.addEventListener('click', userConversationsRequest);
+    viewMessagesMobileButton.addEventListener('click', userConversationsRequest)
     viewSearchButton.addEventListener('click', createSearchElements);
 }
 
 
-//Crea los elementos necesarios para renderizar el chat
-function printChatElements(objeto) {
-
-    //Limpiamos el div y obtenemos el id del receptor
-    //limpiarDiv();
-    //idPasivo = event.target.value;
-
-    /*
-    //Creando el contenedor del chat
-    buscador = document.getElementById('container-msn');
-    contenedor = document.createElement('div');
-    contenedor.setAttribute('id', 'contenedorChat');
-    titulo = document.createElement('h2');
-    textoTit = document.createTextNode('Mensajes');
-
-    //Insercion del nuevo div(mensajes)
-    titulo.appendChild(textoTit);
-    contenedor.appendChild(titulo);
-    buscador.appendChild(contenedor)
-    //document.body.insertBefore(contenedor, buscador);
-
-    msn = document.createElement('div');
-    msn.setAttribute('id', 'msn');
-
-    contenedor.appendChild(msn);
-    //openNav();
-    recuadro = document.createElement('textarea');
-    recuadro.setAttribute('id', 'mensaje');
-
-    contenedor.appendChild(recuadro);
-
-    enviar = document.createElement('button');
-    enviar.id = idPasivo;
-    textoBoton = document.createTextNode('Enviar');
-    enviar.addEventListener('click', sendMessageRequest);
-
-    enviar.appendChild(textoBoton);
-    contenedor.appendChild(enviar);
-    */
-
-    rpanel = document.getElementById('results-panel');
-
-    rpanel.innerHTML = "";
-
-/*
-    chat =
-        '<div class="h-100">' +
-        '<div class="container scroll-chat" id="chat-box">' +
-        '<div class="row justify-content-end">' +
-        '<div class="col-7 enviados">' +
-        'esto es un mensaje enviado' +
-        '</div>' +
-        '</div>' +
-        '<div class="row">' +
-        '<div class="col-7 recibidos">' +
-        'esto es un mensaje recibido' +
-        '</div>' +
-        '</div>' +
-        '<div class="row justify-content-end">' +
-        '<div class="col-7 enviados">' +
-        'esto es un mensaje enviado' +
-        '</div>' +
-        '</div>' +
-        '<div class="row justify-content-end">' +
-        '<div class="col-7 enviados">' +
-        'esto es un mensaje enviado' +
-        '</div>' +
-        '</div>' +
-        '<div class="row">' +
-        '<div class="col-7 recibidos">' +
-        'esto es un mensaje recibido' +
-        '</div>' +
-        '</div>' +
-        '<div class="row justify-content-end">' +
-        '<div class="col-7 enviados">' +
-        'esto es un mensaje enviado' +
-        '</div>' +
-        '</div>' +
-        '<div class="row">' +
-        '<div class="col-7 recibidos">' +
-        'esto es un mensaje recibido' +
-        '</div>' +
-        '</div>' +
-        '<div class="row justify-content-end">' +
-        '<div class="col-7 enviados">' +
-        'esto es un mensaje enviado' +
-        '</div>' +
-        '</div>' +
-        '<div class="row">' +
-        '<div class="col-7 recibidos">' +
-        'esto es un mensaje recibido' +
-        '</div>' +
-        '</div>' +
-        '<div class="row justify-content-end">' +
-        '<div class="col-7 enviados">' +
-        'esto es un mensaje enviado' +
-        '</div>' +
-        '</div>' +
-        '<div class="row">' +
-        '<div class="col-7 recibidos">' +
-        'esto es un mensaje recibido' +
-        '</div>' +
-        '</div>' +
-        '<div class="row justify-content-end">' +
-        '<div class="col-7 enviados">' +
-        'esto es un mensaje enviado' +
-        '</div>' +
-        '</div>' +
-        '<div class="row">' +
-        '<div class="col-7 recibidos">' +
-        'esto es un mensaje recibido' +
-        '</div>' +
-        '</div>' +
-        '</div>'
-
-    textArea = '<div class="container" id="textArea">' +
-        '<div class="row">' +
-        '<input type="text"></input>' +
-        '<button type="button">Enviar</button>' +
-        '</div>' +
-        '</div>' +
-        '</div>'
-
-    rpanel.innerHTML = chat + textArea;
-    //createProfileElements();
-    rpanel.innerHTML="";*/
-
-    chat = '<div class="h-100">' +
-    '<div class="container overflow-auto" id="chat-box" style="height: 89%">';
-   for (i=0;i<objeto.length;i++){
-    if (objeto[i].usuarioActivo==objeto[i].Emisor){
-        chat=chat+'<div class="row justify-content-end">'+
-        '<div class="col-7 enviados">'+
-        objeto[i].Mensaje+
-        '</div>'+
-    '</div>'
-    } else{
-        chat=chat+   '<div class="row">'+
-        '<div class="col-7 recibidos">'+
-        objeto[i].Mensaje+
-        '</div>'+
-    '</div>'
-    }
-
-    
-    
-     
-} 
-chat=chat+'</div>'+
-'<div class="container border border-secondary rounded" id="textArea">'+
-    '<div class="row d-flex justify-content-center">'+
-    '<div class="form-group mx-sm-3 ">'+
-        '<input id="mensaje"  class="form-control" type="text"></input>'+
-        '</div>'+
-        '<div class="form-group mx-sm-3">'+
-        '<button id="btn-send" class="btn btn-outline-secondary" type="button">Enviar</button>'+
-        '</div>'+
-    '</div>'+
-'</div>'+
-'</div>';
-
-    rpanel.innerHTML=chat;
-   var btnsend =document.getElementById('btn-send');
-   btnsend.addEventListener('click',sendMessageRequest)
-    //Llamada a peticion de mensajes de forma regular
-    // intervalo = setInterval(, 5000);
-}
-
-
-function createProfileElements(objeto) {
-    profPanel = document.getElementById('profile-panel');
-    profile =
-    '<div class="profile-panel scroll-fit">'+
-                '<div id="img-panel">'+
-                    `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">`+
-                '</div>'+
-                `<h2> ${objeto.Nombre},${objeto.Ciudad}  </h2>`+
-                '<div>'+
-                    `<p>${objeto.Preferencias}</p>`+
-                '</div>'+
-            '</div>'
-
-    profPanel.innerHTML=profile;
-}
-
 //Solicitud de todos los mensajes asincrona
 var idPasivo;
-function messagesRequest(event) {
-
-    console.log('estoy cargando mensajes')
-    if(event.target)
-     idPasivo=event.target.value
+function messagesRequest(idParameter) {
     ruta = Routing.generate('chat');
-    //printChatElements();
-    
-    
+    idPasivo = idParameter;
+    console.log(idPasivo);
     xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', messagesResponse);
     xhr.open('POST', ruta);
@@ -390,15 +248,180 @@ function messagesRequest(event) {
 function messagesResponse(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
-        console.log('respuesta todos mensajes');
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
         //printNewMessages(objeto);
         printChatElements(objeto);
+        console.log(objeto);
     }
 }
 
-function panelUserRequest(idPasivo){
+var nameChat;
+//Crea los elementos necesarios para renderizar el chat
+function printChatElements(objeto) {
+
+    if (screen.width < 768) {
+        document.body.setAttribute('class', 'overflow-hidden');
+        rmobilepanel = document.getElementById('mobile-chat');
+        chatbox = document.getElementById('chat-box');
+        document.getElementById('name-chat').innerHTML = nameChat;
+        chat = '<div class="h-100">' +
+            '<div class="container overflow-auto" id="chat-box" style="height: 81%">';
+        //Si lo entregado por parametro es un objeto
+        if (typeof objeto === 'object') {
+            console.log(objeto);
+            for (i = 0; i < objeto.length; i++) {
+                console.log(objeto[i].Emisor)
+                if (objeto[i].usuarioActivo == objeto[i].Emisor) {
+                    chat = chat + '<div class="row justify-content-end">' +
+                        '<div class="mw-60 enviados">' +
+                        objeto[i].Mensaje +
+                        '</div>' +
+                        '</div>'
+
+                } else {
+                    chat = chat + '<div class="row">' +
+                        '<div class="recibidos">' +
+                        objeto[i].Mensaje +
+                        '</div>' +
+                        '</div>'
+                }
+            }
+            //Si lo entregado por parametro es un int
+        } else {
+            idPasivo = objeto;
+        }
+
+        chat = chat + '</div>' +
+            '<div class="container border border-secondary rounded" id="textArea">' +
+            '<div class="row d-flex justify-content-center">' +
+            '<div class="form-group mx-sm-3 ">' +
+            `<input id="mensaje" placeholder="Di ¡Hola!"onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
+            '</div>' +
+            '<div class="form-group mx-sm-3">' +
+            `<button id="btn-send" class="btn btn-outline-secondary"  onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        rmobilepanel.innerHTML = chat;
+
+
+        var objDiv = document.getElementById("chat-box");
+        objDiv.scrollTop = objDiv.scrollHeight;
+        //Llamada a peticion de mensajes de forma regular
+        // intervalo = setInterval(, 5000);
+    } else {
+        var element = document.getElementById("c-app");
+        element.classList.remove("d-none");
+        rpanel = document.getElementById('results-panel');
+
+        rpanel.innerHTML = "";
+
+        chat = '<div class="h-100">' +
+            '<div class="container overflow-auto" id="chat-box" style="height: 89%">';
+        if (typeof objeto === 'object') {
+            for (i = 0; i < objeto.length; i++) {
+                console.log(objeto[i].Emisor)
+                if (objeto[i].usuarioActivo == objeto[i].Emisor) {
+                    chat = chat + '<div class="row justify-content-end">' +
+                        '<div class="enviados">' +
+                        objeto[i].Mensaje +
+                        '</div>' +
+                        '</div>'
+
+                } else {
+                    chat = chat + '<div class="row">' +
+                        '<div class="recibidos">' +
+                        objeto[i].Mensaje +
+                        '</div>' +
+                        '</div>'
+                }
+            }
+        } else {
+            idPasivo = objeto;
+        }
+
+        chat = chat + '</div>' +
+            '<div class="container border border-secondary rounded" id="textArea">' +
+            '<div class="row d-flex justify-content-center">' +
+            '<div class="form-group mx-sm-3 ">' +
+            `<input id="mensaje" placeholder="Di ¡Hola!" onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
+            '</div>' +
+            '<div class="form-group mx-sm-3">' +
+            `<button id="btn-send" class="btn btn-outline-secondary" onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        rpanel.innerHTML = chat;
+        var objDiv = document.getElementById("chat-box");
+        objDiv.scrollTop = objDiv.scrollHeight;
+        //Llamada a peticion de mensajes de forma regular
+        // intervalo = setInterval(, 5000);
+    }
+
+}
+
+//Solicitud asincrona para enviar un nuevo mensaje
+function sendMessageRequest(idPasivo) {
+    //idPasivo = event.target.value;
+
+    mensaje = document.getElementById('mensaje').value;
+    document.getElementById('mensaje').focus();
+    if (mensaje != '') {
+        ruta = Routing.generate('sendMessage');
+        xhr = new XMLHttpRequest();
+
+        console.log(event);
+        xhr.addEventListener('readystatechange', sendMessageResponse);
+        xhr.open('POST', ruta);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
+    }
+
+}
+
+function sendMessageRequestKey(e, idPasivo) {
+    //idPasivo = event.target.value;
+    console.log(e);
+
+    e.which = e.which || e.keyCode;
+    if (e.which == 13) {
+        document.getElementById('mensaje').focus();
+        mensaje = document.getElementById('mensaje').value;
+
+        if (mensaje != '') {
+            ruta = Routing.generate('sendMessage');
+            xhr = new XMLHttpRequest();
+
+
+            xhr.addEventListener('readystatechange', sendMessageResponse);
+            xhr.open('POST', ruta);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
+        }
+
+    }
+
+}
+
+
+//Respuesta de envio de mensaje
+function sendMessageResponse(event) {
+
+    if (event.target.readyState == 4 && event.target.status == 200) {
+        //idPasivo = event.target.id;
+        console.log('ENVIO IDPASIVO ' + idPasivo)
+        messagesRequest(idPasivo);
+    }
+}
+
+function panelUserRequest(idPasivo) {
+
+    console.log(idPasivo);
+
     ruta = Routing.generate('panel_user');
     xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', panelUserResponse);
@@ -406,37 +429,136 @@ function panelUserRequest(idPasivo){
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send('value=' + idPasivo);
 }
-function panelUserResponse(event){
+function panelUserResponse(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
-        console.log('respuesta todos mensajes');
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
-       console.log(objeto);
-       createProfileElements(objeto);
+        console.log(objeto)
+        createProfileElements(objeto);
+
     }
 }
-//Solicitud asincrona para enviar un nuevo mensaje
-function sendMessageRequest(event) {
-    console.log('estoy enviando mensajes')
-    //idPasivo = event.target.value;
-    mensaje = document.getElementById('mensaje').value;
-    ruta = Routing.generate('sendMessage');
-    xhr = new XMLHttpRequest();
-    xhr.id = idPasivo;
-    xhr.addEventListener('readystatechange', sendMessageResponse);
-    xhr.open('POST', ruta);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
-}
 
-//Respuesta de envio de mensaje
-function sendMessageResponse(event) {
+function createProfileElements(objeto) {
 
-    if (event.target.readyState == 4 && event.target.status == 200) {
-        //idPasivo = event.target.id;
-        console.log('ENVIO IDPASIVO '+idPasivo)
-        messagesRequest(idPasivo);
+    if (screen.width > 768) {
+        profPanel = document.getElementById('profile-panel');
+        console.log(objeto)
+        profile =
+            '<div class="profile-panel scroll-fit">' +
+            '<div id="img-panel">' +
+            //AÑADIDO INICIO
+            `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">`
+        for (i = 0; i < objeto.Foto.length; i++) {
+            profile = profile +
+                `    <div class="carousel-item ${(i == 0) ? 'active' : ''}">
+            <img class="" src="users/user${objeto.Id}/${objeto.Foto[i]}" alt="First slide">
+            </div>
+       `
+
+        }
+        profile = profile + `  </div>  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    </div>`;
+        profile = profile + '</div>';
+        if (makeButton) {
+            profile = profile + '<div class="m-2 d-flex justify-content-center">' +
+                `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>` +
+                '</div>';
+        }
+        profile = profile +
+            `<h2> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
+            '<hr>'
+        if (objeto.Descripcion != undefined) {
+            console.log('hola')
+            profile = profile + '<div>' +
+                `<p>${objeto.Descripcion}</p>` +
+                '</div>';
+        }
+        '<div class="w-100">';
+        if (objeto.Preferencias != undefined) {
+            for (var i = 0; i < objeto.Preferencias.length; i++) {
+                profile = profile +
+                    ' <div class="chip">' +
+                    '#' + objeto.Preferencias[i] +
+                    ' </div>'
+            }
+        }
+
+        profile = profile +
+            '</div>' +
+            '</div>'
+        profPanel.innerHTML = profile;
+    } else {
+        profPanel = document.getElementById('mobile-profile');
+        console.log(objeto)
+        profile =
+            '<div class="profile-panel scroll-fit">' +
+            '<div id="img-panel">' +
+            //AÑADIDO INICIO
+            `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">`
+        for (i = 0; i < objeto.Foto.length; i++) {
+            profile = profile +
+                `    <div class="carousel-item ${(i == 0) ? 'active' : ''}">
+                <img class="d-block w-100 profile-img" src="users/user${objeto.Id}/${objeto.Foto[i]}" alt="First slide">
+                </div>
+           `
+
+        }
+        profile = profile + `  </div>  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        </div>`;
+
+        //AÑADIDO FIN
+        profile = profile + '</div>';
+        if (makeButton) {
+            profile = profile + '<div class="m-2 d-flex justify-content-center">' +
+                `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id});openChat()">Chatear</button>` +
+                '</div>';
+        }
+        profile = profile +
+            `<h2 class="overlay-margin"> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
+            '<hr>'
+        if (objeto.Descripcion != undefined) {
+            console.log('hola')
+            profile = profile + '<div class="overlay-margin">' +
+                `<p>${objeto.Descripcion}</p>` +
+                '</div>';
+        }
+        '<div class="w-100">';
+        if (objeto.Preferencias != undefined) {
+            profile = profile +
+                '<div class="overlay-margin">';
+            for (var i = 0; i < objeto.Preferencias.length; i++) {
+                profile = profile +
+                    ' <div class="chip">' +
+                    '#' + objeto.Preferencias[i] +
+                    ' </div>';
+            }
+            profile = profile + '</div>';
+        }
+        profile = profile +
+            '</div>' +
+            '</div>'
+        profPanel.innerHTML = profile;
+        nameChat = objeto.Nombre;
+
     }
+
 }
 
 function userConversationsRequest(params) {
@@ -459,7 +581,86 @@ function userConversationsResponse(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
         var objeto_vuelta = event.target.responseText;
         var objeto = JSON.parse(objeto_vuelta);
+        console.log(objeto)
         createUserConversationList(objeto);
+    }
+}
+
+function createUserConversationList(objeto) {
+    //limpiarDiv();
+
+    divResult = document.getElementById('child-cpanel');
+    divMobile = document.getElementById('mobile-msn');
+
+    makeButton = false;
+    if (screen.width < 768) {
+        document.body.setAttribute('class', 'overflow-hidden');
+        resultados = '<span id="mobile-tit">Mensajes</span>';
+        if (objeto[0].Id == undefined) {
+            resultados = resultados +
+                '<div class="container">' +
+                '<div class="row">' +
+                '<div class="md-p ml-2" id="conversation-box">No tienes mensajes, cuando alguien te escriba aparecera aquí.</div>' +
+                '</div>' +
+                '</div>';
+            divMobile.innerHTML = resultados;
+        } else {
+            resultados = resultados +
+                '<div class="container d-flex justify-content-center" id="conversation-box">';
+            for (i = 0; i < objeto.length; i++) {
+
+                resultados = resultados +
+                    //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
+                    '<div class="row d-flex justify-content-center border-bottom w-100">' +
+                    '<div class="col-xs pt-2">' +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
+                    '</div>' +
+                    '<div class="col-sm" id="col-fix">' +
+                    //nombre iba en div normal
+                    `<button type="button" class="conversation-prev" onClick="messagesRequest(${objeto[i].Id});openChat()" >${objeto[i].Nombre}</button>` +
+                    `<div class="msn-prev text-center">${objeto[i].msn}` +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+            }
+            resultados = resultados + '</div>';
+        }
+        divMobile.innerHTML = resultados;
+        buttons = document.getElementsByClassName('conversation-prev');
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', function () {
+                nameChat = buttons[i].innerHTML; console.log(nameChat);
+            })
+        }
+    } else {
+        if (objeto[0].Id == undefined) {
+            console.log('hola');
+            divResult.innerHTML = "No tienes mensajes";
+        } else {
+            resultados =
+                '<div class="container scroll-fit" id="conversation-box">';
+
+            for (i = 0; i < objeto.length; i++) {
+                resultados = resultados +
+                    //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
+                    '<div class="row d-flex justify-content-center">' +
+                    '<div class="col-xs">' +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="mt-1 rounded-circle img-fluid app-img">` +
+                    '</div>' +
+                    '<div class="col-sm" id="col-fix">' +
+                    `<button type="button" class="conversation-prev" onClick="messagesRequest(${objeto[i].Id})" >${objeto[i].Nombre}</button>` +
+                    `<div class="msn-prev d-flex justify-content-center">${objeto[i].msn}</div>` +
+                    '</div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<hr>' +
+                    '</div>';
+            }
+            resultados = resultados + '</div>';
+            divResult.innerHTML = resultados;
+        }
+
     }
 }
 /////////////////////////////////////////////////
@@ -488,6 +689,8 @@ if (searchUserButton = document.getElementById('botonBusqueda')) {
 function searchUserRequest() {
 
     limpiarDiv();
+    var element = document.getElementById("c-app");
+    element.classList.remove("d-none");
 
     //Recogemos los datos que vamos a enviar al servidor
     gender = document.getElementById('genderSelect').value;
@@ -523,205 +726,180 @@ function searchUserResponse(event) {
     }
 }
 
-
-
 //Metodo que pinta la lista de usuarios encontrados o un texto en el caso de que no
 function createUserList(objeto) {
-        containerPref = document.getElementById('contenedorPref');
-        containerPref.innerHTML="";
-        arrayPref=[];
+
+    makeButton = true;
+
+    if (containerPref = document.getElementById('contenedorPref')) {
+        containerPref.innerHTML = "";
+        arrayPref = [];
+    }
+
     limpiarDiv();
 
     divResult = document.getElementById('results-panel');
-    div = document.createElement('div');
-    div.setAttribute('id', 'parrafo');
 
-    if (objeto[0].Id == undefined) {
-        divResult.innerHTML="";
-        texto = document.createTextNode(objeto);
+    if (screen.width > 768) {
+        if (objeto[0].Id == undefined) {
+            resultados = '<h2 class="top-tit">Resultados</h2>';
+            divResult.innerHTML = resultados + "No se encontraron resultados con esos parámetros";
 
-        p = document.createElement('p');
-        p.appendChild(texto);
-        div.appendChild(p);
-        divResult.appendChild(div);
+        } else {
 
-    } else {
+            resultados = '<h2 class="top-tit">Resultados</h2>' +
+                '<div class="container scroll-fit" style="height: 90%" id="user-list">';
+            for (i = 0; i < objeto.length; i++) {
+                resultados = resultados + '<div class="row">' +
+                    '<div class="col-4">' +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid list-dtimg mt-4">` +
+                    '</div>' +
+                    '<div class="col-8">' +
+                    '<div class="row justify-content-center ">' +
+                    `<span class="app-subp mb-2">${objeto[i].Nombre} ${objeto[i].Apellidos}</span>` +
+                    '</div>' +
+                    '<div class="row justify-content-center">'
+                for (j = 0; j < 3; j++) {
+                    if (objeto[i].Preferencias[j] != undefined) {
+                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
+                    }
+                    ++j;
+                    if (objeto[i].Preferencias[j] != undefined) {
+                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]}</span>`;
+                    }
 
-        resultados =
-            '<div class="container" id="conversation-box">' +
-            '<div class="row" id="title-section">' +
-            '<h5>Resultados</h5>' +
-            '</div>';
-        for (i = 0; i < objeto.length; i++) {
-            resultados = resultados + '<div class="row">' +
-                '<div class="col-4">' +
-                `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
-                '</div>' +
-                '<div class="col-8">' +
-                '<div class="col-xs">' +
-                `<span>${objeto[i].Nombre}</span>` +
-                '</div>' +
-                '<div class="col-xs">'
-            for (j = 0; j < 3; j++) {
-                if (objeto[i].Preferencias[j] != undefined) {
-                    resultados = resultados + `<span>#${objeto[i].Preferencias[j]} </span>`;
                 }
-                ++j;
-                if (objeto[i].Preferencias[j] != undefined) {
-                    resultados = resultados + `<span>#${objeto[i].Preferencias[j]}</span>` +
-                        '</div>'
-                }
+                if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span class="chip-list">#...</span>' }
+                resultados = resultados + '</div>' +
+                    '<div class="row d-flex mt-2 justify-content-center">' +
+                    `<button class="btn-chatSearchUser btn btn-primary" onClick="panelUserRequest(${objeto[i].Id})" type="button">Ver perfil</button>` +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<hr class="bt-2">' +
+                    '</div>';
 
             }
-            if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span>#...</span>' }
-            resultados = resultados + '<br>'
-            resultados = resultados + '<br>'
-            resultados = resultados + `<button class="btn-chatSearchUser" value="${objeto[i].Id}" type="button">Chat</button>` +
-                '</div>' +
-                '</div>' +
-                '<div>' +
-                '<hr>' +
-                '</div>';
+            resultados = resultados + '</div></div>';
+            divResult.innerHTML = resultados;
         }
-        resultados = resultados + '</div>';
-        divResult.innerHTML = resultados;
-        btnSearchUser = document.getElementsByClassName('btn-chatSearchUser');
-        for (let i = 0; i< btnSearchUser.length; i++) {
-            btnSearchUser[i].addEventListener('click',messagesRequest)
-           
-        }
-        
-
-    }
-}
-
-function createUserConversationList(objeto) {
-    limpiarDiv();
-
-    divResult = document.getElementById('child-cpanel');
-    div = document.createElement('div');
-    div.setAttribute('id', 'parrafo');
-
-    if (objeto[0].Id == undefined) {
-
-        texto = document.createTextNode(objeto);
-
-        p = document.createElement('p');
-        p.appendChild(texto);
-        div.appendChild(p);
-        divResult.appendChild(div);
-
     } else {
-        resultados =
-            '<div class="container scroll-fit" id="conversation-box">';
-        for (i = 0; i < objeto.length; i++) {
-            resultados = resultados + 
-                //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
-                    '<div class="row d-flex justify-content-center">' +
-                        '<div class="col-xs">' +
-                            `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
-                        '</div>'+
-                        '<div class="col-sm" id="col-fix">'+
-                        //nombre iba en div normal
-                            `<button type="button" class="conversation-prev" value="${objeto[i].Id}">${objeto[i].Nombre}</button>` +
-                            `<div class="msn-prev">${objeto[i].msn}</div>`+ 
-                           
-                        '</div>'+
-                    '</div>'+
-               // '</button>'+
-                '<div>'+
-                '<hr>'+
-                '</div>';
-        }
-        resultados = resultados + '</div>';
-        divResult.innerHTML = resultados;
+        if (objeto[0].Id == undefined) {
 
-        chatPrevs = document.getElementsByClassName('conversation-prev');
-        for (let i = 0; i < chatPrevs.length; i++) {
-            chatPrevs[i].addEventListener('click', messagesRequest);
-        }
+            resultados = '<h2 class="top-tit">Resultados</h2>';
+            divResult.innerHTML = resultados + "No se encontraron resultados con esos parámetros";
 
+        } else {
+            console.log(objeto);
+            resultados = '<h2 class="top-tit">Resultados</h2>' +
+                '<div class="container" id="user-list">'
+            for (i = 0; i < objeto.length; i++) {
+                resultados = resultados + '<div class="row">' +
+                    '<div class="col-4">' +
+                    `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid list-img" style="margin-top: 3.5rem;">` +
+                    '</div>' +
+                    '<div class="col-8">' +
+                    '<div class="row ">' +
+                    `<span class="app-subp mb-2">${objeto[i].Nombre} ${objeto[i].Apellidos}</span>` +
+                    '</div>' +
+                    '<div class="row">'
+                for (j = 0; j < 3; j++) {
+                    if (objeto[i].Preferencias[j] != undefined) {
+                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
+                    }
+                    console.log(objeto[i].Preferencias[j])
+                    ++j;
+                    if (objeto[i].Preferencias[j] != undefined) {
+                        resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
+                    }
+                    console.log(objeto[i].Preferencias[j])
+                }
+                if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span class="chip-list">#...</span>' }
+                resultados = resultados + '</div></div>' +
+                    '<div class="w-100 justify-content-center d-flex pt-2">' +
+                    `<button class="btn-chatSearchUser btn btn-primary" onClick="panelUserRequest(${objeto[i].Id});openProfile()" type="button">Ver perfil</button>` +
+                    '</div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<hr class="bt-2">' +
+                    '</div>';
+
+            }
+            resultados = resultados + '</div></div>';
+            divResult.innerHTML = resultados;
+            buttons = document.getElementsByClassName('name-prevs');
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', function () {
+                    nameChat = buttons[i].innerHTML; console.log(nameChat);
+                })
+            }
+        }
     }
+
 }
 
 function createSearchElements() {
 
     divResult = document.getElementById('child-cpanel');
 
-    var search = '<div id="child-cpanel">' +
-        '<div id="search-panel">' +
-        '<label for="ciudad">Ciudad:</label>' +
+    var search = '<div id="search-panel">' +
+        '<label for="ciudad">Ciudad: </label>' +
         '<select id="ciudadSelect" name="ciudad" class="form-control-sm">';
     if (ciudadSelect.length > 0) {
         for (i = 0; i < ciudadSelect.length; i++) {
             search = search +
                 `<option value=${ciudadSelect[i].value} >${ciudadSelect[i].text}</option> `;
-                    }
-                }else{
-    search = search +                
-                    '<option value="N">No hay ciudades</option> ';
-                }
-    search = search +             
-                '</select>'+
-                '</br>'+
-                '<label for="genero">¿Chicos, chicas?:</label>'+
-                '<select  class="form-control-sm" id="genderSelect" name="genero">'+
-                    '<option value="H">Hombre</option>'+
-                    '<option value="M">Mujer</option>'+
-                    '<option value="N" selected>No me importa</option>'+
-                '</select>'+
-                '</br>'+
-                '<label for="genero">Nº Máximo de compañeros:</label>'+
-                '<select  class="form-control-sm" id="roomMatesSelect" name="roomMates">'+
-                    '<option value="1">1 persona</option> '+
-                    '<option value="2" selected>2 personas</option>'+
-                    '<option value="3+">3 o más personas</option>'+
-                '</select>'+
-                '</br>'+
-                '<div class="col">'+
-                    '<label for="genero">Precio mín. del alquiler:</label>'+
-                    '<input class="form-control-sm" type="text" size="4" placeholder="min" id="min">'+
-                '</div>'+
-                '<div class="col">'+
-                    '<label for="genero">Precio máx. del alquiler:</label>'+
-                    '<input class="form-control-sm" type="text" size="4" placeholder="max" id="max">'+
-               ' </div>'+
-                '</br>'+
-                '<div class="ui-widget" id="buscadorPreferencias">'+
-                    '<label for="tags">Búsqueda de preferencias: </label>'+
-                    '<input id="tags" class="form-control">'+
-                '</div>'+
-                '</br>'+
-                '<button type="button" class="form-control" id="botonBusqueda">Buscar</button>'+
-                '</div>';     
-        divResult.innerHTML = search;
-        search = document.getElementById('tags')
-        btnSearch = document.getElementById('botonBusqueda');
-        search.addEventListener('keyup', searchPreferenceRequest);
-        btnSearch.addEventListener('click',searchUserRequest)
-
-        rpanel = document.getElementById('results-panel');
-        ppanel = document.getElementById('profile-panel');
-        ppanel.innerHTML="";
-        rpanel.innerHTML="";
-}
-//Slider de para el rango de precios
-/*
-$(function () {
-    $("#slider-range").slider({
-        range: true,
-        min: 0,
-        max: 500,
-        values: [75, 300],
-        slide: function (event, ui) {
-            $("#amount").val(ui.values[0] + "€ - " + ui.values[1] + "€");
         }
+    } else {
+        search = search +
+            '<option value="N">No hay ciudades</option> ';
+    }
+    search = search +
+        '</select>' +
+        '</br>' +
+        '<label for="genero">¿Chicos, chicas?:</label>' +
+        '<select  class="form-control-sm" id="genderSelect" name="genero">' +
+        '<option value="H">Hombre</option>' +
+        '<option value="M">Mujer</option>' +
+        '<option value="N" selected>No me importa</option>' +
+        '</select>' +
+        '</br>' +
+        '<label for="genero">Nº Máximo de compañeros:</label>' +
+        '<select  class="form-control-sm" id="roomMatesSelect" name="roomMates">' +
+        '<option value="1">1 persona</option> ' +
+        '<option value="2" selected>2 personas</option>' +
+        '<option value="3+">3 o más personas</option>' +
+        '</select>' +
+        '</br>' +
+        '<div class="col">' +
+        '<label for="genero">Precio min. del alquiler:</label>' +
+        '<input class="form-control-sm" type="text" size="4" placeholder="min" id="min">' +
+        '</div>' +
+        '<div class="col">' +
+        '<label for="genero">Precio máx. del alquiler:</label>' +
+        '<input class="form-control-sm" type="text" size="4" placeholder="max" id="max">' +
+        ' </div>' +
+        '</br>' +
+        '<div class="ui-widget" id="buscadorPreferencias">' +
+        '<label for="tags">Búsqueda de preferencias: </label>' +
+        '<input id="tags" class="form-control">' +
+        '</div>' +
+        '</br>' +
+        '<button type="button" class="form-control" id="botonBusqueda">Buscar</button>';
 
-    });
-    $("#amount").val($("#slider-range").slider("values", 0) + "€ - " + $("#slider-range").slider("values", 1) + "€");
-});
+    divResult.innerHTML = search;
+    search = document.getElementById('tags')
+    btnSearch = document.getElementById('botonBusqueda');
+    search.addEventListener('keyup', searchPreferenceRequest);
+    btnSearch.addEventListener('click', searchUserRequest)
 
-*/
+    rpanel = document.getElementById('results-panel');
+    ppanel = document.getElementById('profile-panel');
+    ppanel.innerHTML = "";
+    rpanel.innerHTML = "";
+}
+
 /////////////////////////////////////////////////
 //
 //Validacion del formulario de registro
@@ -736,27 +914,29 @@ function validacion(event) {
     var input = document.getElementsByClassName('pass');
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
-    if (input[0].value == '') {
-        event.preventDefault();
-        text = '- Introduzca una contraseña';
-        erroresUser(text);
 
-    }
     if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
         text = '- No has introducido una foto o la extensión no está permitida';
-        erroresUser(text)
+        erroresUser(text);
+    }
+    if (input[0].value == '' || input[0].value.length < 4) {
+        event.preventDefault();
+        text = '- Introduzca una contraseña, esta debe tener al menos 4 caracteres';
+        erroresUser(text);
     }
 }
 
 function erroresUser(userError) {
     var div = document.getElementById('errorDiv');
+    var fileInput = document.getElementsByClassName('fileImg');
     if (div == null) {
-        parentNode = document.getElementById('formRegister')
+        parentNode = fileInput[0].parentNode
         div = document.createElement('div');
         div.setAttribute('class', 'error');
         div.setAttribute('id', 'errorDiv');
         parentNode.appendChild(div)
     } else { div = document.getElementById('errorDiv'); div.innerHTML = "" }
+    $('body').animate({ scrollTop: document.body.scrollHeight }, "fast");
     event.preventDefault();
     span = document.createElement('div')
     texto = document.createTextNode(userError);
@@ -770,43 +950,38 @@ function erroresUser(userError) {
 //
 ////////////////////////////////////////////////
 
-buttonsToggler = document.getElementsByClassName('navbar-toggler')
-buttonClose = document.getElementsByClassName('close');
-if (buttonsToggler) {
-    for (i = 0; i < buttonsToggler.length; i++) {
-        buttonsToggler[i].addEventListener('click', openNav);
-        buttonClose[i].addEventListener('click', closeNav);
-    }
+function openHomeNav() {
+    document.getElementById("myNav").style.width = "100%";
 }
-
-function openNav(event) {
-    console.log(event.target.getAttribute('id'));
-    if (event.target.getAttribute('id') == 'toggler-l') {
-
-        document.getElementById("myNav-profile").style.width = "100%";
-    } else {
-        if (chat = document.getElementById('myNav-chat')) {
-            chat.style.width = "100%";
-        }
-        if (home = document.getElementById('myNav')) {
-            home.style.width = "100%";
-        }
-    }
+function closeHomeNav() {
+    document.getElementById("myNav").style.width = "0%";
 }
-
-/* Close when someone clicks on the "x" symbol inside the overlay */
-function closeNav(event) {
-
-    if (event.target.getAttribute('id') == 'toggler-close-r') {
-        document.getElementById('myNav-profile').style.width = "0%";
-    } else {
-        if (chat = document.getElementById('myNav-chat')) {
-            chat.style.width = "0%";
-        }
-        if (home = document.getElementById('myNav')) {
-            home.style.width = "0%";
-        }
-    }
+function openUser() {
+    document.getElementById("myNav-profile").style.width = "100%";
+}
+function closeUser() {
+    document.getElementById("myNav-profile").style.width = "0%";
+}
+function openMsn() {
+    document.getElementById('myNav-msn').style.width = "100%";
+}
+function closeMsn() {
+    document.getElementById('myNav-msn').style.width = "0%";
+    document.body.setAttribute('class', 'overflow-auto');
+}
+function openChat() {
+    document.getElementById("myNav-chat").style.width = "100%";
+}
+function closeChat() {
+    document.getElementById("myNav-chat").style.width = "0%";
+}
+function openProfile() {
+    console.log('hola');
+    document.getElementById("myNav-user").style.width = "100%";
+}
+function closeProfile() {
+    document.getElementById("myNav-user").style.width = "0%";
+    document.body.setAttribute('class', 'overflow-auto');
 }
 
 $('#carouselExample').on('slide.bs.carousel', function (e) {
