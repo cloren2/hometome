@@ -53,8 +53,8 @@
 </header>
 
 <main>
-	<div id="formRegister" class="container form-top">
-    <div class="row">
+	<div id="edit-form" class="whitesmoke container">
+    <div class="row d-flex justify-content-center">
       <h3 class="form-tit">Registro de usuario</h3>
     </div>
 
@@ -62,7 +62,7 @@
    
     <div class="row">
       <div class="wrap-input100" >
-        {{ form_label(form.username, 'Username', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_label(form.username, 'Username (solo lo verás tú):', { 'label_attr': {'class': 'label-input100'} }) }}
         {{ form_widget(form.username, { 'attr': {'class': 'input100'} }) }}
         <span class="focus-input100"></span>
       </div>
@@ -70,7 +70,7 @@
 
     <div class="row" >
       <div class="wrap-input100">	
-          {{ form_label(form.plainPassword, 'Contraseña', { 'label_attr': {'class': 'label-input100'} }) }}
+          {{ form_label(form.plainPassword, 'Contraseña:', { 'label_attr': {'class': 'label-input100'} }) }}
           <div class="input-group" id="show_hide_password">
             <div class="input-group-addon align-content-start pass-align" class="hide_pass_div">
               {{ form_widget(form.plainPassword, { 'attr': {'class': 'pass input100'} }) }}
@@ -85,7 +85,7 @@
     </div>
     <div class="row" >
       <div class="wrap-input100" >	
-          {{ form_label(form.nombre, 'Nombre', { 'label_attr': {'class': 'label-input100'} }) }}
+          {{ form_label(form.nombre, 'Nombre:', { 'label_attr': {'class': 'label-input100'} }) }}
           {{ form_widget(form.nombre, { 'attr': {'class': 'input100'} }) }}
           <span class="focus-input100"></span>
       </div>
@@ -93,7 +93,7 @@
 
     <div class="row" >
       <div class="wrap-input100" >	
-        {{ form_label(form.Apellidos, 'Apellidos', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_label(form.Apellidos, 'Apellidos:', { 'label_attr': {'class': 'label-input100'} }) }}
         {{ form_widget(form.Apellidos, { 'attr': {'class': 'input100'} }) }}
         <span class="focus-input100"></span>
       </div>
@@ -102,7 +102,7 @@
 
     <div class="row" >                   
      <div class="wrap-input100" >	
-        {{ form_label(form.ciudad, 'Ciudad', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_label(form.ciudad, 'Ciudad:', { 'label_attr': {'class': 'label-input100'} }) }}
         {{ form_widget(form.ciudad, { 'attr': {'class': 'browser-default custom-select'} }) }}
         <span class="focus-input100"></span>
       </div>           
@@ -110,7 +110,7 @@
 
     <div class="row" > 
       <div class="wrap-input100" >	
-        {{ form_label(form.genero, 'Género', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_label(form.genero, 'Género:', { 'label_attr': {'class': 'label-input100'} }) }}
         {{ form_widget(form.genero, { 'attr': {'class': 'browser-default custom-select'} }) }}
         <span class="focus-input100"></span>
       </div>  
@@ -118,7 +118,7 @@
 
     <div class="row" > 
       <div class="wrap-input100" >	
-        {{ form_label(form.numRoomMates, 'Número de compañeros/as de piso que prefieres', { 'label_attr': {'class': 'label-input100'} }) }}
+        {{ form_label(form.numRoomMates, 'Número de compañeros/as de piso que prefieres:', { 'label_attr': {'class': 'label-input100'} }) }}
         {{ form_widget(form.numRoomMates, { 'attr': {'class': 'browser-default custom-select'} }) }}
         <span class="focus-input100"></span>
       </div>  
@@ -126,7 +126,7 @@
     
     <div class="row" >
       <div class="wrap-input100 " >	
-        {{ form_label(form.fechaNac, 'Fecha de Nacimiento', { 'label_attr': {'class': 'label-input100 '} }) }}
+        {{ form_label(form.fechaNac, 'Fecha de nacimiento:', { 'label_attr': {'class': 'label-input100 '} }) }}
         {{ form_widget(form.fechaNac, { 'attr': {'class': 'input100 d-flex justify-content-center'} }) }}
         <span class="focus-input100"></span>
       </div> 
@@ -134,12 +134,12 @@
     <div class="row"> 
          <div class="wrap-input100 d-flex flex-column" >	
             <div class="md-form justify-content-center num-div">
-               {{ form_label(form.fechaNac, 'Precio Mínimo', { 'label_attr': {'class': 'label-input100 '} }) }}
+               {{ form_label(form.fechaNac, '¿Cuánto pagarias como mínimo por un alquiler?', { 'label_attr': {'class': 'label-input100 '} }) }}
             {{ form_widget(form.precioMin, { 'attr': {'class': 'form-control'} })  }}
             </div>
 
             <div class="align-content-end num-div">
-              {{ form_label(form.fechaNac, 'Precio Máximo', { 'label_attr': {'class': 'label-input100 '} }) }}
+              {{ form_label(form.fechaNac, '¿Y como máximo?', { 'label_attr': {'class': 'label-input100 '} }) }}
               {{ form_widget(form.precioMax, { 'attr': {'class': 'form-control'} }) }}
             </div>
             <span class="focus-input100"></span>
@@ -158,12 +158,12 @@
             </div>
           
             <div class="align-img">
-            <img src="https://placehold.it/80x80" id="preview" class="img-thumbnail img-reg">
+            <img src="{{asset('img/app/profile.png')}}" id="preview" class="img-thumbnail img-reg">
             </div>
         </div>
 
           <div class="wrap-input100" >
-            <div class="label-input100">Preferencias</div>
+            <div class="label-input100 mt-3 mb-3">Preferencias</div>
               {% for field in form.preferencias %}
              <div class="pref-list">
                {{ form_widget(field) }}
@@ -176,12 +176,12 @@
 
           <div class="md-form amber-textarea"  >
            
-            {{ form_label(form.descripcion, 'Descripcion', { 'label_attr': {'class': 'label-input100'} }) }}
-             <i class="fas fa-pencil-alt prefix grey-text"></i>{{ form_widget(form.descripcion, { 'attr': {'class': 'md-textarea form-control'} }) }}
+            {{ form_label(form.descripcion, 'Descripción:', { 'label_attr': {'class': 'label-input100'} }) }}
+             <i class="fas fa-pencil-alt prefix grey-text"></i>{{ form_widget(form.descripcion, { 'attr': {'class': 'md-textarea form-control textarea'} }) }}
            <span class="focus-input100"></span>
         </div> 
         	<div class="container-contact100-form-btn">
-					<div class="wrap-contact100-form-btn">
+					<div class="wrap-contact100-form-btn  mt-3 mb-3">
 						<div class="contact100-form-bgbtn"></div>
 						<button class="contact100-form-btn"id="botonRegistro">
 							<span>

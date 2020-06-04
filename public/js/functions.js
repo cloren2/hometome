@@ -296,7 +296,7 @@ function printChatElements(objeto) {
             '<div class="container border border-secondary rounded" id="textArea">' +
             '<div class="row d-flex justify-content-center">' +
             '<div class="form-group mx-sm-3 ">' +
-            `<input id="mensaje" placeholder="Di ¡Hola!"onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
+            `<input id="mensaje" tabindex="0" placeholder="Di ¡Hola!"onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
             '</div>' +
             '<div class="form-group mx-sm-3">' +
             `<button id="btn-send" class="btn btn-outline-secondary"  onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
@@ -309,6 +309,7 @@ function printChatElements(objeto) {
 
         var objDiv = document.getElementById("chat-box");
         objDiv.scrollTop = objDiv.scrollHeight;
+        document.getElementById('mensaje').focus();
         //Llamada a peticion de mensajes de forma regular
         // intervalo = setInterval(, 5000);
     } else {
@@ -346,7 +347,7 @@ function printChatElements(objeto) {
             '<div class="container border border-secondary rounded" id="textArea">' +
             '<div class="row d-flex justify-content-center">' +
             '<div class="form-group mx-sm-3 ">' +
-            `<input id="mensaje" placeholder="Di ¡Hola!" onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
+            `<input id="mensaje" tabindex="0" placeholder="Di ¡Hola!" onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
             '</div>' +
             '<div class="form-group mx-sm-3">' +
             `<button id="btn-send" class="btn btn-outline-secondary" onClick="sendMessageRequest(${idPasivo})" type="button">Enviar</button>` +
@@ -354,10 +355,11 @@ function printChatElements(objeto) {
             '</div>' +
             '</div>' +
             '</div>';
-
+            
         rpanel.innerHTML = chat;
         var objDiv = document.getElementById("chat-box");
         objDiv.scrollTop = objDiv.scrollHeight;
+        document.getElementById('mensaje').focus();
         //Llamada a peticion de mensajes de forma regular
         // intervalo = setInterval(, 5000);
     }
@@ -389,8 +391,8 @@ function sendMessageRequestKey(e, idPasivo) {
 
     e.which = e.which || e.keyCode;
     if (e.which == 13) {
-        document.getElementById('mensaje').focus();
         mensaje = document.getElementById('mensaje').value;
+        document.getElementById('mensaje').focus();
 
         if (mensaje != '') {
             ruta = Routing.generate('sendMessage');
@@ -415,6 +417,7 @@ function sendMessageResponse(event) {
         //idPasivo = event.target.id;
         console.log('ENVIO IDPASIVO ' + idPasivo)
         messagesRequest(idPasivo);
+        userConversationsRequest();
     }
 }
 
@@ -446,7 +449,7 @@ function createProfileElements(objeto) {
         console.log(objeto)
         profile =
             '<div class="profile-panel scroll-fit">' +
-            '<div id="img-panel">' +
+            '<div id="img-panel" class="d-flex justify-content-center">' +
             //AÑADIDO INICIO
             `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">`
@@ -527,7 +530,7 @@ function createProfileElements(objeto) {
         profile = profile + '</div>';
         if (makeButton) {
             profile = profile + '<div class="m-2 d-flex justify-content-center">' +
-                `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id});openChat()">Chatear</button>` +
+                `<button type="button" class="btn btn-primary"  value="${objeto.Id}" onClick="printChatElements(${objeto.Id});openChat()">Chatear</button>` +
                 '</div>';
         }
         profile = profile +
