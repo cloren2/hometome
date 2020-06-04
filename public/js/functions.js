@@ -426,7 +426,9 @@ function panelUserResponse(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
-        createProfileElements(objeto);
+       console.log(objeto)
+       createProfileElements(objeto);
+        
     }
 }
 
@@ -437,9 +439,33 @@ function createProfileElements(objeto) {
         console.log(objeto)
         profile =
             '<div class="profile-panel scroll-fit">' +
-            '<div id="img-panel">' +
-            `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">` +
-            '</div>';
+            '<div id="img-panel">';
+            //AÑADIDO INICIO
+            for (i=0;i<objeto.Foto.length;i++){
+
+                profile = profile +
+         `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                <img class="d-block w-100" src="users/user${objeto.Id}/${objeto.Foto[i]}" alt="First slide">
+                </div>
+               
+            </div>`
+         
+        }
+        profile = profile +    `   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        </div>`;
+
+        //añadido fin
+
+        profile = profile +  '</div>';
         if (makeButton) {
             profile = profile + `<button type="button" value="${objeto.Id}" onClick="printChatElements(${objeto.Id})">Chatear</button>`
         }
@@ -472,8 +498,29 @@ function createProfileElements(objeto) {
         profile =
             '<div class="profile-panel scroll-fit">' +
             '<div id="img-panel">' +
-            `<img id="profile-img"src="users/user${objeto.Id}/${objeto.Foto}">` +
-            '</div>';
+            //AÑADIDO INICIO
+            `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">`
+            for (i=0;i<objeto.Foto.length;i++){
+                profile = profile +
+         `    <div class="carousel-item ${(i==0)?'active':''}">
+                <img class="d-block w-100 profile-img" src="users/user${objeto.Id}/${objeto.Foto[i]}" alt="First slide">
+                </div>
+           `
+         
+        }
+        profile = profile +    `  </div>  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        </div>`;
+
+        //AÑADIDO FIN
+        profile = profile +   '</div>';
         if (makeButton) {
             profile = profile + '<div class="m-2 d-flex justify-content-center">' +
                 `<button type="button" class="btn btn-primary" value="${objeto.Id}" onClick="printChatElements(${objeto.Id});openChat()">Chatear</button>` +

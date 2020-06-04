@@ -73,11 +73,13 @@
           <div class="input-group" id="show_hide_password">
             <div class="input-group-addon align-content-start pass-align" class="hide_pass_div">
               {{ form_widget(form.plainPassword, { 'attr': {'class': 'pass input100'} }) }}
+               <span class="focus-input100"></span>
             </div>
             <div class="align-content-end">
               <a id="show-pass"href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
             </div>
           </div>
+         
       </div>
     </div>
     <div class="row" >
@@ -129,20 +131,20 @@
       </div> 
     </div>
     <div class="row"> 
-         <div class="wrap-input100 validate-input d-flex flex-column"  >	
-            <div class=" justify-content-center num-div">
-               <span class="label-input100"> Precio mínimo</span>
-            {{ form_widget(form.precioMin, { 'attr': {'class': 'inp-min'} })  }}
+         <div class="wrap-input100 d-flex flex-column" >	
+            <div class="md-form justify-content-center num-div">
+               {{ form_label(form.fechaNac, 'Precio Mínimo', { 'label_attr': {'class': 'label-input100 '} }) }}
+            {{ form_widget(form.precioMin, { 'attr': {'class': 'form-control'} })  }}
             </div>
-   
+
             <div class="align-content-end num-div">
-          
-            <span class="label-input100"> Precio máximo</span>
-            {{ form_widget(form.precioMax, { 'attr': {'class': 'inp-max'} }) }}
-             </div>
+              {{ form_label(form.fechaNac, 'Precio Máximo', { 'label_attr': {'class': 'label-input100 '} }) }}
+              {{ form_widget(form.precioMax, { 'attr': {'class': 'form-control'} }) }}
+            </div>
             <span class="focus-input100"></span>
         </div>  
      </div>
+         <div class="wrap-input100" >	
             <div id="msg"></div>
                  {{ form_widget(form.foto, { 'attr': {'class': 'file fileImg'} }) }}
                  <span class="focus-input100"></span>
@@ -153,17 +155,22 @@
                     <button type="button" class="browse btn btn-info">Subir</button>
                 </div>
             </div>
-
+          
             <div class="align-img">
             <img src="https://placehold.it/80x80" id="preview" class="img-thumbnail img-reg">
             </div>
-        
+        </div>
 
-          <div class="wrap-input100" >	
-            {{ form_label(form.preferencias, 'Preferencias', { 'label_attr': {'class': 'label-input100'} }) }}
-            {{ form_widget(form.preferencias, { 'attr': {'class': ''} }) }}
+          <div class="wrap-input100" >
+            <div class="label-input100">Preferencias</div>
+              {% for field in form.preferencias %}
+             <div class="pref-list">
+               {{ form_widget(field) }}
+              {{ form_label(field) }}
+             </div>
+              {% endfor %}
             <span class="focus-input100"></span>
-            </div> 
+          </div> 
 
 
           <div class="md-form amber-textarea"  >

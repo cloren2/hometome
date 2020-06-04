@@ -79,9 +79,9 @@ class AppController extends AbstractController
             }
             $userPanel['Preferencias'] = $arrayPref;
         }
-
+        
         foreach ($user->getFoto() as $key2 => $resultados2) {
-            $arrayFoto = $resultados2->getNombre();
+            $arrayFoto[$key2] = $resultados2->getNombre();
             $userPanel['Foto'] = $arrayFoto;
         }
        
