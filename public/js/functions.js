@@ -17,21 +17,8 @@
 //
 /////////////////////////////////////////////////
 
-//Limpieza del div resultados y el de chat
-function limpiarDiv() {
-    divResult = document.getElementById('child-cpanel');
 
-    incognita = document.getElementById('search-cpanel')
-    if (divResult.hasChildNodes() && incognita) {
-        divResult.removeChild(incognita);
-    }
-}
-
-//funcion input number 
-
-
-
-//funcion foto registratiob form
+//funcion foto registration form
 $(document).on("click", ".browse", function () {
     var file = $(this).parents().find(".file");
     file.trigger("click");
@@ -50,7 +37,6 @@ $('input[type="file"]').change(function (e) {
 });
 
 //Mostrar/ocultar contraseña registration form
-
 $(document).ready(function () {
     $("#show_hide_password a").on('click', function (event) {
         event.preventDefault();
@@ -86,6 +72,7 @@ divContTag = document.createElement('div');
 if (search = document.getElementById('tags')) {
     search.addEventListener('keyup', searchPreferenceRequest);
 }
+
 //Peticion de preferencias al servidor que se produce
 //cuando el usuario escribe sobre el input 'tags'
 function searchPreferenceRequest() {
@@ -152,6 +139,8 @@ Array.prototype.unique = function (a) {
 function addPreferences(preferenciaId) {
     arrayPref.push(preferenciaId);
     arrayPref = arrayPref.unique();
+    var objDiv = document.getElementById("search-panel");
+    objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 //Eliminar del arry de preferencias una de ellas
@@ -219,7 +208,12 @@ var idPasivo = "";
 var objetoPref = "";
 var intervalo;
 var makeButton = true;
+var idPasivo;
+var nameChat;
+var animacion = true;
 
+//Cargando los eventos que tienen que estar disponibles nada mas 
+//arrancar la pagina, si estamos en la pagina adecuada
 if (viewMessagesButton = document.getElementById('buttonMessages')) {
     viewSearchButton = document.getElementById('buttonSearch');
     viewMessagesMobileButton = document.getElementById('toggler-r');
@@ -228,9 +222,7 @@ if (viewMessagesButton = document.getElementById('buttonMessages')) {
     viewSearchButton.addEventListener('click', createSearchElements);
 }
 
-
 //Solicitud de todos los mensajes asincrona
-var idPasivo;
 function messagesRequest(idParameter) {
     ruta = Routing.generate('chat');
     idPasivo = idParameter;
@@ -252,7 +244,52 @@ function messagesResponse(event) {
     }
 }
 
-var nameChat;
+//Solicitud asincrona para enviar un nuevo mensaje
+function sendMessageRequest(idPasivo) {
+
+    mensaje = document.getElementById('mensaje').value;
+    document.getElementById('mensaje').focus();
+    if (mensaje != '') {
+        ruta = Routing.generate('sendMessage');
+        xhr = new XMLHttpRequest();
+
+        xhr.addEventListener('readystatechange', sendMessageResponse);
+        xhr.open('POST', ruta);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
+    }
+}
+
+//Funcion para capturar el evento de tecla a la hora de enviar un mensaje
+function sendMessageRequestKey(e, idPasivo) {
+
+    e.which = e.which || e.keyCode;
+    if (e.which == 13) {
+        mensaje = document.getElementById('mensaje').value;
+        document.getElementById('mensaje').focus();
+
+        if (mensaje != '') {
+            ruta = Routing.generate('sendMessage');
+            xhr = new XMLHttpRequest();
+
+            xhr.addEventListener('readystatechange', sendMessageResponse);
+            xhr.open('POST', ruta);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
+        }
+    }
+}
+
+//Respuesta de envio de mensaje
+function sendMessageResponse(event) {
+
+    if (event.target.readyState == 4 && event.target.status == 200) {
+        messagesRequest(idPasivo);
+        userConversationsRequest();
+        animacion = false;
+    }
+}
+
 //Crea los elementos necesarios para renderizar el chat
 function printChatElements(objeto) {
 
@@ -348,8 +385,15 @@ function printChatElements(objeto) {
             '</div>' +
             '</div>' +
             '</div>';
-            
+
         rpanel.innerHTML = chat;
+        if (animacion) {
+            $(function () {
+                $("#results-panel").hide().fadeIn(1000);
+            });
+        }
+
+
         var objDiv = document.getElementById("chat-box");
         objDiv.scrollTop = objDiv.scrollHeight;
         document.getElementById('mensaje').focus();
@@ -359,56 +403,6 @@ function printChatElements(objeto) {
 
 }
 
-//Solicitud asincrona para enviar un nuevo mensaje
-function sendMessageRequest(idPasivo) {
-    //idPasivo = event.target.value;
-
-    mensaje = document.getElementById('mensaje').value;
-    document.getElementById('mensaje').focus();
-    if (mensaje != '') {
-        ruta = Routing.generate('sendMessage');
-        xhr = new XMLHttpRequest();
-
-        xhr.addEventListener('readystatechange', sendMessageResponse);
-        xhr.open('POST', ruta);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
-    }
-
-}
-
-function sendMessageRequestKey(e, idPasivo) {
-    //idPasivo = event.target.value;
-
-    e.which = e.which || e.keyCode;
-    if (e.which == 13) {
-        mensaje = document.getElementById('mensaje').value;
-        document.getElementById('mensaje').focus();
-
-        if (mensaje != '') {
-            ruta = Routing.generate('sendMessage');
-            xhr = new XMLHttpRequest();
-
-
-            xhr.addEventListener('readystatechange', sendMessageResponse);
-            xhr.open('POST', ruta);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send('idPasiva=' + idPasivo + '&mensaje=' + mensaje);
-        }
-
-    }
-
-}
-
-
-//Respuesta de envio de mensaje
-function sendMessageResponse(event) {
-
-    if (event.target.readyState == 4 && event.target.status == 200) {
-        messagesRequest(idPasivo);
-        userConversationsRequest();
-    }
-}
 
 function panelUserRequest(idPasivo) {
 
@@ -435,7 +429,6 @@ function createProfileElements(objeto) {
         profile =
             '<div class="profile-panel scroll-fit">' +
             '<div id="img-panel" class="d-flex justify-content-center">' +
-            //AÑADIDO INICIO
             `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">`
         for (i = 0; i < objeto.Foto.length; i++) {
@@ -482,13 +475,20 @@ function createProfileElements(objeto) {
         profile = profile +
             '</div>' +
             '</div>'
+
+        if (animacion) {
+            $(function () {
+                $("#profile-panel").hide().fadeIn(1000);
+            });
+        }
         profPanel.innerHTML = profile;
+
+
     } else {
         profPanel = document.getElementById('mobile-profile');
         profile =
             '<div class="profile-panel scroll-fit">' +
             '<div id="img-panel">' +
-            //AÑADIDO INICIO
             `<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">`
         for (i = 0; i < objeto.Foto.length; i++) {
@@ -559,10 +559,6 @@ function userConversationsRequest(params) {
 
 function userConversationsResponse(event) {
 
-    if (intervalo) {
-        clearInterval(intervalo);
-    }
-
     if (event.target.readyState == 4 && event.target.status == 200) {
         var objeto_vuelta = event.target.responseText;
         var objeto = JSON.parse(objeto_vuelta);
@@ -571,7 +567,6 @@ function userConversationsResponse(event) {
 }
 
 function createUserConversationList(objeto) {
-    //limpiarDiv();
 
     divResult = document.getElementById('child-cpanel');
     divMobile = document.getElementById('mobile-msn');
@@ -594,13 +589,11 @@ function createUserConversationList(objeto) {
             for (i = 0; i < objeto.length; i++) {
 
                 resultados = resultados +
-                    //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
                     '<div class="row d-flex justify-content-center border-bottom w-100">' +
                     '<div class="col-xs pt-2">' +
                     `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="rounded-circle img-fluid app-img">` +
                     '</div>' +
                     '<div class="col-sm" id="col-fix">' +
-                    //nombre iba en div normal
                     `<button type="button" class="conversation-prev" onClick="messagesRequest(${objeto[i].Id});openChat()" >${objeto[i].Nombre}</button>` +
                     `<div class="msn-prev text-center">${objeto[i].msn}` +
                     '</div>' +
@@ -626,7 +619,6 @@ function createUserConversationList(objeto) {
 
             for (i = 0; i < objeto.length; i++) {
                 resultados = resultados +
-                    //`<button type="button" class="conversation-prev" value="${objeto[i].Id}">`+
                     '<div class="row d-flex justify-content-center">' +
                     '<div class="col-xs">' +
                     `<img src="users/user${objeto[i].Id}/${objeto[i].Foto}" class="mt-1 rounded-circle img-fluid app-img">` +
@@ -698,10 +690,6 @@ function searchUserResponse(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
 
-        if (intervalo) {
-            clearInterval(intervalo);
-        }
-
         var objeto_vuelta = event.target.responseText;
         var objeto = JSON.parse(objeto_vuelta);
 
@@ -712,6 +700,7 @@ function searchUserResponse(event) {
 //Metodo que pinta la lista de usuarios encontrados o un texto en el caso de que no
 function createUserList(objeto) {
 
+    //Recargamos las animaciones
     makeButton = true;
 
     if (containerPref = document.getElementById('contenedorPref')) {
@@ -719,10 +708,9 @@ function createUserList(objeto) {
         arrayPref = [];
     }
 
-   // limpiarDiv();
-
     divResult = document.getElementById('results-panel');
 
+    //Si estamos en desktop
     if (screen.width > 768) {
         if (objeto[0].Id == undefined) {
             resultados = '<h2 class="top-tit">Resultados</h2>';
@@ -808,9 +796,8 @@ function createUserList(objeto) {
             }
             resultados = resultados + '</div></div>';
             divResult.innerHTML = resultados;
-            var objDiv = document.getElementsByTagName('body');
-            console.log(objDiv[0]);
-            objDiv[0].scrollTop = objDiv[0].scrollHeight;
+            $('html,body').animate({ scrollTop: 9999 }, 'slow');
+
             buttons = document.getElementsByClassName('name-prevs');
             for (let i = 0; i < buttons.length; i++) {
                 buttons[i].addEventListener('click', function () {
@@ -822,8 +809,10 @@ function createUserList(objeto) {
 
 }
 
+//Metodo que pinta los elementos de busqueda
 function createSearchElements() {
 
+    animacion = true;
     divResult = document.getElementById('child-cpanel');
 
     var search = '<div id="search-panel">' +
@@ -889,8 +878,10 @@ function createSearchElements() {
 //
 ////////////////////////////////////////////////
 
-if (form=document.getElementById('botonRegistro') ) {
-  
+var check = [];
+
+if (form = document.getElementById('botonRegistro')) {
+
     document.addEventListener('DOMContentLoaded', userUniqueVal);
     form.addEventListener('click', validacion);
 }
@@ -899,9 +890,7 @@ if (form = document.getElementById('botonEdit')) {
     form.addEventListener('click', validacion);
 }
 
-var check=[];
-
-function userUniqueVal(){
+function userUniqueVal() {
     ruta = Routing.generate('unique_user');
 
     xhr = new XMLHttpRequest();
@@ -910,11 +899,11 @@ function userUniqueVal(){
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(null);
 }
-function userUniqueResponse(event){
+function userUniqueResponse(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
-        check=objeto;
+        check = objeto;
     }
 }
 function validacion(event) {
@@ -922,51 +911,49 @@ function validacion(event) {
     var input = document.getElementsByClassName('pass');
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
-    var fileSize=0;
+    var fileSize = 0;
     var userUnique = document.getElementsByClassName('userUnique');
-    if (check.includes(userUnique[0].value)){
-        text ='Este usuario ya existe, pruebe con otro';
+    if (check.includes(userUnique[0].value)) {
+        text = 'Este usuario ya existe, pruebe con otro';
         erroresUser(text);
     }
-   if (botonEdit=document.getElementById('botonEdit')){
-    if (filePath !=""){
-        if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
-            event.preventDefault();
-            text = '- No has introducido una foto o la extensión no está permitida';
-            erroresUser(text);
-            
-        } else {
-             fileSize = fileInput[0].files[0].size;
-             if ( fileSize > 200000) {
-                text = "Te has excedido del tamaño de imagen permitido, máximo 2 Mb"
+    if (botonEdit = document.getElementById('botonEdit')) {
+        if (filePath != "") {
+            if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
+                event.preventDefault();
+                text = '- No has introducido una foto o la extensión no está permitida';
                 erroresUser(text);
-             } 
-        } 
+
+            } else {
+                fileSize = fileInput[0].files[0].size;
+                if (fileSize > 200000) {
+                    text = "Te has excedido del tamaño de imagen permitido, máximo 2 Mb"
+                    erroresUser(text);
+                }
+            }
+        }
     }
-   }
-  
-   
-    if (botonRegistro=document.getElementById('botonRegistro')){
+
+
+    if (botonRegistro = document.getElementById('botonRegistro')) {
         if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
             event.preventDefault();
             text = '- No has introducido una foto o la extensión no está permitida';
             erroresUser(text);
-            
+
         } else {
-             fileSize = fileInput[0].files[0].size;
-             if ( fileSize > 200000) {
+            fileSize = fileInput[0].files[0].size;
+            if (fileSize > 200000) {
                 text = "Te has excedido del tamaño de imagen permitido, máximo 2 Mb"
                 erroresUser(text);
-             } 
-        } 
-        if (input[0].value == ''||input[0].value.length<4 ) {
+            }
+        }
+        if (input[0].value == '' || input[0].value.length < 4) {
             event.preventDefault();
             text = '- Introduzca una contraseña, esta debe tener al menos 4 caracteres';
-             erroresUser(text);
-                }
+            erroresUser(text);
+        }
     }
-  
-   
 }
 
 function erroresUser(userError) {
@@ -986,12 +973,12 @@ function erroresUser(userError) {
     span.appendChild(texto);
 }
 
-if (numImg= document.getElementById('numImg')){
-    numImg= numImg.innerHTML
-    if (parseInt(numImg)>=3){
-        divHide=document.getElementById('img-div');
-        divHide.innerHTML='<div class="mb-4 mt-4"><i class="fas fa-heart-broken"></i>'
-        +" No puedes añadir más imágenes, borra una para subir una nueva</div>"
+if (numImg = document.getElementById('numImg')) {
+    numImg = numImg.innerHTML
+    if (parseInt(numImg) >= 3) {
+        divHide = document.getElementById('img-div');
+        divHide.innerHTML = '<div class="mb-4 mt-4"><i class="fas fa-heart-broken"></i>'
+            + " No puedes añadir más imágenes, borra una para subir una nueva</div>"
 
     }
 
