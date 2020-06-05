@@ -4,7 +4,7 @@
 
       <div class="wrap-input100" >
         {{ form_label(form.username, 'Username', { 'label_attr': {'class': 'label-input100'} }) }}
-        {{ form_widget(form.username, { 'attr': {'class': 'input100'} }) }}
+        {{ form_widget(form.username, { 'attr': {'class': 'input100 userUnique'} }) }}
         <span class="focus-input100"></span>
       </div>
 
@@ -84,7 +84,7 @@
             <span class="focus-input100"></span>
         </div>  
 
-         <div class="wrap-input100" >	
+         <div class="wrap-input100" id="img-div" >	
             <div id="msg"></div>
                  {{ form_widget(form.foto, { 'attr': {'class': 'file fileImg'} }) }}
                  <span class="focus-input100"></span>
@@ -122,10 +122,9 @@
         	<div class="container-contact100-form-btn mb-4 mt-5">
 					<div class="wrap-contact100-form-btn">
 						<div class="contact100-form-bgbtn"></div>
-						<button class="contact100-form-btn"id="botonRegistro">
+						<button class="contact100-form-btn btn-register"id="botonEdit">
 							<span>
-								Actualizar
-								<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								Actualizar		
 							</span>
 						</button>
 					</div>

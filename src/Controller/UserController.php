@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @Route("/user")
  */
@@ -28,6 +28,7 @@ class UserController extends AbstractController
             'users' => $userRepository->findAll(),
         ]);
     }
+
   /**
      * @Route("/panel", name="admin_panel", methods={"GET"})
      */
@@ -77,6 +78,7 @@ class UserController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+    
 
     /**
      * @Route("/{id}", name="user_delete", methods={"DELETE"})

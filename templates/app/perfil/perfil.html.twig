@@ -4,6 +4,7 @@
 
 {% block body %}
 {% block body_class %}homepage{% endblock %}
+
 <nav class="navbar  navbar-light fixed-top" id="navbar">
   <a class="navbar-brand" href="#">
   <img src="{{asset('img/app/hometome_logo.png')}}" alt="Logo" id="logo">
@@ -20,7 +21,13 @@
     <p class="md-p">Los campos que no quieras editar puedes dejarlos en blanco.</p>
     
 </div>
-
+<div id="numImg"style="display:none">{{numImg}}</div>
     {{ include('app/perfil/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
 {% endblock %}
+       {% block javascripts %}
+  
+	{{parent()}}
+    
+
+	{% endblock%}  

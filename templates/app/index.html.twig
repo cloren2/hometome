@@ -37,7 +37,7 @@
 </nav>
 
 <div id="myNav-chat" class="mw-100 overlay-chat">
-    <nav class="navbar navbar-expand-lg navbar-light" id="navbar-app">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" id="navbar-app">
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
              <a href="javascript:void(0)" onClick="closeChat()"id="toggler-close-chat"class="md-p" ><</a>
@@ -89,9 +89,9 @@
                 <div class="separator" id="separatorMessages"></div>
             </button>
             <div id="child-cpanel" class="h-100">
-                <div id="search-panel" class="resp-h">
+                <div id="search-panel" class="resp-search">
                 <label for="ciudad">Ciudad:</label>
-                <select id="ciudadSelect" name="ciudad" class="form-control-sm">
+                <select id="ciudadSelect" name="ciudad" class="form-control">
                 {% for ciudades in nombre %}
                     <option value="{{ ciudades.id }}">{{ ciudades.nombre }}</option> 
                 {% else %}
@@ -100,14 +100,14 @@
                 </select>
                 </br>
                 <label for="genero">¿Chicos, chicas?:</label>
-                <select  class="form-control-sm" id="genderSelect" name="genero">
+                <select  class="form-control" id="genderSelect" name="genero">
                     <option value="H">Hombre</option> 
                     <option value="M">Mujer</option>
                     <option value="N" selected>No me importa</option>
                 </select>
                 </br>
                 <label for="genero">Nº Máximo de compañeros:</label>
-                <select  class="form-control-sm" id="roomMatesSelect" name="roomMates">
+                <select  class="form-control" id="roomMatesSelect" name="roomMates">
                     <option value="1">1 persona</option> 
                     <option value="2" selected>2 personas</option>
                     <option value="3+">3 o más personas</option>
@@ -115,18 +115,19 @@
                 </br>
                 <div class="col">
                     <label for="genero">Precio min. del alquiler:</label>
-                    <input class="form-control-sm" type="text" size="4" placeholder="min" id="min">
+                    <input class="form-control" type="text" size="4" placeholder="min" id="min">
                 </div>
                 <div class="col">
                     <label for="genero">Precio máx. del alquiler:</label>
-                    <input class="form-control-sm" type="text" size="4" placeholder="max" id="max">
+                    <input class="form-control" type="text" size="4" placeholder="max" id="max">
                 </div>
+                </br>
                 <div class="ui-widget" id="buscadorPreferencias">
                     <label for="tags">Búsqueda de preferencias: </label>
                     <input id="tags" class="form-control">
                 </div>
                 </br>
-                <button type="button" class="form-control" id="botonBusqueda">Buscar</button>
+                <button type="button" class="btn btn-primary w-100" id="botonBusqueda">Buscar</button>
                 </div>
             </div>
         </div>

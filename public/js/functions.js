@@ -174,7 +174,6 @@ function removePreferences(event) {
 function paintPreference(preference, preferenciaId) {
 
     buscador = document.getElementById('search-panel');
-
     tag = document.getElementById('tags');
 
     divContTag.setAttribute('id', 'contenedorPref');
@@ -235,7 +234,6 @@ var idPasivo;
 function messagesRequest(idParameter) {
     ruta = Routing.generate('chat');
     idPasivo = idParameter;
-    console.log(idPasivo);
     xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', messagesResponse);
     xhr.open('POST', ruta);
@@ -250,9 +248,7 @@ function messagesResponse(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
-        //printNewMessages(objeto);
         printChatElements(objeto);
-        console.log(objeto);
     }
 }
 
@@ -269,9 +265,7 @@ function printChatElements(objeto) {
             '<div class="container overflow-auto" id="chat-box" style="height: 81%">';
         //Si lo entregado por parametro es un objeto
         if (typeof objeto === 'object') {
-            console.log(objeto);
             for (i = 0; i < objeto.length; i++) {
-                console.log(objeto[i].Emisor)
                 if (objeto[i].usuarioActivo == objeto[i].Emisor) {
                     chat = chat + '<div class="row justify-content-end">' +
                         '<div class="mw-60 enviados">' +
@@ -293,7 +287,7 @@ function printChatElements(objeto) {
         }
 
         chat = chat + '</div>' +
-            '<div class="container border border-secondary rounded" id="textArea">' +
+            '<div class="container border border-secondary rounded fixed-bottom" id="textArea">' +
             '<div class="row d-flex justify-content-center">' +
             '<div class="form-group mx-sm-3 ">' +
             `<input id="mensaje" tabindex="0" placeholder="Di ¡Hola!"onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
@@ -323,7 +317,6 @@ function printChatElements(objeto) {
             '<div class="container overflow-auto" id="chat-box" style="height: 89%">';
         if (typeof objeto === 'object') {
             for (i = 0; i < objeto.length; i++) {
-                console.log(objeto[i].Emisor)
                 if (objeto[i].usuarioActivo == objeto[i].Emisor) {
                     chat = chat + '<div class="row justify-content-end">' +
                         '<div class="enviados">' +
@@ -344,7 +337,7 @@ function printChatElements(objeto) {
         }
 
         chat = chat + '</div>' +
-            '<div class="container border border-secondary rounded" id="textArea">' +
+            '<div class="container border border-secondary rounded fixed-bottom" id="textArea">' +
             '<div class="row d-flex justify-content-center">' +
             '<div class="form-group mx-sm-3 ">' +
             `<input id="mensaje" tabindex="0" placeholder="Di ¡Hola!" onkeyup="sendMessageRequestKey(event, ${idPasivo})" class="form-control" type="text"></input>` +
@@ -376,7 +369,6 @@ function sendMessageRequest(idPasivo) {
         ruta = Routing.generate('sendMessage');
         xhr = new XMLHttpRequest();
 
-        console.log(event);
         xhr.addEventListener('readystatechange', sendMessageResponse);
         xhr.open('POST', ruta);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -387,7 +379,6 @@ function sendMessageRequest(idPasivo) {
 
 function sendMessageRequestKey(e, idPasivo) {
     //idPasivo = event.target.value;
-    console.log(e);
 
     e.which = e.which || e.keyCode;
     if (e.which == 13) {
@@ -414,16 +405,12 @@ function sendMessageRequestKey(e, idPasivo) {
 function sendMessageResponse(event) {
 
     if (event.target.readyState == 4 && event.target.status == 200) {
-        //idPasivo = event.target.id;
-        console.log('ENVIO IDPASIVO ' + idPasivo)
         messagesRequest(idPasivo);
         userConversationsRequest();
     }
 }
 
 function panelUserRequest(idPasivo) {
-
-    console.log(idPasivo);
 
     ruta = Routing.generate('panel_user');
     xhr = new XMLHttpRequest();
@@ -436,7 +423,6 @@ function panelUserResponse(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
-        console.log(objeto)
         createProfileElements(objeto);
 
     }
@@ -444,9 +430,8 @@ function panelUserResponse(event) {
 
 function createProfileElements(objeto) {
 
-    if (screen.width > 768) {
+    if (screen.width >= 768) {
         profPanel = document.getElementById('profile-panel');
-        console.log(objeto)
         profile =
             '<div class="profile-panel scroll-fit">' +
             '<div id="img-panel" class="d-flex justify-content-center">' +
@@ -480,7 +465,6 @@ function createProfileElements(objeto) {
             `<h2> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
             '<hr>'
         if (objeto.Descripcion != undefined) {
-            console.log('hola')
             profile = profile + '<div>' +
                 `<p>${objeto.Descripcion}</p>` +
                 '</div>';
@@ -501,7 +485,6 @@ function createProfileElements(objeto) {
         profPanel.innerHTML = profile;
     } else {
         profPanel = document.getElementById('mobile-profile');
-        console.log(objeto)
         profile =
             '<div class="profile-panel scroll-fit">' +
             '<div id="img-panel">' +
@@ -537,7 +520,6 @@ function createProfileElements(objeto) {
             `<h2 class="overlay-margin"> ${objeto.Nombre}, ${objeto.Ciudad}  </h2>` +
             '<hr>'
         if (objeto.Descripcion != undefined) {
-            console.log('hola')
             profile = profile + '<div class="overlay-margin">' +
                 `<p>${objeto.Descripcion}</p>` +
                 '</div>';
@@ -584,7 +566,6 @@ function userConversationsResponse(event) {
     if (event.target.readyState == 4 && event.target.status == 200) {
         var objeto_vuelta = event.target.responseText;
         var objeto = JSON.parse(objeto_vuelta);
-        console.log(objeto)
         createUserConversationList(objeto);
     }
 }
@@ -633,12 +614,11 @@ function createUserConversationList(objeto) {
         buttons = document.getElementsByClassName('conversation-prev');
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', function () {
-                nameChat = buttons[i].innerHTML; console.log(nameChat);
+                nameChat = buttons[i].innerHTML;
             })
         }
     } else {
         if (objeto[0].Id == undefined) {
-            console.log('hola');
             divResult.innerHTML = "No tienes mensajes";
         } else {
             resultados =
@@ -691,7 +671,7 @@ if (searchUserButton = document.getElementById('botonBusqueda')) {
 //Peticion asincrona de busqueda de usuario
 function searchUserRequest() {
 
-    limpiarDiv();
+    //limpiarDiv();
     var element = document.getElementById("c-app");
     element.classList.remove("d-none");
 
@@ -739,7 +719,7 @@ function createUserList(objeto) {
         arrayPref = [];
     }
 
-    limpiarDiv();
+   // limpiarDiv();
 
     divResult = document.getElementById('results-panel');
 
@@ -794,7 +774,6 @@ function createUserList(objeto) {
             divResult.innerHTML = resultados + "No se encontraron resultados con esos parámetros";
 
         } else {
-            console.log(objeto);
             resultados = '<h2 class="top-tit">Resultados</h2>' +
                 '<div class="container" id="user-list">'
             for (i = 0; i < objeto.length; i++) {
@@ -811,12 +790,10 @@ function createUserList(objeto) {
                     if (objeto[i].Preferencias[j] != undefined) {
                         resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
                     }
-                    console.log(objeto[i].Preferencias[j])
                     ++j;
                     if (objeto[i].Preferencias[j] != undefined) {
                         resultados = resultados + `<span class="chip-list">#${objeto[i].Preferencias[j]} </span>`;
                     }
-                    console.log(objeto[i].Preferencias[j])
                 }
                 if (objeto[i].Preferencias.length >= 4) { resultados = resultados + '<span class="chip-list">#...</span>' }
                 resultados = resultados + '</div></div>' +
@@ -831,10 +808,13 @@ function createUserList(objeto) {
             }
             resultados = resultados + '</div></div>';
             divResult.innerHTML = resultados;
+            var objDiv = document.getElementsByTagName('body');
+            console.log(objDiv[0]);
+            objDiv[0].scrollTop = objDiv[0].scrollHeight;
             buttons = document.getElementsByClassName('name-prevs');
             for (let i = 0; i < buttons.length; i++) {
                 buttons[i].addEventListener('click', function () {
-                    nameChat = buttons[i].innerHTML; console.log(nameChat);
+                    nameChat = buttons[i].innerHTML;
                 })
             }
         }
@@ -848,7 +828,7 @@ function createSearchElements() {
 
     var search = '<div id="search-panel">' +
         '<label for="ciudad">Ciudad: </label>' +
-        '<select id="ciudadSelect" name="ciudad" class="form-control-sm">';
+        '<select id="ciudadSelect" name="ciudad" class="form-control">';
     if (ciudadSelect.length > 0) {
         for (i = 0; i < ciudadSelect.length; i++) {
             search = search +
@@ -862,14 +842,14 @@ function createSearchElements() {
         '</select>' +
         '</br>' +
         '<label for="genero">¿Chicos, chicas?:</label>' +
-        '<select  class="form-control-sm" id="genderSelect" name="genero">' +
+        '<select  class="form-control" id="genderSelect" name="genero">' +
         '<option value="H">Hombre</option>' +
         '<option value="M">Mujer</option>' +
         '<option value="N" selected>No me importa</option>' +
         '</select>' +
         '</br>' +
         '<label for="genero">Nº Máximo de compañeros:</label>' +
-        '<select  class="form-control-sm" id="roomMatesSelect" name="roomMates">' +
+        '<select  class="form-control" id="roomMatesSelect" name="roomMates">' +
         '<option value="1">1 persona</option> ' +
         '<option value="2" selected>2 personas</option>' +
         '<option value="3+">3 o más personas</option>' +
@@ -877,11 +857,11 @@ function createSearchElements() {
         '</br>' +
         '<div class="col">' +
         '<label for="genero">Precio min. del alquiler:</label>' +
-        '<input class="form-control-sm" type="text" size="4" placeholder="min" id="min">' +
+        '<input class="form-control" type="text" size="4" placeholder="min" id="min">' +
         '</div>' +
         '<div class="col">' +
         '<label for="genero">Precio máx. del alquiler:</label>' +
-        '<input class="form-control-sm" type="text" size="4" placeholder="max" id="max">' +
+        '<input class="form-control" type="text" size="4" placeholder="max" id="max">' +
         ' </div>' +
         '</br>' +
         '<div class="ui-widget" id="buscadorPreferencias">' +
@@ -889,7 +869,7 @@ function createSearchElements() {
         '<input id="tags" class="form-control">' +
         '</div>' +
         '</br>' +
-        '<button type="button" class="form-control" id="botonBusqueda">Buscar</button>';
+        '<button type="button" class="btn btn-primary w-100" id="botonBusqueda">Buscar</button>';
 
     divResult.innerHTML = search;
     search = document.getElementById('tags')
@@ -909,31 +889,89 @@ function createSearchElements() {
 //
 ////////////////////////////////////////////////
 
-if (form = document.getElementById('botonRegistro')) {
+if (form=document.getElementById('botonRegistro') ) {
+    document.addEventListener('DOMContentLoaded', userUniqueVal);
+    form.addEventListener('click', validacion);
+}
+if (form = document.getElementById('botonEdit')) {
+    document.addEventListener('DOMContentLoaded', userUniqueVal);
     form.addEventListener('click', validacion);
 }
 
+var check=[];
+
+function userUniqueVal(){
+    ruta = Routing.generate('userUnique');
+
+    xhr = new XMLHttpRequest();
+    xhr.addEventListener('readystatechange', userUniqueResponse);
+    xhr.open('POST', ruta);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send();
+}
+function userUniqueResponse(event){
+    if (event.target.readyState == 4 && event.target.status == 200) {
+        objeto_vuelta = event.target.responseText;
+        objeto = JSON.parse(objeto_vuelta);
+        check=objeto;
+    }
+}
 function validacion(event) {
+    
     var input = document.getElementsByClassName('pass');
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
-
-    if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
-        text = '- No has introducido una foto o la extensión no está permitida';
+    var fileSize=0;
+    var userUnique = document.getElementsByClassName('userUnique');
+    if (check.includes(userUnique[0].value)){
+        text ='Este usuario ya existe, pruebe con otro';
         erroresUser(text);
     }
-    if (input[0].value == '' || input[0].value.length < 4) {
-        event.preventDefault();
-        text = '- Introduzca una contraseña, esta debe tener al menos 4 caracteres';
-        erroresUser(text);
+   if (botonEdit=document.getElementById('botonEdit')){
+    if (filePath !=""){
+        if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
+            event.preventDefault();
+            text = '- No has introducido una foto o la extensión no está permitida';
+            erroresUser(text);
+            
+        } else {
+             fileSize = fileInput[0].files[0].size;
+             if ( fileSize > 200000) {
+                text = "Te has excedido del tamaño de imagen permitido, máximo 2 Mb"
+                erroresUser(text);
+             } 
+        } 
     }
+   }
+  
+   
+    if (botonRegistro=document.getElementById('botonRegistro')){
+        if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
+            event.preventDefault();
+            text = '- No has introducido una foto o la extensión no está permitida';
+            erroresUser(text);
+            
+        } else {
+             fileSize = fileInput[0].files[0].size;
+             if ( fileSize > 200000) {
+                text = "Te has excedido del tamaño de imagen permitido, máximo 2 Mb"
+                erroresUser(text);
+             } 
+        } 
+        if (input[0].value == ''||input[0].value.length<4 ) {
+            event.preventDefault();
+            text = '- Introduzca una contraseña, esta debe tener al menos 4 caracteres';
+             erroresUser(text);
+                }
+    }
+  
+   
 }
 
 function erroresUser(userError) {
     var div = document.getElementById('errorDiv');
-    var fileInput = document.getElementsByClassName('fileImg');
+    var parentNode = document.getElementById('edit-form');
     if (div == null) {
-        parentNode = fileInput[0].parentNode
         div = document.createElement('div');
         div.setAttribute('class', 'error');
         div.setAttribute('id', 'errorDiv');
@@ -947,6 +985,16 @@ function erroresUser(userError) {
     span.appendChild(texto);
 }
 
+if (numImg= document.getElementById('numImg')){
+    numImg= numImg.innerHTML
+    if (parseInt(numImg)>=3){
+        divHide=document.getElementById('img-div');
+        divHide.innerHTML='<div class="mb-4 mt-4"><i class="fas fa-heart-broken"></i>'
+        +" No puedes añadir más imágenes, borra una para subir una nueva</div>"
+
+    }
+
+}
 /////////////////////////////////////////////////
 //
 //Funciones esteticas de la app y la home
@@ -976,10 +1024,10 @@ function openChat() {
     document.getElementById("myNav-chat").style.width = "100%";
 }
 function closeChat() {
+    document.getElementById('textArea').remove()
     document.getElementById("myNav-chat").style.width = "0%";
 }
 function openProfile() {
-    console.log('hola');
     document.getElementById("myNav-user").style.width = "100%";
 }
 function closeProfile() {
@@ -999,7 +1047,6 @@ $('#carouselExample').on('slide.bs.carousel', function (e) {
     var $e = $(e.relatedTarget);
 
     var idx = $e.index();
-    console.log("IDX :  " + idx);
 
     var itemsPerSlide = 3;
     var totalItems = $('.carousel-item').length;

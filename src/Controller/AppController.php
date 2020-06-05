@@ -94,6 +94,7 @@ class AppController extends AbstractController
     public function perfil_user(Request $request): Response
     {
         $user = $this->getUser();
+        $num = count($user->getFoto());
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -113,6 +114,7 @@ class AppController extends AbstractController
         return $this->render('app/perfil/perfil.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+            'numImg' =>$num
         ]);
     }
 
@@ -311,6 +313,19 @@ class AppController extends AbstractController
         }
 
         return new JsonResponse($idUsuarios);
+    }
+    /**
+     * @Route("/userUnique", name="userUnique", options={"expose"=true})
+     */
+    public function userUnique(UserRepository $userRepository,Request $request)
+    {
+        $users = $userRepository->findAll();
+        $cont=0;
+        foreach ($users  as $key => $resultados) {
+            $arrayUser[$cont]= $resultados->getUsername();
+            $cont++;
+        }
+        return new JsonResponse($arrayUser);
     }
     /**
      * @Route("/home/message", name="sendMessage", options={"expose"=true})
