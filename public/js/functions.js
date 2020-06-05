@@ -890,6 +890,7 @@ function createSearchElements() {
 ////////////////////////////////////////////////
 
 if (form=document.getElementById('botonRegistro') ) {
+  
     document.addEventListener('DOMContentLoaded', userUniqueVal);
     form.addEventListener('click', validacion);
 }
@@ -901,13 +902,13 @@ if (form = document.getElementById('botonEdit')) {
 var check=[];
 
 function userUniqueVal(){
-    ruta = Routing.generate('userUnique');
+    ruta = Routing.generate('unique_user');
 
     xhr = new XMLHttpRequest();
     xhr.addEventListener('readystatechange', userUniqueResponse);
     xhr.open('POST', ruta);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send();
+    xhr.send(null);
 }
 function userUniqueResponse(event){
     if (event.target.readyState == 4 && event.target.status == 200) {
@@ -917,7 +918,7 @@ function userUniqueResponse(event){
     }
 }
 function validacion(event) {
-    
+    console.log(check)
     var input = document.getElementsByClassName('pass');
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
