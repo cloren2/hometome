@@ -167,7 +167,7 @@ class AppController extends AbstractController
     /**
      * @Route("/{id}", name="perfil_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, User $user, TokenStorageInterface $tokenStorage, SessionInterface $session): Response
+    public function delete(Request $request, User $user, TokenStorageInterface $tokenStorage, SessionInterface $session,MensajesRepository $mensajeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             try {
@@ -184,9 +184,21 @@ class AppController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $fotos = $user->getFoto();
-            foreach ($fotos as $foto) {
+            if ($fotos){
+                foreach ($fotos as $foto) {
                 $entityManager->remove($foto);
+                }
             }
+            
+            $idUserActivo = $user->getId();
+            $enviados = $mensajeRepository->chatConversation($idUserActivo);
+            if ($enviados){
+                foreach ($enviados as $clave => $objMensaje) {
+                $entityManager->remove($objMensaje);
+                }
+            }
+            
+
             $entityManager->remove($user);
             $entityManager->flush();
         }
