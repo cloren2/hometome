@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Foto;
 use App\Form\RegistrationFormType;
+use App\Repository\MensajesRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,7 +84,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request, User $user, MensajesRepository $mensajeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             try{
@@ -94,8 +95,18 @@ class UserController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $fotos = $user->getFoto();
-            foreach ($fotos as $foto){
+            if ($fotos){
+                foreach ($fotos as $foto) {
                 $entityManager->remove($foto);
+                }
+            }
+            
+            $idUserActivo = $user->getId();
+            $enviados = $mensajeRepository->chatConversation($idUserActivo);
+            if ($enviados){
+                foreach ($enviados as $clave => $objMensaje) {
+                $entityManager->remove($objMensaje);
+                }
             }
             $entityManager->remove($user);
             $entityManager->flush();
