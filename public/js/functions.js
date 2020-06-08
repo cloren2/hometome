@@ -880,15 +880,17 @@ function createSearchElements() {
 
 var check = [];
 
+
 if (form = document.getElementById('botonRegistro')) {
 
     document.addEventListener('DOMContentLoaded', userUniqueVal);
     form.addEventListener('click', validacion);
 }
-var userUnique ="";
+
 if (form = document.getElementById('botonEdit')) {
     document.addEventListener('DOMContentLoaded', userUniqueVal);
-    userUnique = document.getElementsByClassName('userUnique')
+    //userUnique = document.getElementsByClassName('userUnique')
+   
     form.addEventListener('click', validacion);
 }
 
@@ -906,10 +908,12 @@ function userUniqueResponse(event) {
         objeto_vuelta = event.target.responseText;
         objeto = JSON.parse(objeto_vuelta);
         check = objeto;
+        console.log(check)
     }
 }
+
 function validacion(event) {
-    console.log(check)
+    console.log(userUnique)
     var input = document.getElementsByClassName('pass');
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
@@ -917,8 +921,11 @@ function validacion(event) {
     
     
     if (botonEdit = document.getElementById('botonEdit')) {
-        var index = check.indexOf(userUnique[0].value);
-        if (index>-1){check.splice(index,1)}
+        var userName = document.getElementsByClassName('userUnique')[0].value;
+        console.log('hola')
+        console.log(check)
+        console.log(userName)
+       
         if (filePath != "") {
             if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
                 event.preventDefault();
@@ -933,8 +940,10 @@ function validacion(event) {
                 }
             }
         }
-      
-        if (check.includes()) {
+
+        array = Object.values(check)
+       
+        if (array.includes(userName)) {
             text = 'Este usuario ya existe, pruebe con otro';
             erroresUser(text);
         }
@@ -943,6 +952,8 @@ function validacion(event) {
 
     if (botonRegistro = document.getElementById('botonRegistro')) {
        var userUnique = document.getElementsByClassName('userUnique');
+       console.log(check)
+       console.log(userUnique)
         if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
             event.preventDefault();
             text = '- No has introducido una foto o la extensión no está permitida';
@@ -958,6 +969,10 @@ function validacion(event) {
         if (input[0].value == '' || input[0].value.length < 4) {
             event.preventDefault();
             text = '- Introduzca una contraseña, esta debe tener al menos 4 caracteres';
+            erroresUser(text);
+        }
+        if (check.includes(userUnique[0].value)) {
+            text = 'Este usuario ya existe, pruebe con otro';
             erroresUser(text);
         }
     }

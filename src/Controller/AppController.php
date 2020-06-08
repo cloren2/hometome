@@ -28,11 +28,24 @@ class AppController extends AbstractController
     public function uniqueUser(UserRepository $userRepository,Request $request)
     {
         $users = $userRepository->findAll();
-        $cont=0;
-        foreach ($users  as $key => $resultados) {
-            $arrayUser[$cont]= $resultados->getUsername();
-            $cont++;
+        if ($this->getUser()){
+            $cont=0;
+                    foreach ($users  as $key => $resultados) {
+                        $arrayUser[$cont]= $resultados->getUsername();
+                        $cont++;
+                    } 
+                    if (($key = array_search($this->getUser()->getUsername(), $arrayUser)) !== false) {
+                        unset($arrayUser[$key]);
+                    }
+        } else{
+            $cont=0;
+                    foreach ($users  as $key => $resultados) {
+                        $arrayUser[$cont]= $resultados->getUsername();
+                        $cont++;
+                    }
         }
+        
+       
         return new JsonResponse($arrayUser);
        
     }
