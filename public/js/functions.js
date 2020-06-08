@@ -885,8 +885,10 @@ if (form = document.getElementById('botonRegistro')) {
     document.addEventListener('DOMContentLoaded', userUniqueVal);
     form.addEventListener('click', validacion);
 }
+var userUnique ="";
 if (form = document.getElementById('botonEdit')) {
     document.addEventListener('DOMContentLoaded', userUniqueVal);
+    userUnique = document.getElementsByClassName('userUnique')
     form.addEventListener('click', validacion);
 }
 
@@ -912,12 +914,11 @@ function validacion(event) {
     var fileInput = document.getElementsByClassName('fileImg');
     var filePath = fileInput[0].value;
     var fileSize = 0;
-    var userUnique = document.getElementsByClassName('userUnique');
-    if (check.includes(userUnique[0].value)) {
-        text = 'Este usuario ya existe, pruebe con otro';
-        erroresUser(text);
-    }
+    
+    
     if (botonEdit = document.getElementById('botonEdit')) {
+        var index = check.indexOf(userUnique[0].value);
+        if (index>-1){check.splice(index,1)}
         if (filePath != "") {
             if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
                 event.preventDefault();
@@ -932,10 +933,16 @@ function validacion(event) {
                 }
             }
         }
+      
+        if (check.includes()) {
+            text = 'Este usuario ya existe, pruebe con otro';
+            erroresUser(text);
+        }
     }
 
 
     if (botonRegistro = document.getElementById('botonRegistro')) {
+       var userUnique = document.getElementsByClassName('userUnique');
         if (!(/\.(jpeg|jpg|webp|png|gif)$/i).test(filePath)) {
             event.preventDefault();
             text = '- No has introducido una foto o la extensión no está permitida';
