@@ -184,15 +184,20 @@ class AppController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $fotos = $user->getFoto();
-            foreach ($fotos as $foto) {
+            if ($fotos){
+                foreach ($fotos as $foto) {
                 $entityManager->remove($foto);
+                }
             }
+            
             $idUserActivo = $user->getId();
             $enviados = $mensajeRepository->chatConversation($idUserActivo);
-          
-            foreach ($enviados as $clave => $objMensaje) {
+            if ($enviados){
+                foreach ($enviados as $clave => $objMensaje) {
                 $entityManager->remove($objMensaje);
+                }
             }
+            
 
             $entityManager->remove($user);
             $entityManager->flush();
