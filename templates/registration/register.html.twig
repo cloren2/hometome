@@ -7,10 +7,10 @@
 <header>
 <!-- Nav -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navbar">
-  <a class="navbar-brand" href="/">
+  <a class="navbar-brand" href="#">
   <img src="img/home/HomeToMe_Color.png" alt="Logo" id="logo">
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" onClick="openHomeNav()"data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
     
@@ -40,7 +40,7 @@
     </ul>  
   <div id="myNav" class="overlay-r">
   <!-- Button to close the overlay navigation -->
-    <a href="javascript:void(0)" class="close closebtn">&times;</a>
+    <a href="javascript:void(0)" class="close closebtn" onClick="closeHomeNav()">&times;</a>
     <!-- Overlay content -->
     <div class="overlay-content">
       <a href="/">Home</a>
@@ -53,6 +53,7 @@
 </header>
 
 <main>
+
 	<div id="edit-form" class="whitesmoke container">
     <div class="row d-flex justify-content-center">
       <h3 class="form-tit">Registro de usuario</h3>
@@ -131,74 +132,66 @@
         <span class="focus-input100"></span>
       </div> 
     </div>
-    <div class="row"> 
-         <div class="wrap-input100 d-flex flex-column" >	
-            <div class="md-form justify-content-center num-div">
-               {{ form_label(form.fechaNac, '¿Cuánto pagarias como mínimo por un alquiler?', { 'label_attr': {'class': 'label-input100 '} }) }}
-            {{ form_widget(form.precioMin, { 'attr': {'class': 'form-control'} })  }}
-            </div>
 
-            <div class="align-content-end num-div">
-              {{ form_label(form.fechaNac, '¿Y como máximo?', { 'label_attr': {'class': 'label-input100 '} }) }}
-              {{ form_widget(form.precioMax, { 'attr': {'class': 'form-control'} }) }}
-            </div>
-            <span class="focus-input100"></span>
-        </div>  
-     </div>
-         <div class="wrap-input100" >	
-            <div id="msg"></div>
-                 {{ form_widget(form.foto, { 'attr': {'class': 'file fileImg'} }) }}
-                 <span class="focus-input100"></span>
-                
-            <div class="input-group my-3">
-                <input type="text" class="form-control" disabled placeholder="Sube una foto..." id="file">
-                <div class="input-group-append">
-                    <button type="button" class="browse btn btn-info">Subir</button>
-                </div>
-            </div>
-          
-            <div class="align-img">
-            <img src="{{asset('img/app/profile.png')}}" id="preview" class="img-thumbnail img-reg">
-            </div>
+    <div class="row"> 
+      <div class="wrap-input100 d-flex flex-column" >	
+        <div class="md-form justify-content-center num-div">
+          {{ form_label(form.fechaNac, '¿Cuánto pagarias como mínimo por un alquiler?', { 'label_attr': {'class': 'label-input100 '} }) }}
+          {{ form_widget(form.precioMin, { 'attr': {'class': 'form-control'} })  }}
         </div>
 
-          <div class="wrap-input100" >
-            <div class="label-input100 mt-3 mb-3">Preferencias</div>
-              {% for field in form.preferencias %}
-             <div class="pref-list">
-               {{ form_widget(field) }}
-              {{ form_label(field) }}
-             </div>
-              {% endfor %}
-            <span class="focus-input100"></span>
-          </div> 
-
-
-          <div class="md-form amber-textarea"  >
-           
-            {{ form_label(form.descripcion, 'Descripción:', { 'label_attr': {'class': 'label-input100'} }) }}
-             <i class="fas fa-pencil-alt prefix grey-text"></i>{{ form_widget(form.descripcion, { 'attr': {'class': 'md-textarea form-control textarea'} }) }}
-           <span class="focus-input100"></span>
-        </div> 
-        	<div class="container-contact100-form-btn">
-					<div class="wrap-contact100-form-btn  mt-3 mb-3">
-						<div class="contact100-form-bgbtn"></div>
-						<button class="contact100-form-btn btn-register"id="botonRegistro">
-							<span>
-								Registrarme
-								<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
-							</span>
-						</button>
-					</div>
+        <div class="align-content-end num-div">
+          {{ form_label(form.fechaNac, '¿Y como máximo?', { 'label_attr': {'class': 'label-input100 '} }) }}
+          {{ form_widget(form.precioMax, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        <span class="focus-input100"></span>
+      </div>  
+      <div class="wrap-input100" >	
+        <div id="msg"></div>
+        {{ form_widget(form.foto, { 'attr': {'class': 'file fileImg w-100'} }) }}
+        <span class="focus-input100"></span>
+        <div class="input-group my-3">
+          <input type="text" class="form-control" disabled placeholder="Sube una foto..." id="file">
+          <div class="input-group-append">
+            <button type="button" class="browse btn btn-info">Subir</button>
+          </div>
+        </div>
+        <div class="align-img">
+          <img src="{{asset('img/app/profile.png')}}" id="preview" class="img-thumbnail img-reg">
+        </div>
+      </div>
+      <div class="wrap-input100" >
+        <div class="label-input100 mt-3 mb-3">Preferencias</div>
+        {% for field in form.preferencias %}
+        <div class="pref-list">
+          {{ form_widget(field) }}
+          {{ form_label(field) }}
+        </div>
+        {% endfor %}
+        <span class="focus-input100"></span>
+      </div> 
+      <div class="md-form amber-textarea"  >
+        {{ form_label(form.descripcion, 'Descripción:', { 'label_attr': {'class': 'label-input100'} }) }}
+        <i class="fas fa-pencil-alt prefix grey-text"></i>{{ form_widget(form.descripcion, { 'attr': {'class': 'md-textarea form-control textarea'} }) }}
+        <span class="focus-input100"></span>
+      </div> 
+      <div class="container-contact100-form-btn">
+				<div class="wrap-contact100-form-btn  mt-3 mb-3">
+					<div class="contact100-form-bgbtn"></div>
+					<button class="contact100-form-btn btn-register"id="botonRegistro">
+						<span>
+              Registrarme
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+					</button>
 				</div>
+			</div>
+    </div>
     {{ form_end(form) }}
  </div>
 </main>   
 {% endblock %}
 
-       {% block javascripts %}
-  
-	{{parent()}}
-    
-
-	{% endblock %}  
+{% block javascripts %}
+{{parent()}}    
+{% endblock %}  

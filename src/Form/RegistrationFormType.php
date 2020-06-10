@@ -28,7 +28,7 @@ class RegistrationFormType extends AbstractType
             ->add('Apellidos')
             ->add('foto', FileType::class,[
                 'label'=> "Imagen:",
-                'attr'=> ['class'=> 'fileImg'],
+                'attr'=> ['class'=> 'fileImg w-100'],
                 'data_class' => null,
                 'mapped'=>false,
                 'required' =>false
