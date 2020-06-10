@@ -18,6 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppController extends AbstractController
 {
@@ -50,35 +51,6 @@ class AppController extends AbstractController
        
     }
 
-    /**
-     * @Route("/home/perfil/editar", name="perfil_user")
-     */
-    public function perfilUser(Request $request): Response
-    {
-        $user = $this->getUser();
-        $num = count($user->getFoto());
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $fotoFile =  $form->get('foto')->getData();
-            if ($fotoFile != null) {
-                $this->getDoctrine()->getManager()->flush();
-
-                self::renamePic($user, $fotoFile);
-            } else {
-                $this->getDoctrine()->getManager()->flush();
-            }
-
-            return $this->redirectToRoute('perfil_show');
-        }
-
-        return $this->render('app/perfil/perfil.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-            'numImg' =>$num
-        ]);
-    }
     
     /**
      * @Route("/home", name="home_user")
@@ -150,7 +122,7 @@ class AppController extends AbstractController
     /**
      * @Route("/home/perfil/editar", name="perfil_user")
      */
-    public function perfil_user(Request $request): Response
+    public function perfil_user(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = $this->getUser();
         $num = count($user->getFoto());
@@ -159,6 +131,16 @@ class AppController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $fotoFile =  $form->get('foto')->getData();
+            $pass= $form->get('plainPassword')->getData();
+            if ($pass !=null){
+                 $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $pass
+                )
+            );
+            }
+           
             if ($fotoFile != null) {
                 $this->getDoctrine()->getManager()->flush();
 
@@ -245,6 +227,7 @@ class AppController extends AbstractController
         }
         return $this->redirectToRoute('perfil_show');
     }
+
 
     /**
      * @Route("/home/chat", name="chat", options={"expose"=true})

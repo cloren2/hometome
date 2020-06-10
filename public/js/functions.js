@@ -1005,6 +1005,36 @@ if (numImg = document.getElementById('numImg')) {
     }
 
 }
+
+if (btnChange = document.getElementById('botonChange')){
+    console.log('hola')
+    btnChange.addEventListener('click', changePasswd)
+}
+console.log(document.getElementById('prueba'))
+function changePasswd(){
+    console.log('envio')
+    pass = document.getElementById('passEdit').value;
+    console.log(pass)
+    ruta = Routing.generate('changepass');
+    if (pass != ""){
+         xhr = new XMLHttpRequest();
+
+        xhr.addEventListener('readystatechange', changePassResponse);
+        xhr.open('POST', ruta);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('value=' + pass);
+    }
+       
+
+}
+function changePassResponse(event) {
+    if (event.target.readyState == 4 && event.target.status == 200) {
+        objeto_vuelta = event.target.responseText;
+        objeto = JSON.parse(objeto_vuelta);
+        console.log(objeto)
+    }
+}
+
 /////////////////////////////////////////////////
 //
 //Funciones esteticas de la app y la home

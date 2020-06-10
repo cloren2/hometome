@@ -17,6 +17,31 @@ use Symfony\Component\Filesystem\Filesystem;
 class RegistrationController extends AbstractController
 {
     /**
+     * @Route("/editarPass", name="pass_edit")
+     */
+    public function perfil_user(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+        $user = $this->getUser();
+        return $this->render('app/perfil/editpass.html.twig');
+    }
+        /**
+     * @Route("/home/change", name="changepass", options={"expose"=true})
+     */
+    public function changePass(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+        $pass = $request->get('value');
+        $user=  $this->getUser();
+        $user->setPassword(
+            $passwordEncoder->encodePassword(
+                $user,
+                $pass
+            )
+        );
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        return new JsonResponse("Contraseña cambiada");
+    }
+    /**
      * @Route("/register", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator): Response

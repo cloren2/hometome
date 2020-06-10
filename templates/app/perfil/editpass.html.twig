@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usuario{% endblock %}
+
+{% block body %}
+{% block body_class %}homepage{% endblock %}
+<nav class="navbar navbar-light fixed-top" id="navbar">
+  <a class="navbar-brand" href="#">
+  <img src="{{asset('img/app/hometome_logo.png')}}" alt="Logo" id="logo">
+  </a>
+    
+<a href="{{ path('perfil_show') }}">Volver al inicio</a>
+     
+</nav>
+<div class="whitesmoke ml-auto mr-auto border mb-3" id="edit-form">
+    <div class=" container d-flex justify-content-center">
+        <div class="row">
+            <span class="top-tit mt-5">Elige una contraseña segura</span>
+            </br>
+        </div>
+    </div>
+
+   
+
+    <div class="container mt-3">
+  
+       <div class="row" >
+         <div class="wrap-input100 d-flex justify-content-center">	
+          
+          <div class="input-group" id="show_hide_password">
+            <div class="input-group-addon align-content-start pass-align" class="hide_pass_div">
+              <input type="password" id="passEdit" class="pass input100">
+               <span class="focus-input100"></span>
+            </div>
+            <div class="align-content-end">
+              <a id="show-pass"href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+            </div>
+          </div>
+         
+        </div>
+            <div class="m-2 d-flex justify-content-center">
+       
+               	<button class="btn btn-primary" id="botonChange">
+							<span>
+								Confirmar
+							</span>
+						</button>
+            </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block javascripts %}
+  
+	{{parent()}}
+    
+
+	{% endblock %}  
